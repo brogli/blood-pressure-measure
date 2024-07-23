@@ -1,2 +1,7 @@
 @import "./base.css";
 @import 'primeicons/primeicons.css';
+
+.bp-form {
+    display: flex;
+    gap: 1rem 1rem;
+}
