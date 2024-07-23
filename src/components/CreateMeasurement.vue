@@ -32,6 +32,9 @@ const armSelectionOptions = ref(['Left', 'Right']);
       <SelectButton inputId="armSelection" v-model="armSelectionValue" :options="armSelectionOptions" aria-labelledby="basic" />
     </div>
   </div>
+  <div>
+
+  </div>
 </template>
 
 <style scoped>
