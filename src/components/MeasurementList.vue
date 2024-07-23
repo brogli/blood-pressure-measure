@@ -15,7 +15,7 @@ const products = [
   <div class="measurements-menu">
     <h2 class="measurements-title">Measurements</h2>
     <div class="measurement-buttons-parent">
-      <Button label="New" />
+      <Button label="New" as="router-link" to="/new"/>
       <Button label="Delete all"  severity="danger"/>
       <Button label="Export all" />
       <Button label="Import all" />
