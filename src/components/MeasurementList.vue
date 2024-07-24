@@ -30,7 +30,7 @@ function deleteAllMeasurements() {
 
   <Card>
     <template #content>
-      <DataTable stripedRows :value="measurementsStore.measurements" tableStyle="min-width: 50rem">
+      <DataTable stripedRows :value="measurementsStore.measurements">
         <Column field="timestamp" sortable header="Timestamp"></Column>
         <Column field="systolic" sortable header="Systolic"></Column>
         <Column field="diastolic" sortable header="Diastolic"></Column>
