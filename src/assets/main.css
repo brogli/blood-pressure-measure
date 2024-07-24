@@ -4,6 +4,7 @@
 .bp-form {
 display: flex;
     flex-direction: column;
+    row-gap: 1rem;
 }
 
 .bp-form-inputs {

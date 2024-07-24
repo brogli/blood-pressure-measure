@@ -4,19 +4,23 @@ import NavigationMenu from '@/components/NavigationMenu.vue'
 </script>
 
 <template>
+  <div class="root-wrapper">
   <header>
-
-    <div class="wrapper">
-
       <nav>
         <NavigationMenu />
       </nav>
-    </div>
   </header>
+  <main>
+    <RouterView />
+  </main>
+  </div>
 
-  <RouterView />
 </template>
 
 <style scoped>
-
+.root-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
 </style>

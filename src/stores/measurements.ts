@@ -8,5 +8,9 @@ export const useMeasurementsStore = defineStore('measurements', () => {
     measurements.value.push(newMeasurement);
   }
 
-  return { measurements, addMeasurement }
+  function clearMeasurements() {
+    measurements.value.length = 0;
+  }
+
+  return { measurements, addMeasurement, clearMeasurements }
 })
