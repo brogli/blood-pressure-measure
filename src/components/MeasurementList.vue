@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import DataTable from "primevue/datatable";
+import DataTable, { type DataTableRowSelectEvent } from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
 import { useMeasurementsStore } from "@/stores/measurements";
 import Card from "primevue/card";
+import { ref } from "vue";
+import type { Measurement } from "@/models/Measurement";
 
 const measurementsStore = useMeasurementsStore();
+const selectedMeasurement = ref();
 
 function deleteAllMeasurements() {
   // TODO: trigger modal to ask user
   measurementsStore.clearMeasurements();
+}
+
+function onRowSelect(event: DataTableRowSelectEvent) {
+  const seletctedMeasuremtent = event.data as Measurement;
+  console.log(seletctedMeasuremtent.id);
 }
 </script>
 
@@ -30,7 +38,7 @@ function deleteAllMeasurements() {
 
   <Card>
     <template #content>
-      <DataTable stripedRows :value="measurementsStore.measurements">
+      <DataTable @rowSelect="onRowSelect" v-model:selection="selectedMeasurement" stripedRows :value="measurementsStore.measurements" selectionMode="single" data-key="id">
         <Column field="timestamp" sortable header="Timestamp"></Column>
         <Column field="systolic" sortable header="Systolic"></Column>
         <Column field="diastolic" sortable header="Diastolic"></Column>
