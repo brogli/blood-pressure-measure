@@ -2,6 +2,11 @@
 @import 'primeicons/primeicons.css';
 
 .bp-form {
+display: flex;
+    flex-direction: column;
+}
+
+.bp-form-inputs {
     display: flex;
     gap: 1rem 1rem;
 }
