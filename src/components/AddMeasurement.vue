@@ -8,7 +8,7 @@ import Button from 'primevue/button'
 import { useMeasurementsStore } from '@/stores/measurements'
 import { useRouter } from 'vue-router'
 import { DateWrapper } from '@/models/DateWrapper'
-import Card from 'primevue/card'
+import Panel from 'primevue/panel';
 
 const measurements = useMeasurementsStore()
 const router = useRouter()
@@ -34,9 +34,8 @@ function saveMeasurements() {
 </script>
 
 <template>
-  <Card>
-    <template #title>Add new measurement</template>
-    <template #content>
+  <Panel header="Add new measurement">
+    <div>
       <div class="bp-form">
         <div class="bp-form-inputs">
           <div class="">
@@ -62,8 +61,8 @@ function saveMeasurements() {
           <Button label="Cancel" severity="secondary" as="router-link" to="/" />
         </div>
       </div>
-    </template>
-  </Card>
+    </div>
+  </Panel>
 
 </template>
 
