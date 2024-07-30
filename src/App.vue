@@ -19,6 +19,7 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
 
 <style scoped>
 .root-wrapper {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;

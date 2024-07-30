@@ -3,8 +3,7 @@ import DataTable, { type DataTableRowSelectEvent } from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
 import { useMeasurementsStore } from "@/stores/measurements";
-import Card from "primevue/card";
-import { ref } from "vue";
+import Panel from 'primevue/panel';import { ref } from "vue";
 import type { Measurement } from "@/models/Measurement";
 
 const measurementsStore = useMeasurementsStore();
@@ -22,22 +21,18 @@ function onRowSelect(event: DataTableRowSelectEvent) {
 </script>
 
 <template>
-
-
-  <Card>
-    <template #title>Measurements</template>
-    <template #content>
+<section class="measurement-list-root">
+  <Panel header="Measurements">
       <div class="measurement-buttons-parent">
         <Button label="New" as="router-link" to="/new" />
         <Button label="Delete all" severity="danger" @click="deleteAllMeasurements" />
         <Button label="Export all" />
         <Button label="Import all" />
       </div>
-    </template>
-  </Card>
+  </Panel>
 
-  <Card>
-    <template #content>
+  <Panel>
+    <div>
       <DataTable @rowSelect="onRowSelect" v-model:selection="selectedMeasurement" stripedRows :value="measurementsStore.measurements" selectionMode="single" data-key="id">
         <Column field="timestamp" sortable header="Timestamp"></Column>
         <Column field="systolic" sortable header="Systolic"></Column>
@@ -45,9 +40,9 @@ function onRowSelect(event: DataTableRowSelectEvent) {
         <Column field="heartRate" sortable header="Heart Rate"></Column>
         <Column field="whichArm" sortable header="Which Arm?"></Column>
       </DataTable>
-    </template>
-  </Card>
-
+    </div>
+  </Panel>
+</section>
 
 </template>
 
@@ -57,5 +52,11 @@ function onRowSelect(event: DataTableRowSelectEvent) {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 1rem;
+}
+
+.measurement-list-root {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
 }
 </style>

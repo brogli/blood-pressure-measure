@@ -15,7 +15,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
-const Noir = definePreset(Aura, {
+const CustomNoir = definePreset(Aura, {
   semantic: {
     primary: {
       50: '{zinc.50}',
@@ -65,7 +65,7 @@ const Noir = definePreset(Aura, {
 
 app.use(PrimeVue, {
   theme: {
-    preset: Noir,
+    preset: CustomNoir,
   }
 })
 
