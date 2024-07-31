@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import Menubar from 'primevue/menubar'
-import { ref } from 'vue'
+import Menubar from "primevue/menubar";
+import { ref } from "vue";
 
 const items = ref([
   {
-    label: 'Home',
-    route: '/'
+    label: "Home",
+    route: "/",
   },
   {
-    label: 'About',
-    route: '/about'
-  }
-])
-
-
+    label: "About",
+    route: "/about",
+  },
+]);
 </script>
 
 <template>
@@ -28,9 +26,6 @@ const items = ref([
       </template>
     </Menubar>
   </div>
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

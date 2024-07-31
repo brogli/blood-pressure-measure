@@ -1,36 +1,39 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import InputNumber from "primevue/inputnumber";
+import SelectButton from "primevue/selectbutton";
+import { type ArmOption, Measurement } from "@/models/Measurement";
+import Button from "primevue/button";
+import { useMeasurementsStore } from "@/stores/measurements";
+import { useRouter } from "vue-router";
+import { DateWrapper } from "@/models/DateWrapper";
+import Panel from "primevue/panel";
 
-import { ref } from 'vue'
-import InputNumber from 'primevue/inputnumber'
-import SelectButton from 'primevue/selectbutton'
-import { type ArmOption, Measurement } from '@/models/Measurement'
-import Button from 'primevue/button'
-import { useMeasurementsStore } from '@/stores/measurements'
-import { useRouter } from 'vue-router'
-import { DateWrapper } from '@/models/DateWrapper'
-import Panel from 'primevue/panel';
+const measurementStore = useMeasurementsStore();
+const router = useRouter();
 
-const measurements = useMeasurementsStore()
-const router = useRouter()
+const systolic = ref(120);
+const diastolic = ref(80);
+const heartRate = ref(70);
 
-const systolic = ref(120)
-const diastolic = ref(80)
-const heartRate = ref(70)
-
-const armSelectionValue = ref<ArmOption>('Left')
-const armSelectionOptions = ref<ArmOption[]>(['Left', 'Right'])
+const armSelectionValue = ref<ArmOption>("Left");
+const armSelectionOptions = ref<ArmOption[]>(["Left", "Right"]);
 
 function handleClick() {
-  saveMeasurements()
+  saveMeasurements();
 }
-
 
 function saveMeasurements() {
-  const measurement = new Measurement(new DateWrapper(new Date()), systolic.value, diastolic.value, heartRate.value, armSelectionValue.value)
-  measurements.addMeasurement(measurement)
-  router.push('/')
+  const measurement = new Measurement(
+    new DateWrapper(new Date()),
+    systolic.value,
+    diastolic.value,
+    heartRate.value,
+    armSelectionValue.value,
+  );
+  measurementStore.addMeasurement(measurement);
+  router.push("/");
 }
-
 </script>
 
 <template>
@@ -52,8 +55,12 @@ function saveMeasurements() {
           </div>
           <div class="">
             <label for="armSelection" class="font-bold">Which arm?</label>
-            <SelectButton inputId="armSelection" v-model="armSelectionValue" :options="armSelectionOptions"
-                          aria-labelledby="basic" />
+            <SelectButton
+              inputId="armSelection"
+              v-model="armSelectionValue"
+              :options="armSelectionOptions"
+              aria-labelledby="basic"
+            />
           </div>
         </div>
         <div class="bp-form-buttons">
@@ -63,9 +70,6 @@ function saveMeasurements() {
       </div>
     </div>
   </Panel>
-
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

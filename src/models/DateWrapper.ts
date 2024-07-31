@@ -2,7 +2,7 @@ export class DateWrapper {
   nativeTimeStamp: Date;
 
   constructor(timestamp: Date) {
-  this.nativeTimeStamp = timestamp;
+    this.nativeTimeStamp = timestamp;
   }
 
   public toString(): string {
