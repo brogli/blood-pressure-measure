@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import MeasurementList from '@/components/MeasurementList.vue'
+import MeasurementList from "@/components/MeasurementList.vue";
 </script>
 
 <template>
-    <MeasurementList />
+  <MeasurementList />
 </template>

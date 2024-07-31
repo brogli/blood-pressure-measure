@@ -1,16 +1,21 @@
-import { ref, type Ref } from 'vue'
-import { defineStore } from 'pinia'
-import type { Measurement } from '@/models/Measurement'
+import { computed, type ComputedRef, ref, type Ref } from "vue";
+import { defineStore } from "pinia";
+import type { Measurement } from "@/models/Measurement";
 
-export const useMeasurementsStore = defineStore('measurements', () => {
-  const measurements: Ref<Measurement[]> = ref([])
+export const useMeasurementsStore = defineStore("measurements", () => {
+  const state: Ref<Map<string, Measurement>> = ref(new Map<string, Measurement>());
+
   function addMeasurement(newMeasurement: Measurement) {
-    measurements.value.push(newMeasurement);
+    state.value.set(newMeasurement.id, newMeasurement);
   }
 
   function clearMeasurements() {
-    measurements.value.length = 0;
+    state.value.clear();
   }
 
-  return { measurements, addMeasurement, clearMeasurements }
-})
+  const measurements: ComputedRef<Measurement[]> = computed(() => Array.from(state.value.values()));
+
+  const size: ComputedRef<number> = computed(() => state.value.size);
+
+  return { size, measurements, addMeasurement, clearMeasurements };
+});

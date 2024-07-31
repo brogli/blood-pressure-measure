@@ -14,7 +14,6 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
       <RouterView />
     </main>
   </div>
-
 </template>
 
 <style scoped>
@@ -32,6 +31,5 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
   .root-wrapper {
     width: unset;
   }
-
 }
 </style>
