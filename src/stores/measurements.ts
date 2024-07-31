@@ -1,10 +1,9 @@
 import { computed, type ComputedRef, ref, type Ref } from "vue";
 import { defineStore } from "pinia";
-import { useLocalStorage } from "@vueuse/core";
 import type { Measurement } from "@/models/Measurement";
 
 export const useMeasurementsStore = defineStore("measurements", () => {
-  const state = useLocalStorage("measurements-local", new Map<string, Measurement>());
+  const state: Ref<Map<string, Measurement>> = ref(new Map<string, Measurement>());
 
   function saveMeasurement(measurement: Measurement) {
     state.value.set(measurement.id, measurement);
