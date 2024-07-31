@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AddMeasurement from "@/components/AddMeasurement.vue";
+import MeasurementForm from "@/components/MeasurementForm.vue";
 </script>
 
 <template>
-  <AddMeasurement />
+  <MeasurementForm />
 </template>
 
 <style scoped></style>

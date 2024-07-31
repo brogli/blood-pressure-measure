@@ -6,9 +6,12 @@ import { useMeasurementsStore } from "@/stores/measurements";
 import Panel from "primevue/panel";
 import { ref } from "vue";
 import type { Measurement } from "@/models/Measurement";
+import { useRouter } from "vue-router";
 
 const measurementsStore = useMeasurementsStore();
-const selectedMeasurement = ref();
+const currentSelection = ref();
+
+const router = useRouter();
 
 function deleteAllMeasurements() {
   // TODO: trigger modal to ask user
@@ -16,8 +19,8 @@ function deleteAllMeasurements() {
 }
 
 function onRowSelect(event: DataTableRowSelectEvent) {
-  const seletctedMeasuremtent = event.data as Measurement;
-  console.log(seletctedMeasuremtent.id);
+  const selectedMeasurement = event.data as Measurement;
+  router.push({ name: "edit", params: { id: selectedMeasurement.id } });
 }
 </script>
 
@@ -36,9 +39,9 @@ function onRowSelect(event: DataTableRowSelectEvent) {
       <div>
         <DataTable
           @rowSelect="onRowSelect"
-          v-model:selection="selectedMeasurement"
+          v-model:selection="currentSelection"
           stripedRows
-          :value="measurementsStore.measurements"
+          :value="measurementsStore.getAllMeasurements"
           selectionMode="single"
           data-key="id"
         >
