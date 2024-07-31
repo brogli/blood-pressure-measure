@@ -7,7 +7,7 @@
   row-gap: 1rem;
 }
 
-.bp-form-inputs {
+.bp-form-inputs, .bp-form-buttons {
   display: flex;
   gap: 1rem 1rem;
 }

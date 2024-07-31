@@ -8,6 +8,7 @@ import { useMeasurementsStore } from "@/stores/measurements";
 import { useRouter } from "vue-router";
 import { DateWrapper } from "@/models/DateWrapper";
 import Panel from "primevue/panel";
+import DatePicker from "primevue/datepicker";
 
 const measurementStore = useMeasurementsStore();
 const router = useRouter();
@@ -47,8 +48,18 @@ if (isInEditmode) {
       <div class="bp-form">
         <div class="bp-form-inputs">
           <div class="">
+            <label for="timestamp" class="font-bold"> Created at </label>
+            <DatePicker
+              id="datepicker-24h"
+              v-model="currentMeasurement.timestamp.nativeTimeStamp"
+              showTime
+              hourFormat="24"
+              fluid
+            />
+          </div>
+          <div class="">
             <label for="systolic" class="font-bold"> Systolic </label>
-            <InputNumber v-model="currentMeasurement.systolic" inputId="integeronly" fluid />
+            <InputNumber v-model="currentMeasurement.systolic" v-focustrap inputId="systolic" fluid />
           </div>
           <div class="">
             <label for="diastolic" class="font-bold"> Diastolic </label>
