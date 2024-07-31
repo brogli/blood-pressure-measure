@@ -31,7 +31,7 @@ function onRowSelect(event: DataTableRowSelectEvent) {
       </div>
   </Panel>
 
-  <Panel>
+  <Panel v-if="measurementsStore.measurements.length > 0">
     <div>
       <DataTable @rowSelect="onRowSelect" v-model:selection="selectedMeasurement" stripedRows :value="measurementsStore.measurements" selectionMode="single" data-key="id">
         <Column field="timestamp" sortable header="Timestamp"></Column>
