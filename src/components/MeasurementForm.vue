@@ -31,7 +31,7 @@ function saveMeasurement() {
 }
 
 function loadMeasurement(id: string) {
-  currentMeasurement.value = measurementStore.getMeasurement(id);
+  currentMeasurement.value = measurementStore.getMeasurement(id).getClone();
 }
 
 const isInEditmode = props.id != undefined;
