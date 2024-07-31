@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AboutView from "@/views/AboutView.vue";
 import NewMeasurementView from "@/views/AddMeasurementView.vue";
+import EditMeasurementView from "@/views/EditMeasurementView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,12 @@ const router = createRouter({
       path: "/new",
       name: "new",
       component: NewMeasurementView,
+    },
+    {
+      path: "/edit/:id",
+      name: "edit",
+      component: EditMeasurementView,
+      props: true,
     },
   ],
 });

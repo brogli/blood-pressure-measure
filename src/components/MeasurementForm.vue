@@ -12,54 +12,60 @@ import Panel from "primevue/panel";
 const measurementStore = useMeasurementsStore();
 const router = useRouter();
 
-const systolic = ref(120);
-const diastolic = ref(80);
-const heartRate = ref(70);
+const currentMeasurement = ref<Measurement>(new Measurement(new DateWrapper(new Date()), 0, 0, 0, "Left"));
 
-const armSelectionValue = ref<ArmOption>("Left");
 const armSelectionOptions = ref<ArmOption[]>(["Left", "Right"]);
 
+const props = defineProps<{
+  id?: string;
+}>();
+
 function handleClick() {
-  saveMeasurements();
+  saveMeasurement();
 }
 
-function saveMeasurements() {
-  const measurement = new Measurement(
-    new DateWrapper(new Date()),
-    systolic.value,
-    diastolic.value,
-    heartRate.value,
-    armSelectionValue.value,
-  );
-  measurementStore.addMeasurement(measurement);
+function saveMeasurement() {
+  measurementStore.saveMeasurement(currentMeasurement.value);
   router.push("/");
+}
+
+function loadMeasurement(id: string) {
+  currentMeasurement.value = measurementStore.getMeasurement(id);
+}
+
+const isInEditmode = props.id != undefined;
+const header = isInEditmode ? "Edit new measurement" : "Add new measurement";
+
+if (isInEditmode) {
+  loadMeasurement(props.id);
 }
 </script>
 
 <template>
-  <Panel header="Add new measurement">
+  <Panel :header="header">
     <div>
       <div class="bp-form">
         <div class="bp-form-inputs">
           <div class="">
             <label for="systolic" class="font-bold"> Systolic </label>
-            <InputNumber v-model="systolic" inputId="integeronly" fluid />
+            <InputNumber v-model="currentMeasurement.systolic" inputId="integeronly" fluid />
           </div>
           <div class="">
             <label for="diastolic" class="font-bold"> Diastolic </label>
-            <InputNumber v-model="diastolic" inputId="diastolic" fluid />
+            <InputNumber v-model="currentMeasurement.diastolic" inputId="diastolic" fluid />
           </div>
           <div class="">
             <label for="heartrate" class="font-bold"> Heart Rate </label>
-            <InputNumber v-model="heartRate" inputId="heartrate" fluid />
+            <InputNumber v-model="currentMeasurement.heartRate" inputId="heartrate" fluid />
           </div>
           <div class="">
             <label for="armSelection" class="font-bold">Which arm?</label>
             <SelectButton
               inputId="armSelection"
-              v-model="armSelectionValue"
+              v-model="currentMeasurement.whichArm"
               :options="armSelectionOptions"
               aria-labelledby="basic"
+              id="armSelectButton"
             />
           </div>
         </div>
@@ -72,4 +78,8 @@ function saveMeasurements() {
   </Panel>
 </template>
 
-<style scoped></style>
+<style scoped>
+#armSelectButton {
+  display: flex;
+}
+</style>

@@ -5,17 +5,19 @@ import type { Measurement } from "@/models/Measurement";
 export const useMeasurementsStore = defineStore("measurements", () => {
   const state: Ref<Map<string, Measurement>> = ref(new Map<string, Measurement>());
 
-  function addMeasurement(newMeasurement: Measurement) {
-    state.value.set(newMeasurement.id, newMeasurement);
+  function saveMeasurement(measurement: Measurement) {
+    state.value.set(measurement.id, measurement);
   }
 
   function clearMeasurements() {
     state.value.clear();
   }
 
-  const measurements: ComputedRef<Measurement[]> = computed(() => Array.from(state.value.values()));
+  const getAllMeasurements: ComputedRef<Measurement[]> = computed(() => Array.from(state.value.values()));
+
+  const getMeasurement: ComputedRef<Measurement> = computed(() => (id: string) => state.value.get(id));
 
   const size: ComputedRef<number> = computed(() => state.value.size);
 
-  return { size, measurements, addMeasurement, clearMeasurements };
+  return { size, getAllMeasurements, saveMeasurement, clearMeasurements, getMeasurement };
 });
