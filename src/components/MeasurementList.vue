@@ -45,7 +45,7 @@ function onRowSelect(event: DataTableRowSelectEvent) {
           selectionMode="single"
           data-key="id"
         >
-          <Column field="timestamp" sortable header="Timestamp"></Column>
+          <Column field="timestamp" sortable header="Created"></Column>
           <Column field="systolic" sortable header="Systolic"></Column>
           <Column field="diastolic" sortable header="Diastolic"></Column>
           <Column field="heartRate" sortable header="Heart Rate"></Column>
