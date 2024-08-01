@@ -13,6 +13,10 @@ export const useMeasurementsStore = defineStore("measurements", () => {
     localStorage.setItem(localStorageKeyName, JSON.stringify(Array.from(state.value.values())));
   }
 
+  function deleteMeasurement(id: string) {
+    state.value.delete(id);
+  }
+
   function clearMeasurements() {
     state.value.clear();
 
@@ -47,5 +51,5 @@ export const useMeasurementsStore = defineStore("measurements", () => {
   if (localStorageContent !== null && localStorageContent.length > 2) {
     loadFromLocalStorage(localStorageContent);
   }
-  return { size, getAllMeasurements, saveMeasurement, clearMeasurements, getMeasurement };
+  return { size, getAllMeasurements, saveMeasurement, clearMeasurements, getMeasurement, deleteMeasurement };
 });
