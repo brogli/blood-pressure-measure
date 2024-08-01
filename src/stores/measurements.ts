@@ -13,8 +13,12 @@ export const useMeasurementsStore = defineStore("measurements", () => {
     localStorage.setItem(localStorageKeyName, JSON.stringify(Array.from(state.value.values())));
   }
 
-  function deleteMeasurement(id: string) {
-    state.value.delete(id);
+  function deleteMeasurement(id: string | undefined) {
+    if (id) {
+      state.value.delete(id);
+    } else {
+      // TODO: show error
+    }
   }
 
   function clearMeasurements() {
@@ -23,7 +27,7 @@ export const useMeasurementsStore = defineStore("measurements", () => {
     localStorage.clear();
   }
 
-  function loadFromLocalStorage(localStorageContent) {
+  function loadFromLocalStorage(localStorageContent: string) {
     const objects: any[] = JSON.parse(localStorageContent);
     objects.forEach((object) => {
       const pseudoMeasurement = object as Measurement;
@@ -43,13 +47,15 @@ export const useMeasurementsStore = defineStore("measurements", () => {
 
   const getAllMeasurements: ComputedRef<Measurement[]> = computed(() => Array.from(state.value.values()));
 
-  const getMeasurement: ComputedRef<Measurement> = computed(() => (id: string) => state.value.get(id));
+  const getMeasurement = computed(() => (id: string) => state.value.get(id));
 
   const size: ComputedRef<number> = computed(() => state.value.size);
 
-  const localStorageContent = localStorage.getItem(localStorageKeyName);
+  const localStorageContent: string | null = localStorage.getItem(localStorageKeyName);
+
   if (localStorageContent !== null && localStorageContent.length > 2) {
     loadFromLocalStorage(localStorageContent);
   }
+
   return { size, getAllMeasurements, saveMeasurement, clearMeasurements, getMeasurement, deleteMeasurement };
 });
