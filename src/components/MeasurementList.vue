@@ -7,9 +7,12 @@ import Panel from "primevue/panel";
 import { ref } from "vue";
 import type { Measurement } from "@/models/Measurement";
 import { useRouter } from "vue-router";
+import dayjs from "dayjs";
 
 const measurementsStore = useMeasurementsStore();
 const currentSelection = ref();
+const dataTableComponent = ref(null);
+let exportFileName = getExportFileName();
 
 const router = useRouter();
 
@@ -22,6 +25,14 @@ function onRowSelect(event: DataTableRowSelectEvent) {
   const selectedMeasurement = event.data as Measurement;
   router.push({ name: "edit", params: { id: selectedMeasurement.id } });
 }
+
+function getExportFileName(): string {
+  return `${dayjs().format("YYYY-MM-DD_HH-mm")}_blood-pressure-measurements`;
+}
+
+function exportCSV() {
+  dataTableComponent.value.exportCSV();
+}
 </script>
 
 <template>
@@ -30,8 +41,8 @@ function onRowSelect(event: DataTableRowSelectEvent) {
       <div class="measurement-buttons-parent">
         <Button label="New" as="router-link" to="/new" />
         <Button label="Delete all" severity="danger" @click="deleteAllMeasurements" />
-        <Button label="Export all" />
-        <Button label="Import all" />
+        <Button label="Export all" @click="exportCSV($event)" />
+        <Button label="Import" />
       </div>
     </Panel>
 
@@ -44,6 +55,8 @@ function onRowSelect(event: DataTableRowSelectEvent) {
           :value="measurementsStore.getAllMeasurements"
           selectionMode="single"
           data-key="id"
+          ref="dataTableComponent"
+          :export-filename="exportFileName"
         >
           <Column field="timestamp" sortable header="Created"></Column>
           <Column field="systolic" sortable header="Systolic"></Column>
