@@ -21,13 +21,20 @@ const props = defineProps<{
   id?: string;
 }>();
 
-function handleClick() {
+function handleSaveClick() {
   saveMeasurement();
+}
+
+function handleDeleteClick() {
+  // TODO: warn user with modal
+
+  measurementStore.deleteMeasurement(props.id);
+  router.push({ name: "home" });
 }
 
 function saveMeasurement() {
   measurementStore.saveMeasurement(currentMeasurement.value);
-  router.push("/");
+  router.push({ name: "home" });
 }
 
 function loadMeasurement(id: string) {
@@ -35,7 +42,7 @@ function loadMeasurement(id: string) {
 }
 
 const isInEditmode = props.id != undefined;
-const header = isInEditmode ? "Edit new measurement" : "Add new measurement";
+const header = isInEditmode ? "Edit measurement" : "Add new measurement";
 
 if (isInEditmode) {
   loadMeasurement(props.id);
@@ -81,8 +88,13 @@ if (isInEditmode) {
           </div>
         </div>
         <div class="bp-form-buttons">
-          <Button label="Save" @click="handleClick" />
-          <Button label="Cancel" severity="secondary" as="router-link" to="/" />
+          <div class="bp-form-buttons-save-cancel">
+            <Button label="Save" @click="handleSaveClick" />
+            <Button label="Cancel" severity="secondary" as="router-link" to="/" />
+          </div>
+          <div>
+            <Button v-if="isInEditmode" label="Delete" severity="danger" @click="handleDeleteClick" />
+          </div>
         </div>
       </div>
     </div>
