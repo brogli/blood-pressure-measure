@@ -38,7 +38,12 @@ function saveMeasurement() {
 }
 
 function loadMeasurement(id: string) {
-  currentMeasurement.value = measurementStore.getMeasurement(id).getClone();
+  const clone: Measurement | undefined = measurementStore.getMeasurement(id)?.getClone();
+  if (clone) {
+    currentMeasurement.value = clone;
+  } else {
+    // TODO: show error
+  }
 }
 
 const isInEditmode = props.id != undefined;
