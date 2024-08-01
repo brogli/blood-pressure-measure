@@ -8,11 +8,18 @@ import { ref } from "vue";
 import type { Measurement } from "@/models/Measurement";
 import { useRouter } from "vue-router";
 import dayjs from "dayjs";
+import { useFileDialog, useFileSystemAccess } from "@vueuse/core";
+import Papa from "papaparse";
+import type { MeasurementDto } from "@/models/MeasurementDto";
 
 const measurementsStore = useMeasurementsStore();
 const currentSelection = ref();
 const dataTableComponent = ref(null);
 let exportFileName = getExportFileName();
+let { isSupported, data, file, fileName, fileMIME, fileSize, fileLastModified, create, save, saveAs, updateData } =
+  useFileSystemAccess({});
+
+let fileContent: string;
 
 const router = useRouter();
 
@@ -27,11 +34,43 @@ function onRowSelect(event: DataTableRowSelectEvent) {
 }
 
 function getExportFileName(): string {
-  return `${dayjs().format("YYYY-MM-DD_HH-mm")}_blood-pressure-measurements`;
+  return `${dayjs().format("YYYY-MM-DD_HH-mm")}_blood-pressure-measurements.csv`;
 }
 
-function exportCSV() {
+function exportCSV(): void {
   dataTableComponent.value.exportCSV();
+}
+
+const { files, open, reset, onChange } = useFileDialog({
+  accept: "text/csv",
+});
+
+onChange((files) => {
+  const myFile = files?.item(0);
+  const fileReader = new FileReader();
+  fileReader.onload = () => {
+    fileContent = fileReader.result as string;
+    console.log(fileContent);
+    parseCsv(fileContent);
+  };
+  fileReader.readAsText(myFile);
+});
+
+function parseCsv(text: string) {
+  Papa.parse(text, { complete: dealWithCsvAsJson, header: true });
+}
+
+function dealWithCsvAsJson(results) {
+  console.log("Parsing complete:", results);
+  // results.data.forEach(item as MeasurementDto => {
+  //   const measuremen
+  // })
+}
+
+function prepareSaving() {
+  const measurementsAsJson: string = localStorage.getItem("local");
+  data.value = Papa.unparse(measurementsAsJson); // to csv
+  saveAs({ suggestedName: getExportFileName() });
 }
 </script>
 
@@ -41,8 +80,8 @@ function exportCSV() {
       <div class="measurement-buttons-parent">
         <Button label="New" as="router-link" to="/new" />
         <Button label="Delete all" severity="danger" @click="deleteAllMeasurements" />
-        <Button label="Export all" @click="exportCSV($event)" />
-        <Button label="Import" />
+        <Button label="Export all" @click="prepareSaving()" />
+        <Button label="Import" @click="open" />
       </div>
     </Panel>
 

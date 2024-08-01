@@ -2,6 +2,8 @@ import { computed, type ComputedRef, ref, type Ref } from "vue";
 import { defineStore } from "pinia";
 import { DateWrapper } from "@/models/DateWrapper";
 import { Measurement } from "@/models/Measurement";
+import { MeasurementDto } from "@/models/MeasurementDto";
+import dayjs from "dayjs";
 
 export const useMeasurementsStore = defineStore("measurements", () => {
   const localStorageKeyName = "local";
@@ -10,7 +12,14 @@ export const useMeasurementsStore = defineStore("measurements", () => {
   function saveMeasurement(measurement: Measurement) {
     state.value.set(measurement.id, measurement);
 
-    localStorage.setItem(localStorageKeyName, JSON.stringify(Array.from(state.value.values())));
+    localStorage.setItem(
+      localStorageKeyName,
+      JSON.stringify(Array.from(state.value.values()).map((m) => toMeasurementDto(m))),
+    );
+  }
+
+  function toMeasurementDto(measurement: Measurement) {
+    return new MeasurementDto(measurement);
   }
 
   function deleteMeasurement(id: string | undefined) {
@@ -28,20 +37,19 @@ export const useMeasurementsStore = defineStore("measurements", () => {
   }
 
   function loadFromLocalStorage(localStorageContent: string) {
-    const objects: any[] = JSON.parse(localStorageContent);
-    objects.forEach((object) => {
-      const pseudoMeasurement = object as Measurement;
-      const nativeTimeStamp = new Date(pseudoMeasurement.timestamp.nativeTimeStamp);
-      const properDateWrapper = new DateWrapper(nativeTimeStamp);
-      const properMeasurement = new Measurement(
-        properDateWrapper,
-        pseudoMeasurement.systolic,
-        pseudoMeasurement.diastolic,
-        pseudoMeasurement.heartRate,
-        pseudoMeasurement.whichArm,
-        pseudoMeasurement.id,
+    const dtos: MeasurementDto[] = JSON.parse(localStorageContent);
+    dtos.forEach((measurementDto) => {
+      const nativeTimeStamp = dayjs(measurementDto.timestampIso8601).toDate();
+      const dateWrapper = new DateWrapper(nativeTimeStamp);
+      const measurement = new Measurement(
+        dateWrapper,
+        measurementDto.systolic,
+        measurementDto.diastolic,
+        measurementDto.heartRate,
+        measurementDto.whichArm,
+        measurementDto.id,
       );
-      saveMeasurement(properMeasurement);
+      saveMeasurement(measurement);
     });
   }
 
