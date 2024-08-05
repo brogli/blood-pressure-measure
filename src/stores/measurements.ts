@@ -4,6 +4,7 @@ import { DateWrapper } from "@/models/DateWrapper";
 import { type ArmOption, Measurement } from "@/models/Measurement";
 import { MeasurementDto } from "@/models/MeasurementDto";
 import dayjs from "dayjs";
+import Papa from "papaparse";
 
 export const useMeasurementsStore = defineStore("measurements", () => {
   const localStorageKeyName = "local";
@@ -49,6 +50,16 @@ export const useMeasurementsStore = defineStore("measurements", () => {
     });
   }
 
+  function getMeasurementsAsCsv(): string {
+    const measurementDtos = Array.from(state.value.values()).map((m) => new MeasurementDto(m));
+    const measurementsAsCsv = Papa.unparse({
+      fields: Object.keys(measurementDtos[0]),
+      data: measurementDtos.map((m) => Object.values(m)),
+    });
+
+    return measurementsAsCsv;
+  }
+
   const getAllMeasurements: ComputedRef<Measurement[]> = computed(() => Array.from(state.value.values()));
 
   const getMeasurement = computed(() => (id: string) => state.value.get(id));
@@ -61,5 +72,13 @@ export const useMeasurementsStore = defineStore("measurements", () => {
     loadFromLocalStorage(localStorageContent);
   }
 
-  return { size, getAllMeasurements, saveMeasurement, clearMeasurements, getMeasurement, deleteMeasurement };
+  return {
+    size,
+    getAllMeasurements,
+    saveMeasurement,
+    clearMeasurements,
+    getMeasurement,
+    deleteMeasurement,
+    getMeasurementsAsCsv,
+  };
 });
