@@ -1,5 +1,6 @@
 import type { DateWrapper } from "@/models/DateWrapper";
 import { v4 as uuidv4 } from "uuid";
+import { MeasurementDto } from "@/models/MeasurementDto";
 
 export type ArmOption = "Left" | "Right";
 
