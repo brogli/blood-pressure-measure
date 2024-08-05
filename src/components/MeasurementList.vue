@@ -5,21 +5,15 @@ import Button from "primevue/button";
 import { useMeasurementsStore } from "@/stores/measurements";
 import Panel from "primevue/panel";
 import { ref } from "vue";
-import type { Measurement } from "@/models/Measurement";
+import { Measurement } from "@/models/Measurement";
 import { useRouter } from "vue-router";
 import dayjs from "dayjs";
-import { useFileDialog, useFileSystemAccess } from "@vueuse/core";
-import Papa from "papaparse";
-import type { MeasurementDto } from "@/models/MeasurementDto";
+import { useExportFile } from "@/composables/exportFile";
+import { useImportfile } from "@/composables/importFile";
 
 const measurementsStore = useMeasurementsStore();
 const currentSelection = ref();
 const dataTableComponent = ref(null);
-let exportFileName = getExportFileName();
-let { isSupported, data, file, fileName, fileMIME, fileSize, fileLastModified, create, save, saveAs, updateData } =
-  useFileSystemAccess({});
-
-let fileContent: string;
 
 const router = useRouter();
 
@@ -34,43 +28,15 @@ function onRowSelect(event: DataTableRowSelectEvent) {
 }
 
 function getExportFileName(): string {
-  return `${dayjs().format("YYYY-MM-DD_HH-mm")}_blood-pressure-measurements.csv`;
+  return `${dayjs().format("YYYY-MM-DD_HH-mm-ss")}_blood-pressure-measurements.csv`;
 }
 
-function exportCSV(): void {
-  dataTableComponent.value.exportCSV();
+function openFile(): void {
+  useImportfile().open();
 }
 
-const { files, open, reset, onChange } = useFileDialog({
-  accept: "text/csv",
-});
-
-onChange((files) => {
-  const myFile = files?.item(0);
-  const fileReader = new FileReader();
-  fileReader.onload = () => {
-    fileContent = fileReader.result as string;
-    console.log(fileContent);
-    parseCsv(fileContent);
-  };
-  fileReader.readAsText(myFile);
-});
-
-function parseCsv(text: string) {
-  Papa.parse(text, { complete: dealWithCsvAsJson, header: true });
-}
-
-function dealWithCsvAsJson(results) {
-  console.log("Parsing complete:", results);
-  // results.data.forEach(item as MeasurementDto => {
-  //   const measuremen
-  // })
-}
-
-function prepareSaving() {
-  const measurementsAsJson: string = localStorage.getItem("local");
-  data.value = Papa.unparse(measurementsAsJson); // to csv
-  saveAs({ suggestedName: getExportFileName() });
+function saveFile() {
+  useExportFile(getExportFileName());
 }
 </script>
 
@@ -80,8 +46,8 @@ function prepareSaving() {
       <div class="measurement-buttons-parent">
         <Button label="New" as="router-link" to="/new" />
         <Button label="Delete all" severity="danger" @click="deleteAllMeasurements" />
-        <Button label="Export all" @click="prepareSaving()" />
-        <Button label="Import" @click="open" />
+        <Button label="Export all" @click="saveFile()" />
+        <Button label="Import" @click="openFile()" />
       </div>
     </Panel>
 
@@ -95,7 +61,6 @@ function prepareSaving() {
           selectionMode="single"
           data-key="id"
           ref="dataTableComponent"
-          :export-filename="exportFileName"
         >
           <Column field="timestamp" sortable header="Created"></Column>
           <Column field="systolic" sortable header="Systolic"></Column>

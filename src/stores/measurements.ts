@@ -1,7 +1,7 @@
 import { computed, type ComputedRef, ref, type Ref } from "vue";
 import { defineStore } from "pinia";
 import { DateWrapper } from "@/models/DateWrapper";
-import { Measurement } from "@/models/Measurement";
+import { type ArmOption, Measurement } from "@/models/Measurement";
 import { MeasurementDto } from "@/models/MeasurementDto";
 import dayjs from "dayjs";
 
@@ -14,12 +14,8 @@ export const useMeasurementsStore = defineStore("measurements", () => {
 
     localStorage.setItem(
       localStorageKeyName,
-      JSON.stringify(Array.from(state.value.values()).map((m) => toMeasurementDto(m))),
+      JSON.stringify(Array.from(state.value.values()).map((m) => new MeasurementDto(m))),
     );
-  }
-
-  function toMeasurementDto(measurement: Measurement) {
-    return new MeasurementDto(measurement);
   }
 
   function deleteMeasurement(id: string | undefined) {
@@ -46,7 +42,7 @@ export const useMeasurementsStore = defineStore("measurements", () => {
         measurementDto.systolic,
         measurementDto.diastolic,
         measurementDto.heartRate,
-        measurementDto.whichArm,
+        measurementDto.whichArm as ArmOption,
         measurementDto.id,
       );
       saveMeasurement(measurement);
