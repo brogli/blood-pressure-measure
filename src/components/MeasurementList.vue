@@ -5,16 +5,19 @@ import Button from "primevue/button";
 import { useMeasurementsStore } from "@/stores/measurements";
 import Panel from "primevue/panel";
 import { ref } from "vue";
-import type { Measurement } from "@/models/Measurement";
+import { Measurement } from "@/models/Measurement";
 import { useRouter } from "vue-router";
 import dayjs from "dayjs";
+import { useExportFile } from "@/composables/exportFile";
+import { useImportfile } from "@/composables/importFile";
+import { useShare } from "@vueuse/core";
 
 const measurementsStore = useMeasurementsStore();
 const currentSelection = ref();
 const dataTableComponent = ref(null);
-let exportFileName = getExportFileName();
 
 const router = useRouter();
+const { share, isSupported } = useShare();
 
 function deleteAllMeasurements() {
   // TODO: trigger modal to ask user
@@ -27,11 +30,20 @@ function onRowSelect(event: DataTableRowSelectEvent) {
 }
 
 function getExportFileName(): string {
-  return `${dayjs().format("YYYY-MM-DD_HH-mm")}_blood-pressure-measurements`;
+  return `${dayjs().format("YYYY-MM-DD_HH-mm-ss")}_blood-pressure-measurements.csv`;
 }
 
-function exportCSV() {
-  dataTableComponent.value.exportCSV();
+function openFile(): void {
+  useImportfile().open();
+}
+
+function saveFile() {
+  useExportFile(getExportFileName());
+}
+
+function shareAsCsv() {
+  const blob = new Blob([measurementsStore.getMeasurementsAsCsv()], { type: "text/csv" });
+  share({ title: "world", files: [new File([blob], getExportFileName(), { type: "text/csv" })] });
 }
 </script>
 
@@ -41,8 +53,14 @@ function exportCSV() {
       <div class="measurement-buttons-parent">
         <Button label="New" as="router-link" to="/new" />
         <Button label="Delete all" severity="danger" @click="deleteAllMeasurements" />
-        <Button label="Export all" @click="exportCSV($event)" />
-        <Button label="Import" />
+        <Button label="Export all" @click="saveFile()" />
+        <Button label="Import" @click="openFile()" />
+        <Button
+          label="Share"
+          @click="shareAsCsv()"
+          :disabled="!isSupported"
+          v-tooltip.top="!isSupported ? 'Not supported by your browser' : ''"
+        />
       </div>
     </Panel>
 
@@ -56,7 +74,6 @@ function exportCSV() {
           selectionMode="single"
           data-key="id"
           ref="dataTableComponent"
-          :export-filename="exportFileName"
         >
           <Column field="timestamp" sortable header="Created"></Column>
           <Column field="systolic" sortable header="Systolic"></Column>
