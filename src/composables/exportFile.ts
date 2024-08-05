@@ -1,6 +1,4 @@
 import { useMeasurementsStore } from "@/stores/measurements";
-import { MeasurementDto } from "@/models/MeasurementDto";
-import Papa from "papaparse";
 
 export function useExportFile(fileName: string) {
   const measurementsStore = useMeasurementsStore();
