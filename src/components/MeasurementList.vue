@@ -10,12 +10,14 @@ import { useRouter } from "vue-router";
 import dayjs from "dayjs";
 import { useExportFile } from "@/composables/exportFile";
 import { useImportfile } from "@/composables/importFile";
+import { useShare } from "@vueuse/core";
 
 const measurementsStore = useMeasurementsStore();
 const currentSelection = ref();
 const dataTableComponent = ref(null);
 
 const router = useRouter();
+const { share, isSupported } = useShare();
 
 function deleteAllMeasurements() {
   // TODO: trigger modal to ask user
@@ -38,6 +40,11 @@ function openFile(): void {
 function saveFile() {
   useExportFile(getExportFileName());
 }
+
+function shareAsCsv() {
+  const blob = new Blob([measurementsStore.getMeasurementsAsCsv()], { type: "text/csv" });
+  share({ title: "world", files: [new File([blob], getExportFileName(), { type: "text/csv" })] });
+}
 </script>
 
 <template>
@@ -48,6 +55,12 @@ function saveFile() {
         <Button label="Delete all" severity="danger" @click="deleteAllMeasurements" />
         <Button label="Export all" @click="saveFile()" />
         <Button label="Import" @click="openFile()" />
+        <Button
+          label="Share"
+          @click="shareAsCsv()"
+          :disabled="!isSupported"
+          v-tooltip.top="!isSupported ? 'Not supported by your browser' : ''"
+        />
       </div>
     </Panel>
 

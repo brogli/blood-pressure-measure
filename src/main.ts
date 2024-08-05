@@ -10,10 +10,12 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { definePreset } from "@primevue/themes";
 import FocusTrap from "primevue/focustrap";
+import Tooltip from "primevue/tooltip";
 
 const app = createApp(App);
 
 app.directive("focustrap", FocusTrap);
+app.directive("tooltip", Tooltip);
 
 app.use(createPinia());
 app.use(router);
