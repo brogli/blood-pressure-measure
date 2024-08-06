@@ -7,12 +7,26 @@
   row-gap: 1rem;
 }
 
-.bp-form-inputs, .bp-form-buttons-save-cancel {
+.bp-form-buttons-save-cancel {
   display: flex;
   gap: 1rem 1rem;
+}
+.bp-form--text-inputs-container {
+  display: flex;
+  gap: 1rem 1rem;
+  flex-wrap: wrap;
 }
 
 .bp-form-buttons {
   display: flex;
   justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
+.bp-form-inputs-item-text {
+  flex: 1 3 12rem;
+}
+
+.bp-form-inputs-item-select {
+  flex: 2 1 auto;
 }
