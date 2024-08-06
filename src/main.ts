@@ -71,6 +71,9 @@ const CustomNoir = definePreset(Aura, {
 app.use(PrimeVue, {
   theme: {
     preset: CustomNoir,
+    options: {
+      darkModeSelector: ".my-app-dark",
+    },
   },
 });
 
