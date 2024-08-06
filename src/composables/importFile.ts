@@ -19,7 +19,6 @@ export function useImportfile() {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       fileContent = fileReader.result as string;
-      console.log(fileContent);
       parseCsv(fileContent);
     };
     if (myFile) {
