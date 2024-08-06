@@ -9,6 +9,7 @@ import { useRouter } from "vue-router";
 import { DateWrapper } from "@/models/DateWrapper";
 import Panel from "primevue/panel";
 import DatePicker from "primevue/datepicker";
+import Divider from "primevue/divider";
 
 const measurementStore = useMeasurementsStore();
 const router = useRouter();
@@ -56,51 +57,52 @@ if (isInEditmode) {
 
 <template>
   <Panel :header="header">
-    <div>
-      <div class="bp-form">
-        <div class="bp-form-inputs">
-          <div class="">
-            <label for="timestamp" class="font-bold"> Created at </label>
-            <DatePicker
-              id="datepicker-24h"
-              v-model="currentMeasurement.timestamp.nativeTimeStamp"
-              showTime
-              hourFormat="24"
-              fluid
-            />
-          </div>
-          <div class="">
-            <label for="systolic" class="font-bold"> Systolic </label>
-            <InputNumber v-model="currentMeasurement.systolic" v-focustrap inputId="systolic" fluid />
-          </div>
-          <div class="">
-            <label for="diastolic" class="font-bold"> Diastolic </label>
-            <InputNumber v-model="currentMeasurement.diastolic" inputId="diastolic" fluid />
-          </div>
-          <div class="">
-            <label for="heartrate" class="font-bold"> Heart Rate </label>
-            <InputNumber v-model="currentMeasurement.heartRate" inputId="heartrate" fluid />
-          </div>
-          <div class="">
-            <label for="armSelection" class="font-bold">Which arm?</label>
-            <SelectButton
-              inputId="armSelection"
-              v-model="currentMeasurement.whichArm"
-              :options="armSelectionOptions"
-              aria-labelledby="basic"
-              id="armSelectButton"
-            />
-          </div>
+    <div class="bp-form">
+      <div class="bp-form--text-inputs-container">
+        <div class="bp-form-inputs-item-text">
+          <label for="timestamp" class="font-bold"> Created at </label>
+          <DatePicker
+            showIcon
+            id="datepicker-24h"
+            v-model="currentMeasurement.timestamp.nativeTimeStamp"
+            showTime
+            hourFormat="24"
+            fluid
+          />
         </div>
-        <div class="bp-form-buttons">
-          <div class="bp-form-buttons-save-cancel">
-            <Button label="Save" @click="handleSaveClick" />
-            <Button label="Cancel" severity="secondary" as="router-link" to="/" />
-          </div>
-          <div>
-            <Button v-if="isInEditmode" label="Delete" severity="danger" @click="handleDeleteClick" />
-          </div>
+        <div class="bp-form-inputs-item-text">
+          <label for="systolic" class="font-bold"> Systolic </label>
+          <InputNumber v-model="currentMeasurement.systolic" v-focustrap inputId="systolic" fluid />
         </div>
+        <div class="bp-form-inputs-item-text">
+          <label for="diastolic" class="font-bold"> Diastolic </label>
+          <InputNumber v-model="currentMeasurement.diastolic" inputId="diastolic" fluid />
+        </div>
+        <div class="bp-form-inputs-item-text">
+          <label for="heartrate" class="font-bold"> Heart Rate </label>
+          <InputNumber v-model="currentMeasurement.heartRate" inputId="heartrate" fluid />
+        </div>
+        <div class="">
+          <label for="armSelection" class="font-bold">Which arm?</label>
+          <SelectButton
+            inputId="armSelection"
+            v-model="currentMeasurement.whichArm"
+            :options="armSelectionOptions"
+            aria-labelledby="basic"
+            id="armSelectButton"
+          />
+        </div>
+      </div>
+    </div>
+
+    <Divider />
+    <div class="bp-form-buttons">
+      <div class="bp-form-buttons-save-cancel">
+        <Button label="Save" @click="handleSaveClick" />
+        <Button label="Cancel" severity="secondary" as="router-link" to="/" />
+      </div>
+      <div>
+        <Button v-if="isInEditmode" label="Delete" severity="danger" @click="handleDeleteClick" />
       </div>
     </div>
   </Panel>
