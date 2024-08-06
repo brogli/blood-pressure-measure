@@ -23,11 +23,12 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
   flex-direction: column;
   row-gap: 1rem;
   width: 70%;
+  max-width: 70rem;
   margin-left: auto;
   margin-right: auto;
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 800px) {
   .root-wrapper {
     width: unset;
   }
