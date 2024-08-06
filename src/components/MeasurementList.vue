@@ -14,7 +14,6 @@ import { useShare } from "@vueuse/core";
 
 const measurementsStore = useMeasurementsStore();
 const currentSelection = ref();
-const dataTableComponent = ref(null);
 
 const router = useRouter();
 const { share, isSupported } = useShare();
@@ -73,7 +72,9 @@ function shareAsCsv() {
           :value="measurementsStore.getAllMeasurements"
           selectionMode="single"
           data-key="id"
-          ref="dataTableComponent"
+          paginator
+          :rows="5"
+          :rowsPerPageOptions="[5, 10, 20, 50]"
         >
           <Column field="timestamp" sortable header="Created"></Column>
           <Column field="systolic" sortable header="Systolic"></Column>
