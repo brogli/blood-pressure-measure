@@ -11,6 +11,20 @@ import Column from "primevue/column";
 import { definePreset } from "@primevue/themes";
 import FocusTrap from "primevue/focustrap";
 import Tooltip from "primevue/tooltip";
+import { createI18n } from "vue-i18n";
+import { en } from "@/i18n/en";
+import { de_de } from "@/i18n/de_de";
+import { de_ch } from "@/i18n/de_ch";
+
+const i18n = createI18n({
+  legacy: false, // you must set `false`, to use Composition API
+  fallbackLocale: "en-US",
+  messages: {
+    "en-US": en,
+    "de-DE": de_de,
+    "de-CH": de_ch,
+  },
+});
 
 const app = createApp(App);
 
@@ -19,6 +33,7 @@ app.directive("tooltip", Tooltip);
 
 app.use(createPinia());
 app.use(router);
+app.use(i18n);
 
 const CustomNoir = definePreset(Aura, {
   semantic: {

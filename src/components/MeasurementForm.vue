@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import InputNumber from "primevue/inputnumber";
 import SelectButton from "primevue/selectbutton";
 import { type ArmOption, Measurement } from "@/models/Measurement";
@@ -10,9 +10,11 @@ import { DateWrapper } from "@/models/DateWrapper";
 import Panel from "primevue/panel";
 import DatePicker from "primevue/datepicker";
 import Divider from "primevue/divider";
+import { useI18n } from "vue-i18n";
 
 const measurementStore = useMeasurementsStore();
 const router = useRouter();
+const { t } = useI18n();
 
 const currentMeasurement = ref<Measurement>(new Measurement(new DateWrapper(new Date()), 0, 0, 0, "Left"));
 
@@ -48,7 +50,7 @@ function loadMeasurement(id: string) {
 }
 
 const isInEditmode = props.id != undefined;
-const header = isInEditmode ? "Edit measurement" : "Add new measurement";
+const header = computed(() => (isInEditmode ? t("measurementForm.editMeasurement") : "Add new measurement"));
 
 if (isInEditmode) {
   loadMeasurement(props.id);
