@@ -49,8 +49,18 @@ function loadMeasurement(id: string) {
   }
 }
 
+function getLeftRightLabel(arm: ArmOption): string {
+  if (arm === "Left") {
+    return t("measurement.left");
+  } else {
+    return t("measurement.right");
+  }
+}
+
 const isInEditmode = props.id != undefined;
-const header = computed(() => (isInEditmode ? t("measurementForm.editMeasurement") : "Add new measurement"));
+const header = computed(() =>
+  isInEditmode ? t("measurementForm.editMeasurement") : t("measurementForm.addMeasurement"),
+);
 
 if (isInEditmode) {
   loadMeasurement(props.id);
@@ -62,7 +72,7 @@ if (isInEditmode) {
     <div class="bp-form">
       <div class="bp-form--text-inputs-container">
         <div class="bp-form-inputs-item-text">
-          <label for="timestamp" class="font-bold"> Created at </label>
+          <label for="timestamp" class="font-bold">{{ t("measurement.createdAt") }}</label>
           <DatePicker
             showIcon
             id="datepicker-24h"
@@ -73,23 +83,24 @@ if (isInEditmode) {
           />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="systolic" class="font-bold"> Systolic </label>
+          <label for="systolic" class="font-bold">{{ t("measurement.systolic") }}</label>
           <InputNumber v-model="currentMeasurement.systolic" v-focustrap inputId="systolic" fluid />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="diastolic" class="font-bold"> Diastolic </label>
+          <label for="diastolic" class="font-bold">{{ t("measurement.diastolic") }}</label>
           <InputNumber v-model="currentMeasurement.diastolic" inputId="diastolic" fluid />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="heartrate" class="font-bold"> Heart Rate </label>
+          <label for="heartrate" class="font-bold">{{ t("measurement.heartRate") }}</label>
           <InputNumber v-model="currentMeasurement.heartRate" inputId="heartrate" fluid />
         </div>
         <div class="">
-          <label for="armSelection" class="font-bold">Which arm?</label>
+          <label for="armSelection" class="font-bold">{{ t("measurement.whichArm") }}</label>
           <SelectButton
             inputId="armSelection"
             v-model="currentMeasurement.whichArm"
             :options="armSelectionOptions"
+            :option-label="getLeftRightLabel"
             aria-labelledby="basic"
             id="armSelectButton"
           />
@@ -100,11 +111,16 @@ if (isInEditmode) {
     <Divider />
     <div class="bp-form-buttons">
       <div class="bp-form-buttons-save-cancel">
-        <Button label="Save" @click="handleSaveClick" />
-        <Button label="Cancel" severity="secondary" as="router-link" to="/" />
+        <Button :label="t('measurementForm.saveButton')" @click="handleSaveClick" />
+        <Button :label="t('measurementForm.cancelButton')" severity="secondary" as="router-link" to="/" />
       </div>
       <div>
-        <Button v-if="isInEditmode" label="Delete" severity="danger" @click="handleDeleteClick" />
+        <Button
+          v-if="isInEditmode"
+          :label="t('measurementForm.deleteButton')"
+          severity="danger"
+          @click="handleDeleteClick"
+        />
       </div>
     </div>
   </Panel>

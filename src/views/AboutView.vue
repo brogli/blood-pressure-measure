@@ -1,18 +1,72 @@
 <script setup lang="ts">
-import Card from "primevue/card";
+import Panel from "primevue/panel";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 </script>
 
 <template>
-  <Card>
-    <template #title>Simple Card</template>
-    <template #content>
-      <p class="m-0">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam
-        deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
-        neque quas!
+  <section class="about-parent">
+    <Panel :header="t('menu.aboutAndHelp')">
+      <p>
+        {{ t("aboutAndHelp.intro") }}
       </p>
-    </template>
-  </Card>
+    </Panel>
+
+    <Panel :header="t('aboutAndHelp.dataPrivacyTitle')">
+      <p>
+        {{ t("aboutAndHelp.dataPrivacy")
+        }}<a href="https://github.com/brogli/blood-pressure-measure" rel="noopener noreferrer" target="_blank"
+          >Github.</a
+        >
+      </p>
+    </Panel>
+
+    <Panel :header="t('aboutAndHelp.dataTitle')">
+      <p>
+        {{ t("aboutAndHelp.dataP1") }}
+      </p>
+      <p>
+        {{ t("aboutAndHelp.dataP2") }}
+      </p>
+      <p>
+        {{ t("aboutAndHelp.dataP3") }}
+      </p>
+      <p>
+        {{ t("aboutAndHelp.dataP4") }}
+      </p>
+    </Panel>
+    <Panel :header="t('aboutAndHelp.feedbackTitle')">
+      <p>
+        {{ t("aboutAndHelp.feedback") }}
+        <a href="https://github.com/brogli/blood-pressure-measure/issues" rel="noopener noreferrer" target="_blank"
+          >Github Issue.</a
+        >
+      </p>
+    </Panel>
+    <Panel :header="t('aboutAndHelp.openSauceTitle')">
+      <p>
+        {{ t("aboutAndHelp.openSauce1") }}
+        <a href="https://github.com/brogli/blood-pressure-measure" rel="noopener noreferrer" target="_blank">Github.</a>
+        {{ t("aboutAndHelp.openSauce2") }}
+      </p>
+    </Panel>
+    <Panel :header="t('aboutAndHelp.techInfosTitle')">
+      <p>
+        {{ t("aboutAndHelp.techInfos") }}
+      </p>
+    </Panel>
+  </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.about-parent {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+p {
+  margin-bottom: 0.7rem;
+}
+</style>

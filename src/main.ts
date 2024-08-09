@@ -13,16 +13,18 @@ import FocusTrap from "primevue/focustrap";
 import Tooltip from "primevue/tooltip";
 import { createI18n } from "vue-i18n";
 import { en } from "@/i18n/en";
-import { de_de } from "@/i18n/de_de";
-import { de_ch } from "@/i18n/de_ch";
+import { de } from "@/i18n/de";
+import { ch } from "@/i18n/ch";
+import { getInitLocale } from "@/functions/internationalization";
 
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
-  fallbackLocale: "en-US",
+  fallbackLocale: "en",
+  locale: getInitLocale(),
   messages: {
-    "en-US": en,
-    "de-DE": de_de,
-    "de-CH": de_ch,
+    en: en,
+    de: de,
+    ch: ch,
   },
 });
 

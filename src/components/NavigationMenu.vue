@@ -5,14 +5,14 @@ import Button from "primevue/button";
 import Select from "primevue/select";
 import { useI18n } from "vue-i18n";
 
-const i18nLocale = useI18n();
+const { t, locale } = useI18n({ useScope: "global" });
 const items = ref([
   {
-    label: "Home",
+    label: t("menu.home"),
     route: "/",
   },
   {
-    label: "About",
+    label: t("menu.aboutAndHelp"),
     route: "/about",
   },
 ]);
@@ -25,18 +25,7 @@ function toggleColorScheme() {
   isDarkBrightMode.value = !isDarkBrightMode.value;
 }
 
-function initializeLanguage(): void {
-  // selectedLocale.value = localeOptions.value.filter(
-  //   (option) => option.toLowerCase() === i18nLocale.locale.value.substring(0, 2),
-  // )[0];
-}
-
-const localeOptions = ref<string[]>(["de-CH", "de-DE", "en-US"]);
-const selectedLocale = ref<string>();
-
-onMounted(() => {
-  initializeLanguage();
-});
+const localeOptions = ref<string[]>(["ch", "de", "en"]);
 </script>
 
 <template>
@@ -52,7 +41,7 @@ onMounted(() => {
       <template #end>
         <div class="menubar-end">
           <h2>Pressure Tracker</h2>
-          <Select v-model="i18nLocale.locale.value" :options="localeOptions" />
+          <Select v-model="locale" :options="localeOptions" />
           <Button label="Toggle Color Scheme" @click="toggleColorScheme()">
             <i v-if="isDarkBrightMode" class="pi pi-sun"></i>
             <i v-else class="pi pi-moon"></i>
