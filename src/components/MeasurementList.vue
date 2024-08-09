@@ -11,12 +11,14 @@ import dayjs from "dayjs";
 import { useExportFile } from "@/composables/exportFile";
 import { useImportfile } from "@/composables/importFile";
 import { useShare } from "@vueuse/core";
+import { useI18n } from "vue-i18n";
 
 const measurementsStore = useMeasurementsStore();
-const currentSelection = ref();
-
+const { t } = useI18n();
 const router = useRouter();
 const { share, isSupported } = useShare();
+
+const currentSelection = ref();
 
 function deleteAllMeasurements() {
   // TODO: trigger modal to ask user
@@ -48,18 +50,18 @@ function shareAsCsv() {
 
 <template>
   <section class="measurement-list-root">
-    <Panel header="Measurements">
+    <Panel :header="t('measurementList.title')">
       <div class="measurement-buttons-parent">
-        <Button label="New" as="router-link" to="/new" />
-        <Button label="Delete all" severity="danger" @click="deleteAllMeasurements" />
-        <Button label="Export all" @click="saveFile()" />
-        <Button label="Import" @click="openFile()" />
+        <Button :label="t('measurementList.actions.createNew')" as="router-link" to="/new" />
+        <Button :label="t('measurementList.actions.export')" @click="saveFile()" />
+        <Button :label="t('measurementList.actions.import')" @click="openFile()" />
         <Button
-          label="Share"
+          :label="t('measurementList.actions.share')"
           @click="shareAsCsv()"
           :disabled="!isSupported"
-          v-tooltip.top="!isSupported ? 'Not supported by your browser' : ''"
+          v-tooltip.top="!isSupported ? t('measurementList.actions.notSupportedByBrowser') : ''"
         />
+        <Button :label="t('measurementList.actions.deleteAll')" severity="danger" @click="deleteAllMeasurements" />
       </div>
     </Panel>
 
@@ -76,11 +78,11 @@ function shareAsCsv() {
           :rows="5"
           :rowsPerPageOptions="[5, 10, 20, 50]"
         >
-          <Column field="timestamp" sortable header="Created"></Column>
-          <Column field="systolic" sortable header="Systolic"></Column>
-          <Column field="diastolic" sortable header="Diastolic"></Column>
-          <Column field="heartRate" sortable header="Heart Rate"></Column>
-          <Column field="whichArm" sortable header="Which Arm?"></Column>
+          <Column field="timestamp" sortable :header="t('measurement.createdAt')"></Column>
+          <Column field="systolic" sortable :header="t('measurement.systolic')"></Column>
+          <Column field="diastolic" sortable :header="t('measurement.diastolic')"></Column>
+          <Column field="heartRate" sortable :header="t('measurement.heartRate')"></Column>
+          <Column field="whichArm" sortable :header="t('measurement.whichArm')"></Column>
         </DataTable>
       </div>
     </Panel>
