@@ -1,29 +1,29 @@
 export const ch = {
   measurementForm: {
-    editMeasurement: "Messung editieren",
-    addMeasurement: "Messung erfassen",
-    saveButton: "Speichern",
-    cancelButton: "Abbrechen",
-    deleteButton: "Löschen",
+    editMeasurement: "Mässig ändere",
+    addMeasurement: "Mässig erfassä",
+    saveButton: "Speicherä",
+    cancelButton: "Abbrechä",
+    deleteButton: "Löschä",
   },
   measurement: {
     createdAt: "Erfasst am",
     systolic: "Systolisch",
     diastolic: "Diastolisch",
     heartRate: "Puls",
-    whichArm: "Welcher Arm?",
+    whichArm: "Welle Arm?",
     left: "Links",
     right: "Rechts",
   },
   measurementList: {
-    title: "Messungen",
+    title: "Mässigä",
     actions: {
-      notSupportedByBrowser: "Dein Browser unterstützt das nicht",
+      notSupportedByBrowser: "Din Browser unterstützt das nöd",
       createNew: "Neu",
       export: "Export",
       import: "Import",
-      share: "Teilen",
-      deleteAll: "Alle löschen",
+      share: "Teilä",
+      deleteAll: "Alli löschä",
     },
   },
   menu: {
@@ -31,15 +31,15 @@ export const ch = {
     home: "Home",
   },
   aboutAndHelp: {
-    intro: "Diese App wurde gemacht, um Blutdruckmessungen einfach zu erfassen, mit einem Maximum an Datenschutz.",
-    dataPrivacyTitle: "Datenschutz",
+    intro: "Die App isch gmacht worde zum Bluetdruckmässigä eifach erfasse, mit best möglichem Dateschutz.",
+    dataPrivacyTitle: "Dateschutz",
     dataPrivacy:
-      "Die App lebt nur in deinem Browser und speichert Daten in dessen Local Storage. Sie übermittelt keine Daten ins Internet. Das kannst du sogar überprüfen in dem du die Netzwerkaufrufe im Netzwerktab der DevTools deines Browsers (F12) untersuchtst. Oder indem du den Quellcode anschaust auf ",
-    dataTitle: "Daten",
+      "Die App lebt nur i dim Browser und speicheret Datä i sin Local Storage. Sie übermittlet kei Date is Internet. Das chasch sogar überprüefe, indem du Netzwerkufrüef ide DevTools vo dim Browser gosch go aluege (F12, Netzwerktab). Oder indemet de Quellcode gosch go aluege uf ",
+    dataTitle: "Datä",
     dataP1:
-      "Die App speichert deine Messungen im Local Storage deines Browsers. Das bedeutet, wenn du die App auf dem selben Gerät und Browser zu einem späteren Zeitpunkt wieder öffnest, dann sollten die Messungen immernoch existieren und du kannst weitere erfassen.",
+      "D App speicheret dini Mässigä im Local Storage vo dim Browser. Das bedütet, wennt d App ufem gliche Grät im gliche Browser nomel uftuesch spöter, denn söttet d Mässigä immerno existiere und chasch witeri erfasse.",
     dataP2:
-      "Wenn du die App in einem anderen Browser oder auf einem anderen Gerät öffnest, existieren deine Messungen dort nicht. Wenn du den Private Mode verwendest, oder den Cache deines Browsers löschst, dann werden die Daten nicht persistiert. Vermutlich gibt es andere Fälle wie diese.",
+      "Wennt d'App imene andere Browser oder ufeme andere Grät öffnisch, existieret dini Mässigä döt nöd. Wennt de Private Mode verwendisch, oder de Cache vo dim Browser löschisch, denn werdet Date nöd gspeicheret. Vermuetli gits no meh so Fäll wie die.",
     dataP3: "Es ist daher empfohlen, die Export und Import Funktion zu nutzen, um ein Backup der Daten zu erhalten.",
     dataP4: "Du bist verantwortlich deine Backups sicher zu verwalten.",
     feedbackTitle: "Feedback",
