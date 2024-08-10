@@ -31,7 +31,7 @@ export const de = {
     home: "Home",
   },
   aboutAndHelp: {
-    intro: "Diese App wurde gemacht, um Blutdruckmessungen einfach zu erfassen, mit einem Maximum an Datenschutz.",
+    intro: "Diese App wurde gemacht, um Blutdruckmessungen einfach zu erfassen, mit best möglichem Datenschutz.",
     dataPrivacyTitle: "Datenschutz",
     dataPrivacy:
       "Die App lebt nur in deinem Browser und speichert Daten in dessen Local Storage. Sie übermittelt keine Daten ins Internet. Das kannst du sogar überprüfen in dem du die Netzwerkaufrufe im Netzwerktab der DevTools deines Browsers (F12) untersuchtst. Oder indem du den Quellcode anschaust auf ",
