@@ -56,6 +56,7 @@ export const ch = {
       "Die App isch in Vue3 gschribe, nutzt d'Composition API, Pinia, Typescript und Primevue. Deployt isch si uf  App ist in Vue3 geschrieben, nutzt die Composition API, Pinia, Typescript und Primevue. Deployed ist sie auf Cloudflare Pages.",
   },
   consent: {
+    title: "Dateschutz",
     intro: "Gseht so us, als benutzisch die App s erste Mol. Mitem Witerbenutze akzeptiersch, dass:",
     appLivesInBrowser: "d'App nur in dim Browser existiert",
     doesntTransmitData: "d'App kei Daten ins Internet schickt",
@@ -65,6 +66,8 @@ export const ch = {
     responsibleForBackups:
       "drum bisch selber defür verantwortlich mit der Export/Import Funktion Backups vo dine Date z'mache, und die sicher ufzbewahre",
     noGuarantees: "d'App cha fehlerhaft si, es git kei Garantie für irgend öppis",
+    accept: "Akzeptierä",
+    deny: "Ablehnä",
   },
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
