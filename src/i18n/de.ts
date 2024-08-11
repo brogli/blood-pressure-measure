@@ -29,6 +29,7 @@ export const de = {
   menu: {
     aboutAndHelp: "Infos & Hilfe",
     home: "Home",
+    chart: "Diagramm",
   },
   aboutAndHelp: {
     intro: "Diese App wurde gemacht, um Blutdruckmessungen einfach zu erfassen, mit best möglichem Datenschutz.",
@@ -61,5 +62,9 @@ export const de = {
     responsibleForBackups:
       "deshalb bist du dafür verantwortlich mit Hilfe der Export/Import Funktion Backups deiner Daten zu erstellen, und diese sicher aufzubewahren",
     noGuarantees: "die App kann Fehler beinhalten, es gibt keine Garantie für irgend etwas",
+  },
+  chart: {
+    amountOfDataPoints: "Weviel Datepünkt?",
+    chartsTitle: "Diagramm",
   },
 };

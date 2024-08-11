@@ -29,6 +29,7 @@ export const ch = {
   menu: {
     aboutAndHelp: "Infos & Hilfe",
     home: "Home",
+    chart: "Diagramm",
   },
   aboutAndHelp: {
     intro: "Die App isch gmacht worde zum Bluetdruckmässigä eifach erfasse, mit best möglichem Dateschutz.",
@@ -62,5 +63,9 @@ export const ch = {
     responsibleForBackups:
       "drum bisch selber defür verantwortlich mit der Export/Import Funktion Backups vo dine Date z'mache, und die sicher ufzbewahre",
     noGuarantees: "d'App cha fehlerhaft si, es git kei Garantie für irgend öppis",
+  },
+  chart: {
+    amountOfDataPoints: "Weviel Datepünkt?",
+    chartsTitle: "Diagramm",
   },
 };
