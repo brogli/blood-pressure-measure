@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import Papa from "papaparse";
 
 export const useMeasurementsStore = defineStore("measurements", () => {
-  const localStorageKeyName = "local";
+  const localStorageKeyName = "localMeasurements";
   const state: Ref<Map<string, Measurement>> = ref(new Map<string, Measurement>());
 
   function saveMeasurement(measurement: Measurement) {

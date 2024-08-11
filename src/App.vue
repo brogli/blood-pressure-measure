@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import NavigationMenu from "@/components/NavigationMenu.vue";
+import Divider from "primevue/divider";
+import FooterSection from "@/components/FooterSection.vue";
+import { useColorScheme } from "@/composables/colorScheme";
+const colorScheme = useColorScheme();
+colorScheme.initColorScheme();
 </script>
 
 <template>
@@ -13,12 +18,15 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
     <main>
       <RouterView />
     </main>
+    <footer>
+      <Divider />
+      <FooterSection />
+    </footer>
   </div>
 </template>
 
 <style scoped>
 .root-wrapper {
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -26,6 +34,25 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
   max-width: 70rem;
   margin-left: auto;
   margin-right: auto;
+  min-height: 100vh;
+  padding-top: 1rem;
+}
+
+html,
+body {
+  height: 100%;
+  margin-top: 1rem;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  /*noinspection CssUnresolvedCustomProperty*/
+  color: var(--p-text-color);
+  padding-bottom: 1rem;
+  font-size: 80%;
 }
 
 @media only screen and (max-width: 800px) {

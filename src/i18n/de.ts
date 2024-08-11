@@ -41,7 +41,7 @@ export const de = {
     dataP2:
       "Wenn du die App in einem anderen Browser oder auf einem anderen Gerät öffnest, existieren deine Messungen dort nicht. Wenn du den Private Mode verwendest, oder den Cache deines Browsers löschst, dann werden die Daten nicht persistiert. Vermutlich gibt es andere Fälle wie diese.",
     dataP3: "Es ist daher empfohlen, die Export und Import Funktion zu nutzen, um ein Backup der Daten zu erhalten.",
-    dataP4: "Du bist verantwortlich deine Backups sicher zu verwalten.",
+    dataP4: "Du bist dafür verantwortlich deine Backups sicher zu verwalten.",
     feedbackTitle: "Feedback",
     feedback: "Gerne kannst du uns Feedback geben, in dem du ein Github Issue eröffnest: ",
     openSauceTitle: "Open Source",
