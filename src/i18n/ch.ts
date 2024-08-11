@@ -5,6 +5,7 @@ export const ch = {
     saveButton: "Speicherä",
     cancelButton: "Abbrechä",
     deleteButton: "Löschä",
+    confirmDeleteText: "Bisch sicher, wottsch die Mässig löschä?",
   },
   measurement: {
     createdAt: "Erfasst am",
@@ -25,6 +26,7 @@ export const ch = {
       share: "Teilä",
       deleteAll: "Alli löschä",
     },
+    confirmDeleteText: "Das löscht ALLI dini Mässige wo d App selber speicheret. Bisch sicher wotsch das mache?",
   },
   menu: {
     aboutAndHelp: "Infos & Hilfe",
@@ -67,5 +69,11 @@ export const ch = {
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
     chartsTitle: "Diagramm",
+  },
+  toasts: {
+    errorWhileDeletingMeasurement: "Bim Lösche vo dinnere Mässig isch was schiefgange",
+    successfullyDeletedMeasurement: "Mässig erfolgrich glöscht",
+    errorWhileLoadingMeasurement: "D Mässig het nöd chönne glade werde",
+    errorWhileImportingCsv: "Wägeme Fähler chame dis CSV File nöd importiere :(",
   },
 };

@@ -19,18 +19,25 @@ export const useMeasurementsStore = defineStore("measurements", () => {
     );
   }
 
-  function deleteMeasurement(id: string | undefined) {
+  function deleteMeasurement(id: string | undefined): boolean {
     if (id) {
-      state.value.delete(id);
+      try {
+        state.value.delete(id);
+        localStorage.removeItem(localStorageKeyName);
+        Array.from(state.value.values()).forEach((m) => saveMeasurement(m));
+        return true;
+      } catch (e) {
+        return false;
+      }
     } else {
-      // TODO: show error
+      return false;
     }
   }
 
   function clearMeasurements() {
     state.value.clear();
 
-    localStorage.clear();
+    localStorage.removeItem(localStorageKeyName);
   }
 
   function loadFromLocalStorage(localStorageContent: string) {

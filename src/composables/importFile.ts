@@ -5,9 +5,13 @@ import { type ArmOption, Measurement } from "@/models/Measurement";
 import { DateWrapper } from "@/models/DateWrapper";
 import dayjs from "dayjs";
 import { useMeasurementsStore } from "@/stores/measurements";
+import { storeToRefs } from "pinia";
+import { useToastStore } from "@/stores/toastStore";
 
-export function useImportfile() {
+export function useImportfile(t: any) {
   const measurementsStore = useMeasurementsStore();
+  const { currentToast } = storeToRefs(useToastStore());
+
   let fileContent: string;
 
   const { open, onChange } = useFileDialog({
@@ -24,7 +28,7 @@ export function useImportfile() {
     if (myFile) {
       fileReader.readAsText(myFile);
     } else {
-      // TODO: throw error
+      currentToast.value = { severity: "error", summary: "Error", detail: t("toasts.errorWhileImportingCsv") };
     }
   });
 
