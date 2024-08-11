@@ -41,7 +41,7 @@ const localeOptions = ref<string[]>(["ch", "de", "en"]);
       </template>
       <template #end>
         <div class="menubar-end">
-          <h2>Pressure Tracker</h2>
+          <span class="title">Pressure Tracker</span>
           <Select v-model="locale" :options="localeOptions" />
           <Button label="Toggle Color Scheme" @click="colorScheme.toggleColorScheme()">
             <i v-if="isDarkBrightMode" class="pi pi-sun"></i>
@@ -57,6 +57,20 @@ const localeOptions = ref<string[]>(["ch", "de", "en"]);
 .menubar-end {
   display: flex;
   justify-content: space-between;
+
+  text-align: center;
   gap: 1rem;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 2vw;
+}
+
+@media only screen and (max-width: 800px) {
+  .title {
+    font-size: 4vw;
+  }
 }
 </style>
