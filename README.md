@@ -40,6 +40,13 @@ npm run lint
 ### Making a pull request
 1. branch out from staging branch into a feature branch
 2. make a PR into staging branch
+3. have your PR reviewed
+4. merge your PR with rebase or squash&merge
+
+### Making a release to prod
+1. make a PR from **staging** into **main**.
+2. have your PR reviewed
+3. merge your PR with rebase
 
 ### Deployment
 - After receiving a commit, the **staging** branch is automatically deployed to [staging.bluetdruck.nebeprojekt.li](https://staging.bluetdruck.nebeprojekt.li)
