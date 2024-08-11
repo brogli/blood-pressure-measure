@@ -6,6 +6,10 @@ This project was created to easily note down manually taken blood pressure measu
 
 Access [the app in production](https://bluetdruck.nebeprojekt.li), add your measurements, export your measurements to csv, keep that file secure.
 
+## Providing Feedback
+
+Feel free to create an issue [here](https://github.com/brogli/blood-pressure-measure/issues).
+
 ## Developing
 
 ### Prep
@@ -38,8 +42,8 @@ npm run lint
 2. make a PR into staging branch
 
 ### Deployment
-- After receiving a commit, the **staging** branch is automatically deployed to staging.bluetdruck.nebeprojekt.li
-- After receiving a commit, the **main** branch is automatically deployed to bluetdruck.nebeprojekt.li which is production.
+- After receiving a commit, the **staging** branch is automatically deployed to [staging.bluetdruck.nebeprojekt.li](https://staging.bluetdruck.nebeprojekt.li)
+- After receiving a commit, the **main** branch is automatically deployed to [bluetdruck.nebeprojekt.li](https://bluetdruck.nebeprojekt.li) which is production.
 
 Both staging and production are hosted on Cloudflare Pages.
 
