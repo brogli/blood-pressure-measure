@@ -25,7 +25,14 @@ function handleConsentGiven() {
 </script>
 
 <template>
-  <Dialog v-model:visible="shouldShowConsentModal" modal :header="t('consent.title')" :style="{ width: '40rem' }">
+  <Dialog
+    v-model:visible="shouldShowConsentModal"
+    :closable="false"
+    :closeOnEscape="false"
+    modal
+    :header="t('consent.title')"
+    :style="{ width: '40rem' }"
+  >
     <div class="bp-form--text-inputs-container">
       <div class="">
         {{ t("consent.intro") }}
