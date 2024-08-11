@@ -11,10 +11,16 @@ import Panel from "primevue/panel";
 import DatePicker from "primevue/datepicker";
 import Divider from "primevue/divider";
 import { useI18n } from "vue-i18n";
+import { storeToRefs } from "pinia";
+import { useToastStore } from "@/stores/toastStore";
+import ConfirmDialog from "primevue/confirmdialog";
+import { useConfirm } from "primevue/useconfirm";
 
 const measurementStore = useMeasurementsStore();
 const router = useRouter();
 const { t } = useI18n();
+const { currentToast } = storeToRefs(useToastStore());
+const confirm = useConfirm();
 
 const currentMeasurement = ref<Measurement>(new Measurement(new DateWrapper(new Date()), 0, 0, 0, "Left"));
 
@@ -28,11 +34,40 @@ function handleSaveClick() {
   saveMeasurement();
 }
 
-function handleDeleteClick() {
-  // TODO: warn user with modal
+function confirmDelete() {
+  confirm.require({
+    message: t("measurementForm.confirmDeleteText"),
+    header: "Danger Zone",
+    icon: "pi pi-info-circle",
+    rejectLabel: "Cancel",
+    rejectProps: {
+      label: t("measurementForm.cancelButton"),
+      severity: "secondary",
+      outlined: true,
+    },
+    acceptProps: {
+      label: t("measurementForm.deleteButton"),
+      severity: "danger",
+    },
+    accept: () => {
+      continueDelete();
+    },
+    reject: () => {},
+  });
+}
 
-  measurementStore.deleteMeasurement(props.id);
-  router.push({ name: "home" });
+function handleDeleteClick() {
+  confirmDelete();
+}
+
+function continueDelete() {
+  const isSuccessful = measurementStore.deleteMeasurement(props.id);
+  if (isSuccessful) {
+    currentToast.value = { severity: "success", summary: "asdf", detail: t("toasts.successfullyDeletedMeasurement") };
+    router.push({ name: "home" });
+  } else {
+    currentToast.value = { severity: "error", summary: "Error", detail: t("toasts.errorWhileDeletingMeasurement") };
+  }
 }
 
 function saveMeasurement() {
@@ -45,7 +80,7 @@ function loadMeasurement(id: string) {
   if (clone) {
     currentMeasurement.value = clone;
   } else {
-    // TODO: show error
+    currentToast.value = { severity: "error", summary: "Error", detail: t("toasts.errorWhileLoadingMeasurement") };
   }
 }
 
@@ -69,6 +104,7 @@ if (isInEditmode) {
 
 <template>
   <Panel :header="header">
+    <ConfirmDialog></ConfirmDialog>
     <div class="bp-form">
       <div class="bp-form--text-inputs-container">
         <div class="bp-form-inputs-item-text">

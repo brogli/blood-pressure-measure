@@ -12,6 +12,9 @@ import { useExportFile } from "@/composables/exportFile";
 import { useImportfile } from "@/composables/importFile";
 import { useShare } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
+import { useConfirm } from "primevue/useconfirm";
+import ConfirmDialog from "primevue/confirmdialog";
+const confirm = useConfirm();
 
 const measurementsStore = useMeasurementsStore();
 const { t } = useI18n();
@@ -21,7 +24,28 @@ const { share, isSupported } = useShare();
 const currentSelection = ref();
 
 function deleteAllMeasurements() {
-  // TODO: trigger modal to ask user
+  confirm.require({
+    message: t("measurementList.confirmDeleteText"),
+    header: "Danger Zone",
+    icon: "pi pi-info-circle",
+    rejectLabel: "Cancel",
+    rejectProps: {
+      label: t("measurementForm.cancelButton"),
+      severity: "secondary",
+      outlined: true,
+    },
+    acceptProps: {
+      label: t("measurementForm.deleteButton"),
+      severity: "danger",
+    },
+    accept: () => {
+      continueDeletingAllMeasurements();
+    },
+    reject: () => {},
+  });
+}
+
+function continueDeletingAllMeasurements() {
   measurementsStore.clearMeasurements();
 }
 
@@ -35,7 +59,7 @@ function getExportFileName(): string {
 }
 
 function openFile(): void {
-  useImportfile().open();
+  useImportfile(t).open();
 }
 
 function saveFile() {
@@ -51,6 +75,7 @@ function shareAsCsv() {
 <template>
   <section class="measurement-list-root">
     <Panel :header="t('measurementList.title')">
+      <ConfirmDialog></ConfirmDialog>
       <div class="measurement-buttons-parent">
         <Button :label="t('measurementList.actions.createNew')" as="router-link" to="/new" />
         <Button :label="t('measurementList.actions.export')" @click="saveFile()" />

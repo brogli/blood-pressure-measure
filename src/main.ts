@@ -16,6 +16,8 @@ import { en } from "@/i18n/en";
 import { de } from "@/i18n/de";
 import { ch } from "@/i18n/ch";
 import { getInitLocale } from "@/functions/internationalization";
+import ToastService from "primevue/toastservice";
+import ConfirmationService from "primevue/confirmationservice";
 
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
@@ -36,6 +38,8 @@ app.directive("tooltip", Tooltip);
 app.use(createPinia());
 app.use(router);
 app.use(i18n);
+app.use(ToastService);
+app.use(ConfirmationService);
 
 const CustomNoir = definePreset(Aura, {
   semantic: {

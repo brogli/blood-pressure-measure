@@ -5,6 +5,7 @@ export const de = {
     saveButton: "Speichern",
     cancelButton: "Abbrechen",
     deleteButton: "Löschen",
+    confirmDeleteText: "Bist du sicher, möchtest du diese Messung löschen?",
   },
   measurement: {
     createdAt: "Erfasst am",
@@ -25,6 +26,8 @@ export const de = {
       share: "Teilen",
       deleteAll: "Alle löschen",
     },
+    confirmDeleteText:
+      "Das löscht ALLE Messungen, die die App selbst speichert. Bist du sicher, möchtest du das machen?",
   },
   menu: {
     aboutAndHelp: "Infos & Hilfe",
@@ -66,5 +69,11 @@ export const de = {
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
     chartsTitle: "Diagramm",
+  },
+  toasts: {
+    errorWhileDeletingMeasurement: "Das Löschen der Messung schlug fehl",
+    successfullyDeletedMeasurement: "Messung erfolgreich gelöscht",
+    errorWhileLoadingMeasurement: "Die Messung konnte nicht geladen werden",
+    errorWhileImportingCsv: "Wegen einem Fehler konnte deine CSV Datei nicht importiert werden :(",
   },
 };

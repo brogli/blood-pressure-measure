@@ -4,12 +4,32 @@ import NavigationMenu from "@/components/NavigationMenu.vue";
 import Divider from "primevue/divider";
 import FooterSection from "@/components/FooterSection.vue";
 import { useColorScheme } from "@/composables/colorScheme";
+import { useToastStore } from "@/stores/toastStore";
+import { useToast } from "primevue/usetoast";
+import Toast, { type ToastMessageOptions } from "primevue/toast";
+import { watch } from "vue";
+import { storeToRefs } from "pinia";
 const colorScheme = useColorScheme();
 colorScheme.initColorScheme();
+
+const toastStore = useToastStore();
+const { currentToast } = storeToRefs(toastStore);
+const toast = useToast();
+
+function showToast(message: ToastMessageOptions) {
+  toast.add(message);
+}
+
+watch(currentToast, (newValue, _) => {
+  if (newValue) {
+    showToast(newValue);
+  }
+});
 </script>
 
 <template>
   <div class="root-wrapper">
+    <Toast />
     <header>
       <nav>
         <NavigationMenu />

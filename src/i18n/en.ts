@@ -5,6 +5,7 @@ export const en = {
     saveButton: "Save",
     cancelButton: "Cancel",
     deleteButton: "Delete",
+    confirmDeleteText: "Are you sure you want to delete this measurement?",
   },
   measurement: {
     createdAt: "Created at",
@@ -25,6 +26,7 @@ export const en = {
       share: "Share",
       deleteAll: "Delete all",
     },
+    confirmDeleteText: "This will delete ALL measurements the app saves by itself. Sure you want to do this?",
   },
   menu: {
     aboutAndHelp: "About & Help",
@@ -66,5 +68,11 @@ export const en = {
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
     chartsTitle: "Diagram",
+  },
+  toasts: {
+    errorWhileDeletingMeasurement: "Deleting  measurement failed",
+    successfullyDeletedMeasurement: "Successfully deleted measurement",
+    errorWhileLoadingMeasurement: "The measurement could not be loaded",
+    errorWhileImportingCsv: "Due to an error your CSV file couldn't be imported :(",
   },
 };
