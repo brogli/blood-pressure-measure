@@ -55,6 +55,7 @@ export const en = {
       "This app is written in Vue3, uses the Composition API, Pinia, Typescript and Primevue. It's deployed to Cloudflare Pages.",
   },
   consent: {
+    title: "Data Privacy",
     intro: "Looks like you're using this app the first time. By continuing to use it you accept that:",
     appLivesInBrowser: "the app only lives in your browser",
     doesntTransmitData: "the app doesn't transmit any data to the internet",
@@ -64,6 +65,8 @@ export const en = {
     responsibleForBackups:
       "therefore you're responsible to back up your measurements using the export/import functions and to keep those files secure",
     noGuarantees: "the app may contain bugs, there's no guarantee for anything",
+    accept: "Accept",
+    deny: "Deny",
   },
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
