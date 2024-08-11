@@ -56,6 +56,7 @@ export const de = {
       "Diese App ist in Vue3 geschrieben, nutzt die Composition API, Pinia, Typescript und Primevue. Deployed ist sie auf Cloudflare Pages.",
   },
   consent: {
+    title: "Datenschutz",
     intro: "Siehst so aus, als nutzt du die App das erste Mal. Mit dem Weiternutzen akzeptierst du, dass:",
     appLivesInBrowser: "die App nur in deinem Browser existiert",
     doesntTransmitData: "die App keine Daten ins Internet übermittelt",
@@ -65,6 +66,8 @@ export const de = {
     responsibleForBackups:
       "deshalb bist du dafür verantwortlich mit Hilfe der Export/Import Funktion Backups deiner Daten zu erstellen, und diese sicher aufzubewahren",
     noGuarantees: "die App kann Fehler beinhalten, es gibt keine Garantie für irgend etwas",
+    accept: "Akzeptieren",
+    deny: "Ablehnen",
   },
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",

@@ -9,6 +9,8 @@ import { useToast } from "primevue/usetoast";
 import Toast, { type ToastMessageOptions } from "primevue/toast";
 import { watch } from "vue";
 import { storeToRefs } from "pinia";
+import ConsentModal from "@/components/ConsentModal.vue";
+
 const colorScheme = useColorScheme();
 colorScheme.initColorScheme();
 
@@ -29,6 +31,7 @@ watch(currentToast, (newValue, _) => {
 
 <template>
   <div class="root-wrapper">
+    <ConsentModal />
     <Toast />
     <header>
       <nav>
