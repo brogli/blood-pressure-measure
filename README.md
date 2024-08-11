@@ -49,7 +49,7 @@ npm run lint
 3. merge your PR with rebase
 
 ### Deployment
-- After receiving a commit, the **staging** branch is automatically deployed to [staging.bluetdruck.nebeprojekt.li](https://staging.bluetdruck.nebeprojekt.li)
+- After receiving a commit, the **staging** branch is automatically deployed to [staging.blood-pressure-measure.pages.dev](https://staging.blood-pressure-measure.pages.dev)
 - After receiving a commit, the **main** branch is automatically deployed to [bluetdruck.nebeprojekt.li](https://bluetdruck.nebeprojekt.li) which is production.
 
 Both staging and production are hosted on Cloudflare Pages.
