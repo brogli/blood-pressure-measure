@@ -29,6 +29,7 @@ export const en = {
   menu: {
     aboutAndHelp: "About & Help",
     home: "Home",
+    chart: "Diagram",
   },
   aboutAndHelp: {
     intro: "This app was created to help track blood pressure measurements with ease while providing maximum privacy.",
@@ -61,5 +62,9 @@ export const en = {
     responsibleForBackups:
       "therefore you're responsible to back up your measurements using the export/import functions and to keep those files secure",
     noGuarantees: "the app may contain bugs, there's no guarantee for anything",
+  },
+  chart: {
+    amountOfDataPoints: "Weviel Datepünkt?",
+    chartsTitle: "Diagram",
   },
 };

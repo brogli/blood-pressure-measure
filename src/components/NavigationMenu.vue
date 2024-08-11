@@ -18,6 +18,10 @@ const items = ref([
     label: t("menu.aboutAndHelp"),
     route: "/about",
   },
+  {
+    label: t("menu.chart"),
+    route: "/chart",
+  },
 ]);
 
 let isDarkBrightMode: Ref<boolean> = ref<boolean>(false);
