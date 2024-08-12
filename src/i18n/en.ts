@@ -34,10 +34,10 @@ export const en = {
     chart: "Diagram",
   },
   aboutAndHelp: {
-    intro: "This app was created to help track blood pressure measurements with ease while providing maximum privacy.",
+    intro: "This app was created to help track blood pressure measurements with ease.",
     dataPrivacyTitle: "Data Privacy",
     dataPrivacy:
-      "The app only lives in your browser and saves data to your browser's local storage. It doesn't transmit any data to the internet. In fact you can verify this by inspecting the network calls in the network tab of your browser's DevTools (hit F12 and go to network tab), or by inspecting the code on ",
+      "The app only lives in your browser and saves data to your browser's local storage. This isn't super secure, if the App or your device is compromised, someone could steal your data. In its intended purpose the App doesn't transmit any data to the internet. In fact you can verify this by inspecting the network calls in the network tab of your browser's DevTools (hit F12 and go to network tab), or by inspecting the code on ",
     dataTitle: "Data",
     dataP1:
       "The app stores your measurements in your browser's local storage. This means if you open the app again later on the same device and browser, the measurements should still exist and you can continue to add measurements.",
@@ -58,8 +58,9 @@ export const en = {
     title: "Data Privacy",
     intro: "Looks like you're using this app the first time. By continuing to use it you accept that:",
     appLivesInBrowser: "the app only lives in your browser",
-    doesntTransmitData: "the app doesn't transmit any data to the internet",
-    localStorageConsent: "the app will store data in your browser's local storage",
+    doesntTransmitData: "the app doesn't want to transmit data to the internet",
+    localStorageConsent:
+      "the app will store data in your browser's local storage. This isn't very secure, if your device or the App is compromised, someone could steal your data. Use at your own risk.",
     persistingLimited:
       "while the app persists your measurements in your browser and loads them when you reopen the app, this functionality is limited",
     responsibleForBackups:

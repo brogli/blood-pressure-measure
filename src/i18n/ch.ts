@@ -34,10 +34,10 @@ export const ch = {
     chart: "Diagramm",
   },
   aboutAndHelp: {
-    intro: "Die App isch gmacht worde zum Bluetdruckmässigä eifach erfasse, mit best möglichem Dateschutz.",
+    intro: "Die App isch gmacht worde zum Bluetdruckmässigä eifach erfasse.",
     dataPrivacyTitle: "Dateschutz",
     dataPrivacy:
-      "Die App lebt nur i dim Browser und speicheret Datä i sin Local Storage. Sie übermittlet kei Date is Internet. Das chasch sogar überprüefe, indem du Netzwerkufrüef ide DevTools vo dim Browser gosch go aluege (F12, Netzwerktab). Oder indemet de Quellcode gosch go aluege uf ",
+      'Die App lebt nur i dim Browser und speicheret Datä i sin Local Storage. Das isch allerdings nöd super save, wenn d App oder dis Grät "ghacked" sind, denn wärs mögli das öbber dini Date chlaut. I ihrem adenkte Funktionsumfang übermittlet d\'App kei Date is Internet. Das chasch sogar überprüefe, indem du Netzwerkufrüef ide DevTools vo dim Browser gosch go aluege (F12, Netzwerktab). Oder indemet de Quellcode gosch go aluege uf ',
     dataTitle: "Datä",
     dataP1:
       "D App speicheret dini Mässigä im Local Storage vo dim Browser. Das bedütet, wennt d App ufem gliche Grät im gliche Browser nomel uftuesch spöter, denn söttet d Mässigä immerno existiere und chasch witeri erfasse.",
@@ -59,8 +59,9 @@ export const ch = {
     title: "Dateschutz",
     intro: "Gseht so us, als benutzisch die App s erste Mol. Mitem Witerbenutze akzeptiersch, dass:",
     appLivesInBrowser: "d'App nur in dim Browser existiert",
-    doesntTransmitData: "d'App kei Daten ins Internet schickt",
-    localStorageConsent: "d'App Daten im Local Storage vo dim Browsers wird speichere",
+    doesntTransmitData: "d'App kei Date ins Internet schickt, sofern si oder dis Grät nöd ghackt worde isch",
+    localStorageConsent:
+      "d'App Date im Local Storage vo dim Browsers wird speichere. Das isch nöd super sicher, wenn dis Grät oder d App ghackt worde isch, chöntet dini Date klaut werde. Benutzes uf eiges Risiko",
     persistingLimited:
       "obwohl d'App Date i dim Browser persistiert und wieder ladt, wenn d'App spöter wieder öffnisch, hät die Funktionalität ihri Limit",
     responsibleForBackups:
