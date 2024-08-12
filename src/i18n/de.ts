@@ -35,10 +35,10 @@ export const de = {
     chart: "Diagramm",
   },
   aboutAndHelp: {
-    intro: "Diese App wurde gemacht, um Blutdruckmessungen einfach zu erfassen, mit best möglichem Datenschutz.",
+    intro: "Diese App wurde gemacht, um Blutdruckmessungen einfach zu erfassen.",
     dataPrivacyTitle: "Datenschutz",
     dataPrivacy:
-      "Die App lebt nur in deinem Browser und speichert Daten in dessen Local Storage. Sie übermittelt keine Daten ins Internet. Das kannst du sogar überprüfen in dem du die Netzwerkaufrufe im Netzwerktab der DevTools deines Browsers (F12) untersuchtst. Oder indem du den Quellcode anschaust auf ",
+      "Die App lebt nur in deinem Browser und speichert Daten in dessen Local Storage. Das ist nicht super sicher, wenn die App oder dein Gerät kompromittiert ist, könnten deine Daten gestohlen werden. In ihrem beabsichtigen Funktionsumfang übermittelt die App keine Daten ins Internet. Das kannst du sogar überprüfen in dem du die Netzwerkaufrufe im Netzwerktab der DevTools deines Browsers (F12) untersuchtst. Oder indem du den Quellcode anschaust auf ",
     dataTitle: "Daten",
     dataP1:
       "Die App speichert deine Messungen im Local Storage deines Browsers. Das bedeutet, wenn du die App auf dem selben Gerät und Browser zu einem späteren Zeitpunkt wieder öffnest, dann sollten die Messungen immernoch existieren und du kannst weitere erfassen.",
@@ -59,8 +59,9 @@ export const de = {
     title: "Datenschutz",
     intro: "Siehst so aus, als nutzt du die App das erste Mal. Mit dem Weiternutzen akzeptierst du, dass:",
     appLivesInBrowser: "die App nur in deinem Browser existiert",
-    doesntTransmitData: "die App keine Daten ins Internet übermittelt",
-    localStorageConsent: "die App Daten im Local Storage deines Browsers speichern wird",
+    doesntTransmitData: "die App keine Daten ins Internet übermittelt, sofern sie oder dein Gerät nicht gehackt wurde",
+    localStorageConsent:
+      "die App Daten im Local Storage deines Browsers speichern wird. Das ist nicht besonders sicher, wenn dein Gerät oder die App gehackt wurde, könnten deine Daten geklaut werden. Benutze auf eigenes Risiko.",
     persistingLimited:
       "obwohl die App daten in deinem Browser persistiert und wieder lädt, wenn du die App später wieder öffnest, hat diese Funktionalität Limtien",
     responsibleForBackups:
