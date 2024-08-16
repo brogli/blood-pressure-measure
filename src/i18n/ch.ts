@@ -1,4 +1,8 @@
 export const ch = {
+  common: {
+    error: "Fähler",
+    success: "Erfolg",
+  },
   measurementForm: {
     editMeasurement: "Mässig ändere",
     addMeasurement: "Mässig erfassä",
