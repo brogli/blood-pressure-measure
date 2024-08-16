@@ -2,6 +2,7 @@
 import { useAppSettingsStore } from "@/stores/appSettings";
 
 const store = useAppSettingsStore();
+const currentBuildVersion = import.meta.env.VITE_APP_VERSION;
 </script>
 
 <template>
@@ -14,6 +15,7 @@ const store = useAppSettingsStore();
       <img class="linkedin-logo" v-if="!store.isDarkModeActive" src="@/assets/github-mark.svg" alt="Github Icon" />
       <img class="linkedin-logo" v-else src="@/assets/github-mark-white.svg" alt="Github Icon" />
     </a>
+    <p>Version {{ currentBuildVersion }}</p>
   </section>
 </template>
 
@@ -28,6 +30,7 @@ const store = useAppSettingsStore();
 .footer-content a img {
   height: 2rem;
 }
+
 .linkedin-logo {
   height: 1.6rem !important;
 }

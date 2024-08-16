@@ -11,7 +11,6 @@ const { t } = useI18n();
 
 const appSettingsStore = useAppSettingsStore();
 const { hasUserAcceptedConsentModal } = storeToRefs(appSettingsStore);
-const shouldShowConsentModal = ref(!hasUserAcceptedConsentModal.value);
 
 function handleConsentDenied() {
   window.location.href = "https://duckduckgo.com/";
@@ -21,7 +20,21 @@ function handleConsentDenied() {
 function handleConsentGiven() {
   hasUserAcceptedConsentModal.value = true;
   shouldShowConsentModal.value = false;
+  appSettingsStore.versionNumberWhenConsented = import.meta.env.VITE_APP_VERSION;
 }
+
+function updateConsentState() {
+  const currentBuildVersion = import.meta.env.VITE_APP_VERSION;
+  const versionHasChanged = currentBuildVersion !== appSettingsStore.versionNumberWhenConsented;
+
+  if (hasUserAcceptedConsentModal && versionHasChanged) {
+    hasUserAcceptedConsentModal.value = false;
+  }
+}
+
+updateConsentState();
+
+const shouldShowConsentModal = ref(!hasUserAcceptedConsentModal.value);
 </script>
 
 <template>

@@ -6,16 +6,16 @@ export type ArmOption = "Left" | "Right";
 export class Measurement {
   id: string;
   timestamp: DateWrapper;
-  systolic: number;
-  diastolic: number;
-  heartRate: number;
+  systolic: number | undefined;
+  diastolic: number | undefined;
+  heartRate: number | undefined;
   whichArm: ArmOption;
 
   constructor(
     timestamp: DateWrapper,
-    systolic: number,
-    diastolic: number,
-    heartRate: number,
+    systolic: number | undefined,
+    diastolic: number | undefined,
+    heartRate: number | undefined,
     armOption: ArmOption,
     id: string = uuidv4(),
   ) {
