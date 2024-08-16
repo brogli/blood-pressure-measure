@@ -69,6 +69,7 @@ function continueDelete() {
       severity: "success",
       summary: t("common.success"),
       detail: t("toasts.successfullyDeletedMeasurement"),
+      life: 3000,
     };
     router.push({ name: "home" });
   } else {
@@ -76,6 +77,7 @@ function continueDelete() {
       severity: "error",
       summary: t("common.error"),
       detail: t("toasts.errorWhileDeletingMeasurement"),
+      life: 3000,
     };
   }
 }
@@ -90,7 +92,12 @@ function loadMeasurement(id: string) {
   if (clone) {
     currentMeasurement.value = clone;
   } else {
-    currentToast.value = { severity: "error", summary: "Error", detail: t("toasts.errorWhileLoadingMeasurement") };
+    currentToast.value = {
+      severity: "error",
+      summary: "Error",
+      detail: t("toasts.errorWhileLoadingMeasurement"),
+      life: 3000,
+    };
   }
 }
 

@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import Menubar from "primevue/menubar";
-import { type Ref, ref } from "vue";
+import { computed, type Ref, ref } from "vue";
 import Button from "primevue/button";
-import Select from "primevue/select";
+import Select, { type SelectChangeEvent } from "primevue/select";
 import { useI18n } from "vue-i18n";
 import { useColorScheme } from "@/composables/colorScheme";
+import { useAppSettingsStore } from "@/stores/appSettings";
 
 const { t, locale } = useI18n({ useScope: "global" });
 const colorScheme = useColorScheme();
+const appSettingsStore = useAppSettingsStore();
 
-const items = ref([
+const items = computed(() => [
   {
     label: t("menu.home"),
     route: "/",
@@ -42,7 +44,11 @@ const localeOptions = ref<string[]>(["ch", "de", "en"]);
       <template #end>
         <div class="menubar-end">
           <span class="title">Pressure Tracker</span>
-          <Select v-model="locale" :options="localeOptions" />
+          <Select
+            v-model="locale"
+            :options="localeOptions"
+            @change="appSettingsStore.locale = ($event as SelectChangeEvent).value"
+          />
           <Button label="Toggle Color Scheme" @click="colorScheme.toggleColorScheme()">
             <i v-if="isDarkBrightMode" class="pi pi-sun"></i>
             <i v-else class="pi pi-moon"></i>
