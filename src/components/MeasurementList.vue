@@ -78,19 +78,28 @@ function shareAsCsv() {
       <ConfirmDialog></ConfirmDialog>
       <div class="measurement-buttons-parent">
         <Button :label="t('measurementList.actions.createNew')" as="router-link" to="/new" />
-        <Button :label="t('measurementList.actions.export')" @click="saveFile()" />
+        <Button
+          :label="t('measurementList.actions.export')"
+          @click="saveFile()"
+          :disabled="measurementsStore.size <= 0"
+        />
         <Button :label="t('measurementList.actions.import')" @click="openFile()" />
         <Button
           :label="t('measurementList.actions.share')"
           @click="shareAsCsv()"
-          :disabled="!isSupported"
+          :disabled="!isSupported || measurementsStore.size <= 0"
           v-tooltip.top="!isSupported ? t('measurementList.actions.notSupportedByBrowser') : ''"
         />
-        <Button :label="t('measurementList.actions.deleteAll')" severity="danger" @click="deleteAllMeasurements" />
+        <Button
+          :label="t('measurementList.actions.deleteAll')"
+          severity="danger"
+          @click="deleteAllMeasurements"
+          :disabled="measurementsStore.size <= 0"
+        />
       </div>
     </Panel>
 
-    <Panel v-if="measurementsStore.size">
+    <Panel v-if="measurementsStore.size > 0">
       <div>
         <DataTable
           @rowSelect="onRowSelect"

@@ -18,17 +18,7 @@ import { ch } from "@/i18n/ch";
 import { getInitLocale } from "@/functions/internationalization";
 import ToastService from "primevue/toastservice";
 import ConfirmationService from "primevue/confirmationservice";
-
-const i18n = createI18n({
-  legacy: false, // you must set `false`, to use Composition API
-  fallbackLocale: "en",
-  locale: getInitLocale(),
-  messages: {
-    en: en,
-    de: de,
-    ch: ch,
-  },
-});
+import { useAppSettingsStore } from "@/stores/appSettings";
 
 const app = createApp(App);
 
@@ -36,8 +26,21 @@ app.directive("focustrap", FocusTrap);
 app.directive("tooltip", Tooltip);
 
 app.use(createPinia());
-app.use(router);
+
+const appSettingsStore = useAppSettingsStore();
+
+const i18n = createI18n({
+  legacy: false, // you must set `false`, to use Composition API
+  fallbackLocale: "en",
+  locale: appSettingsStore.locale || getInitLocale(),
+  messages: {
+    en: en,
+    de: de,
+    ch: ch,
+  },
+});
 app.use(i18n);
+app.use(router);
 app.use(ToastService);
 app.use(ConfirmationService);
 
