@@ -70,7 +70,7 @@ const setChartData = () => {
     labels: preparedData.map((m) => m.timestampIso8601),
     datasets: [
       {
-        label: "Systolic",
+        label: t("measurement.systolic"),
         data: preparedData.map((m) => {
           return {
             x: m.timestampIso8601,
@@ -153,7 +153,7 @@ const setChartOptions = () => {
 <template>
   <section>
     <Panel :header="t('chart.chartsTitle')">
-      <label for="withoutgrouping" class="2"> Amount of data points </label>
+      <label for="withoutgrouping" class="2">{{ t("chart.amountOfDataPoints") + " " }}</label>
       <InputNumber
         @input="updateChart($event)"
         v-model="amountOfDataPoints"

@@ -28,7 +28,12 @@ export function useImportfile(t: any) {
     if (myFile) {
       fileReader.readAsText(myFile);
     } else {
-      currentToast.value = { severity: "error", summary: "Error", detail: t("toasts.errorWhileImportingCsv") };
+      currentToast.value = {
+        severity: "error",
+        summary: "Error",
+        detail: t("toasts.errorWhileImportingCsv"),
+        life: 3000,
+      };
     }
   });
 
