@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.0.1",
-    "@vueuse/core": "^10.11.0",
+    "@vueuse/core": "^11.0.0",
     "chart.js": "^4.4.3",
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "dayjs": "^1.11.12",
