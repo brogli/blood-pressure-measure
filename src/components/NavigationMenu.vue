@@ -65,12 +65,12 @@ const localeOptions = ref<string[]>(["ch", "de", "en"]);
 .title {
   display: flex;
   align-items: center;
-  font-size: 2vw;
+  font-size: 1.7rem;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 500px) {
   .title {
-    font-size: 4vw;
+    font-size: 5vw;
   }
 }
 </style>

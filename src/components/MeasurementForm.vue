@@ -22,7 +22,9 @@ const { t } = useI18n();
 const { currentToast } = storeToRefs(useToastStore());
 const confirm = useConfirm();
 
-const currentMeasurement = ref<Measurement>(new Measurement(new DateWrapper(new Date()), 0, 0, 0, "Left"));
+const currentMeasurement = ref<Measurement>(
+  new Measurement(new DateWrapper(new Date()), undefined, undefined, undefined, "Left"),
+);
 
 const armSelectionOptions = ref<ArmOption[]>(["Left", "Right"]);
 
@@ -63,10 +65,18 @@ function handleDeleteClick() {
 function continueDelete() {
   const isSuccessful = measurementStore.deleteMeasurement(props.id);
   if (isSuccessful) {
-    currentToast.value = { severity: "success", summary: "asdf", detail: t("toasts.successfullyDeletedMeasurement") };
+    currentToast.value = {
+      severity: "success",
+      summary: t("common.success"),
+      detail: t("toasts.successfullyDeletedMeasurement"),
+    };
     router.push({ name: "home" });
   } else {
-    currentToast.value = { severity: "error", summary: "Error", detail: t("toasts.errorWhileDeletingMeasurement") };
+    currentToast.value = {
+      severity: "error",
+      summary: t("common.error"),
+      detail: t("toasts.errorWhileDeletingMeasurement"),
+    };
   }
 }
 
@@ -119,19 +129,19 @@ if (isInEditmode) {
           />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="systolic" class="font-bold">{{ t("measurement.systolic") }}</label>
-          <InputNumber v-model="currentMeasurement.systolic" v-focustrap inputId="systolic" fluid />
+          <label for="systolic">{{ t("measurement.systolic") }}</label>
+          <InputNumber placeholder="120" v-model="currentMeasurement.systolic" v-focustrap inputId="systolic" fluid />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="diastolic" class="font-bold">{{ t("measurement.diastolic") }}</label>
-          <InputNumber v-model="currentMeasurement.diastolic" inputId="diastolic" fluid />
+          <label for="diastolic">{{ t("measurement.diastolic") }}</label>
+          <InputNumber placeholder="80" v-model="currentMeasurement.diastolic" inputId="diastolic" fluid />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="heartrate" class="font-bold">{{ t("measurement.heartRate") }}</label>
-          <InputNumber v-model="currentMeasurement.heartRate" inputId="heartrate" fluid />
+          <label for="heartrate">{{ t("measurement.heartRate") }}</label>
+          <InputNumber placeholder="80" v-model="currentMeasurement.heartRate" inputId="heartrate" fluid />
         </div>
         <div class="">
-          <label for="armSelection" class="font-bold">{{ t("measurement.whichArm") }}</label>
+          <label for="armSelection">{{ t("measurement.whichArm") }}</label>
           <SelectButton
             inputId="armSelection"
             v-model="currentMeasurement.whichArm"

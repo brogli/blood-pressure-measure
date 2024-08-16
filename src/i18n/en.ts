@@ -1,4 +1,8 @@
 export const en = {
+  common: {
+    error: "Error",
+    success: "Success",
+  },
   measurementForm: {
     editMeasurement: "Edit measurement",
     addMeasurement: "Add new measurement",
