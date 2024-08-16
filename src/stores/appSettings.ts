@@ -5,6 +5,7 @@ export const useAppSettingsStore = defineStore("appSettings", () => {
   const isDarkModeActive = useStorage("isDarkModeActive", false);
   const isDarkModeOverwrittenByUser = useStorage("isDarkModeOverwrittenByUser", false);
   const hasUserAcceptedConsentModal = useStorage("hasUserAcceptedConsentModal", false);
+  const versionNumberWhenConsented = useStorage("versionNumberWhenConsented", "0.0.0");
 
-  return { isDarkModeActive, isDarkModeOverwrittenByUser, hasUserAcceptedConsentModal };
+  return { isDarkModeActive, isDarkModeOverwrittenByUser, hasUserAcceptedConsentModal, versionNumberWhenConsented };
 });
