@@ -39,6 +39,13 @@ export const en = {
   },
   aboutAndHelp: {
     intro: "This app was created to help track blood pressure measurements with ease.",
+    featuresIntro: "It supports these features:",
+    feature0: "save blood pressure measurements",
+    feature1: "persist measurements over multiple page loads (more info below)",
+    feature2: "export measurements to csv",
+    feature3: "import measurements from csv",
+    feature4: "visualize measurements as line diagram",
+    feature5: "app works offline (more below)",
     dataPrivacyTitle: "Data Privacy",
     dataPrivacy:
       "The app only lives in your browser and saves data to your browser's local storage. This isn't super secure, if the App or your device is compromised, someone could steal your data. In its intended purpose the App doesn't transmit any data to the internet. In fact you can verify this by inspecting the network calls in the network tab of your browser's DevTools (hit F12 and go to network tab), or by inspecting the code on ",
@@ -49,6 +56,9 @@ export const en = {
       "If you open the app on a different browser or device, the data won't exist there. If you use private mode or clear your browser's cache, the data won't be persisted. Other cases like these probably exist.",
     dataP3: "It's therefore recommended to create backups usign the export and import functionality.",
     dataP4: "You're responsible for keeping your backup files secure.",
+    offlineTitle: "Using the App offline",
+    offlineContent:
+      "The app works offline. Once you've accessed the app while being online, you should then be able to use it offline. You can use your mobile browser's \"Add to Home screen\" feature for easy access.",
     feedbackTitle: "Feedback",
     feedback: "You're welcome to provide feedback by an issue on Github: ",
     openSauceTitle: "Open Source",
