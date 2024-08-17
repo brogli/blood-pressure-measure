@@ -11,6 +11,17 @@ const { t } = useI18n();
       <p>
         {{ t("aboutAndHelp.intro") }}
       </p>
+      <p>
+        {{ t("aboutAndHelp.featuresIntro") }}
+      </p>
+      <ul>
+        <li>{{ t("aboutAndHelp.feature0") }}</li>
+        <li>{{ t("aboutAndHelp.feature1") }}</li>
+        <li>{{ t("aboutAndHelp.feature2") }}</li>
+        <li>{{ t("aboutAndHelp.feature3") }}</li>
+        <li>{{ t("aboutAndHelp.feature4") }}</li>
+        <li>{{ t("aboutAndHelp.feature5") }}</li>
+      </ul>
     </Panel>
 
     <Panel :header="t('aboutAndHelp.dataPrivacyTitle')">
@@ -34,6 +45,12 @@ const { t } = useI18n();
       </p>
       <p>
         {{ t("aboutAndHelp.dataP4") }}
+      </p>
+    </Panel>
+
+    <Panel :header="t('aboutAndHelp.offlineTitle')">
+      <p>
+        {{ t("aboutAndHelp.offlineContent") }}
       </p>
     </Panel>
     <Panel :header="t('aboutAndHelp.feedbackTitle')">
