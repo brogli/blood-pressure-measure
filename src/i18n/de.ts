@@ -40,6 +40,13 @@ export const de = {
   },
   aboutAndHelp: {
     intro: "Diese App wurde gemacht, um Blutdruckmessungen einfach zu erfassen.",
+    featuresIntro: "Sie unterstützt diese Funktionen:",
+    feature0: "Speichern von Blutdruckmessungen",
+    feature1: "Persistieren der Messungen für spätere App-Aufrufe (mehr dazu unten)",
+    feature2: "Exportieren der Messungen in CSV Format",
+    feature3: "Importieren der Messungen als CSV Format",
+    feature4: "Visualisieren der Messungen als Linien-Diagramm",
+    feature5: "die App funktioniert offline (mehr dazu unten)",
     dataPrivacyTitle: "Datenschutz",
     dataPrivacy:
       "Die App lebt nur in deinem Browser und speichert Daten in dessen Local Storage. Das ist nicht super sicher, wenn die App oder dein Gerät kompromittiert ist, könnten deine Daten gestohlen werden. In ihrem beabsichtigen Funktionsumfang übermittelt die App keine Daten ins Internet. Das kannst du sogar überprüfen in dem du die Netzwerkaufrufe im Netzwerktab der DevTools deines Browsers (F12) untersuchtst. Oder indem du den Quellcode anschaust auf ",
@@ -50,6 +57,9 @@ export const de = {
       "Wenn du die App in einem anderen Browser oder auf einem anderen Gerät öffnest, existieren deine Messungen dort nicht. Wenn du den Private Mode verwendest, oder den Cache deines Browsers löschst, dann werden die Daten nicht persistiert. Vermutlich gibt es andere Fälle wie diese.",
     dataP3: "Es ist daher empfohlen, die Export und Import Funktion zu nutzen, um ein Backup der Daten zu erhalten.",
     dataP4: "Du bist dafür verantwortlich deine Backups sicher zu verwalten.",
+    offlineTitle: "Die App offline nutzen",
+    offlineContent:
+      "Die App funktioniert auch offline. Nach dem ersten Zugriff online, solltest du sie anschliessend offline auch verwenden können.",
     feedbackTitle: "Feedback",
     feedback: "Gerne kannst du uns Feedback geben, in dem du ein Github Issue eröffnest: ",
     openSauceTitle: "Open Source",

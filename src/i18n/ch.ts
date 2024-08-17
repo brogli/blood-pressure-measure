@@ -39,6 +39,13 @@ export const ch = {
   },
   aboutAndHelp: {
     intro: "Die App isch gmacht worde zum Bluetdruckmässigä eifach erfasse.",
+    featuresIntro: "Sie hät folgendi Funktionalitäte:",
+    feature0: "Speichärä von Bluetdruckmässigä",
+    feature1: "S'Persistiere vode Mässigä für spöteri App-Ufrüef (meh dezue une)",
+    feature2: "S'Exportiere vode Mässigä noch CSV",
+    feature3: "S'Importiere vode Mässige als CSV",
+    feature4: "S'Visualisiere vode Mässige als Linie-Diagramm",
+    feature5: "d'App funktioniert offline (meh dezue une)",
     dataPrivacyTitle: "Dateschutz",
     dataPrivacy:
       'Die App lebt nur i dim Browser und speicheret Datä i sin Local Storage. Das isch allerdings nöd super save, wenn d App oder dis Grät "ghacked" sind, denn wärs mögli das öbber dini Date chlaut. I ihrem adenkte Funktionsumfang übermittlet d\'App kei Date is Internet. Das chasch sogar überprüefe, indem du Netzwerkufrüef ide DevTools vo dim Browser gosch go aluege (F12, Netzwerktab). Oder indemet de Quellcode gosch go aluege uf ',
@@ -50,6 +57,9 @@ export const ch = {
     dataP3:
       "Es isch drum empfohle, d Export und Import Funktione z'nutze, zum es Backup vode Date exportiere und z'importiere, falls nötig.",
     dataP4: "Du bist verantwortlich defür dini Backup-Files sicher z verwalte.",
+    offlineTitle: "D'App offline nutze",
+    offlineContent:
+      "D'App funktioniert au offline. Wennt mol online gsi bisch zum si zum erste Mol öffne, denn söttsch si nocher au offline chönne nutze.",
     feedbackTitle: "Feedback",
     feedback: "Chasch gern Feedback geh, indemt es Github Issue eröffnisch: ",
     openSauceTitle: "Open Source",
