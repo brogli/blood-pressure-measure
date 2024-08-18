@@ -6,7 +6,6 @@ import { type ArmOption, Measurement } from "@/models/Measurement";
 import Button from "primevue/button";
 import { useMeasurementsStore } from "@/stores/measurements";
 import { useRouter } from "vue-router";
-import { DateWrapper } from "@/models/DateWrapper";
 import Panel from "primevue/panel";
 import DatePicker from "primevue/datepicker";
 import Divider from "primevue/divider";
@@ -22,9 +21,7 @@ const { t } = useI18n();
 const { currentToast } = storeToRefs(useToastStore());
 const confirm = useConfirm();
 
-const currentMeasurement = ref<Measurement>(
-  new Measurement(new DateWrapper(new Date()), undefined, undefined, undefined, "Left"),
-);
+const currentMeasurement = ref<Measurement>(new Measurement(new Date(), undefined, undefined, undefined, "Left"));
 
 const armSelectionOptions = ref<ArmOption[]>(["Left", "Right"]);
 
@@ -129,7 +126,7 @@ if (isInEditmode) {
           <DatePicker
             showIcon
             id="datepicker-24h"
-            v-model="currentMeasurement.timestamp.nativeTimeStamp"
+            v-model="currentMeasurement.timestamp"
             showTime
             hourFormat="24"
             fluid

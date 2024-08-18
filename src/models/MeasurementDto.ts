@@ -10,7 +10,7 @@ export class MeasurementDto {
 
   constructor(measurement: Measurement) {
     this.id = measurement.id;
-    this.timestampIso8601 = measurement.timestamp.nativeTimeStamp.toISOString();
+    this.timestampIso8601 = measurement.timestamp.toISOString();
     this.systolic = measurement.systolic || 0;
     this.diastolic = measurement.diastolic || 0;
     this.heartRate = measurement.heartRate || 0;

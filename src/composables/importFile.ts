@@ -2,7 +2,6 @@ import { useFileDialog } from "@vueuse/core";
 import Papa from "papaparse";
 import { MeasurementDto } from "@/models/MeasurementDto";
 import { type ArmOption, Measurement } from "@/models/Measurement";
-import { DateWrapper } from "@/models/DateWrapper";
 import dayjs from "dayjs";
 import { useMeasurementsStore } from "@/stores/measurements";
 import { storeToRefs } from "pinia";
@@ -44,7 +43,7 @@ export function useImportfile(t: any) {
   function deserializeToMeasurements(results: any) {
     results.data.forEach((item: MeasurementDto) => {
       const measurement = new Measurement(
-        new DateWrapper(dayjs(item.timestampIso8601).toDate()),
+        dayjs(item.timestampIso8601).toDate(),
         item.systolic,
         item.diastolic,
         item.heartRate,

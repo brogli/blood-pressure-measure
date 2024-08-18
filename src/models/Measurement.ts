@@ -1,18 +1,17 @@
-import type { DateWrapper } from "@/models/DateWrapper";
 import { v4 as uuidv4 } from "uuid";
 
 export type ArmOption = "Left" | "Right";
 
 export class Measurement {
   id: string;
-  timestamp: DateWrapper;
+  timestamp: Date;
   systolic: number | undefined;
   diastolic: number | undefined;
   heartRate: number | undefined;
   whichArm: ArmOption;
 
   constructor(
-    timestamp: DateWrapper,
+    timestamp: Date,
     systolic: number | undefined,
     diastolic: number | undefined,
     heartRate: number | undefined,
