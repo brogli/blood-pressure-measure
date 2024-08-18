@@ -23,9 +23,7 @@ function initializePreparedData() {
 }
 
 function sortByTime(measurements: Measurement[]): Measurement[] {
-  return measurements.sort(
-    (a: Measurement, b: Measurement) => a.timestamp.nativeTimeStamp.getTime() - b.timestamp.nativeTimeStamp.getTime(),
-  );
+  return measurements.sort((a: Measurement, b: Measurement) => a.timestamp.getTime() - b.timestamp.getTime());
 }
 
 function mapToDto(measurements: Measurement[]): MeasurementDto[] {
