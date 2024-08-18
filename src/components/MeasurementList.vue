@@ -112,7 +112,11 @@ function shareAsCsv() {
           :rows="5"
           :rowsPerPageOptions="[5, 10, 20, 50]"
         >
-          <Column field="timestamp" sortable :header="t('measurement.createdAt')"></Column>
+          <Column field="timestamp" sortable :header="t('measurement.createdAt')">
+            <template #body="slotProps">
+              {{ (slotProps.data as Measurement).timestamp.toLocaleString() }}
+            </template>
+          </Column>
           <Column field="systolic" sortable :header="t('measurement.systolic')"></Column>
           <Column field="diastolic" sortable :header="t('measurement.diastolic')"></Column>
           <Column field="heartRate" sortable :header="t('measurement.heartRate')"></Column>

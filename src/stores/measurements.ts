@@ -1,6 +1,5 @@
 import { computed, type ComputedRef, ref, type Ref } from "vue";
 import { defineStore } from "pinia";
-import { DateWrapper } from "@/models/DateWrapper";
 import { type ArmOption, Measurement } from "@/models/Measurement";
 import { MeasurementDto } from "@/models/MeasurementDto";
 import dayjs from "dayjs";
@@ -43,10 +42,9 @@ export const useMeasurementsStore = defineStore("measurements", () => {
   function loadFromLocalStorage(localStorageContent: string) {
     const dtos: MeasurementDto[] = JSON.parse(localStorageContent);
     dtos.forEach((measurementDto) => {
-      const nativeTimeStamp = dayjs(measurementDto.timestampIso8601).toDate();
-      const dateWrapper = new DateWrapper(nativeTimeStamp);
+      const timestamp = dayjs(measurementDto.timestampIso8601).toDate();
       const measurement = new Measurement(
-        dateWrapper,
+        timestamp,
         measurementDto.systolic,
         measurementDto.diastolic,
         measurementDto.heartRate,
