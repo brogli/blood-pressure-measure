@@ -11,10 +11,6 @@
       "automergeType": "branch"
     },
     {
-      "description": "Pin all dependencies to exact versions",
-      "rangeStrategy": "pin"
-    },
-    {
       "description": "Auto-merge development dependencies (minor and patch only)",
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
