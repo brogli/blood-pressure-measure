@@ -8,7 +8,10 @@
       "description": "Auto-merge minor and patch updates",
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "branch"
+    },
+    {
+      "description": "Pin all dependencies to exact versions",
       "rangeStrategy": "pin"
     },
     {
@@ -16,8 +19,7 @@
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true,
-      "automergeType": "branch",
-      "rangeStrategy": "pin"
+      "automergeType": "branch"
     }
   ],
   "platformAutomerge": true,
