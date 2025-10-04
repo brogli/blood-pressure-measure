@@ -20,7 +20,7 @@
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "dayjs": "^1.11.12",
     "papaparse": "^5.4.1",
-    "pinia": "^2.1.7",
+    "pinia": "^3.0.0",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.1",
     "uuid": "^11.0.0",
