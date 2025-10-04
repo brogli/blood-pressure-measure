@@ -6,18 +6,23 @@
   "packageRules": [
     {
       "matchUpdateTypes": [
-        "patch"
+        "patch",
+        "minor"
       ],
-      "automerge": true,
-      "automergeType": "branch"
+      "automerge": true
     },
     {
-      "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["lint", "prettier"],
-      "automerge": true,
-      "automergeType": "branch"
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchPackageNames": [
+        "lint",
+        "prettier"
+      ],
+      "automerge": true
     }
   ],
+  "rebaseWhen": "behind-base-branch",
   "platformAutomerge": true,
   "lockFileMaintenance": {
     "enabled": true,
