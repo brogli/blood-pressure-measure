@@ -18,6 +18,7 @@
       "automergeType": "branch"
     }
   ],
+  "rebaseWhen": "behind-base-branch",
   "platformAutomerge": true,
   "lockFileMaintenance": {
     "enabled": true,
