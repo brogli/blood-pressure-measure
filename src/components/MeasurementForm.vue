@@ -130,6 +130,7 @@ if (isInEditmode) {
             showTime
             hourFormat="24"
             fluid
+            updateModelType="date"
           />
         </div>
         <div class="bp-form-inputs-item-text">
