@@ -44,9 +44,9 @@ export function useImportfile(t: (key: string) => string) {
     results.data.forEach((item: MeasurementDto) => {
       const measurement = new Measurement(
         dayjs(item.timestampIso8601).toDate(),
-        item.systolic,
-        item.diastolic,
-        item.heartRate,
+        item.systolic ? Number(item.systolic) : undefined,
+        item.diastolic ? Number(item.diastolic) : undefined,
+        item.heartRate ? Number(item.heartRate) : undefined,
         item.whichArm as ArmOption,
         item.id,
       );

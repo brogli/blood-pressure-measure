@@ -87,6 +87,13 @@ export const de = {
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
     chartsTitle: "Diagramm",
+    dailyAverageTitle: "Tagesdurchschnitte",
+    timeRangeLabel: "Zeitraum",
+    timeRange1Month: "Letzter Monat",
+    timeRange3Months: "Letzte 3 Monate",
+    timeRange6Months: "Letzte 6 Monate",
+    timeRange1Year: "Letztes Jahr",
+    timeRangeAll: "Gesamter Zeitraum",
   },
   toasts: {
     errorWhileDeletingMeasurement: "Das Löschen der Messung schlug fehl",

@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import ChartComponent from "@/components/ChartComponent.vue";
+import DailyAverageChartComponent from "@/components/DailyAverageChartComponent.vue";
 </script>
 
 <template>
-  <ChartComponent />
+  <div class="chart-view">
+    <ChartComponent />
+    <DailyAverageChartComponent />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.chart-view {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+</style>
