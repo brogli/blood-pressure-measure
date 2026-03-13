@@ -102,6 +102,8 @@ function shareAsCsv() {
     <Panel v-if="measurementsStore.size > 0">
       <div>
         <DataTable
+          sortField="timestamp"
+          :sortOrder="-1"
           @rowSelect="onRowSelect"
           v-model:selection="currentSelection"
           stripedRows
