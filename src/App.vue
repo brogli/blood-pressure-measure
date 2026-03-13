@@ -22,7 +22,7 @@ function showToast(message: ToastMessageOptions) {
   toast.add(message);
 }
 
-watch(currentToast, (newValue, _) => {
+watch(currentToast, (newValue) => {
   if (newValue) {
     showToast(newValue);
   }
