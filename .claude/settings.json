@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npm view:*)",
+      "WebFetch(domain:vite.dev)",
+      "WebFetch(domain:pinia.vuejs.org)",
+      "WebFetch(domain:router.vuejs.org)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

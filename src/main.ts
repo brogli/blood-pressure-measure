@@ -104,6 +104,5 @@ app.use(PrimeVue, {
 app.component("DataTable", DataTable);
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Column", Column);
-// eslint-disable-next-line vue/multi-word-component-names
 
 app.mount("#app");

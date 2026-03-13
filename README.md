@@ -39,3 +39,14 @@ npm run lint
 
 ## Tech Stack
 Vue3 using Composition API, Pinia, Typescript and PrimeVue. It's hosted on Cloudflare Pages.
+
+## Testing PWA
+
+1. Build and preview — the dev server doesn't generate the service worker, so you need a production build:
+   npm run build && npm run preview
+2. Check in browser — open the preview URL, then in Chrome DevTools:
+   - Application > Manifest — verify the manifest loads with correct name, icons, theme color
+   - Application > Service Workers — verify a service worker is registered and active
+   - Application > Cache Storage — verify static assets (js, css, html, icons) are cached
+3. Test offline — in DevTools Network tab, check "Offline", then reload. The app should still load and function from cache.
+4. Test install — the browser should show an install prompt (or the install icon in the address bar) if the manifest is valid.
