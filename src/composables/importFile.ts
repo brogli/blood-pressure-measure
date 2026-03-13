@@ -36,6 +36,12 @@ export function useImportfile(t: (key: string) => string) {
     }
   });
 
+  function toNumber(value: unknown): number | undefined {
+    if (value == null || value === "") return undefined;
+    const num = Number(value);
+    return Number.isNaN(num) ? undefined : num;
+  }
+
   function parseCsv(text: string) {
     Papa.parse(text, { complete: deserializeToMeasurements, header: true });
   }
@@ -44,9 +50,9 @@ export function useImportfile(t: (key: string) => string) {
     results.data.forEach((item: MeasurementDto) => {
       const measurement = new Measurement(
         dayjs(item.timestampIso8601).toDate(),
-        item.systolic,
-        item.diastolic,
-        item.heartRate,
+        toNumber(item.systolic),
+        toNumber(item.diastolic),
+        toNumber(item.heartRate),
         item.whichArm as ArmOption,
         item.id,
       );

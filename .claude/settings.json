@@ -3,6 +3,7 @@
     "allow": [
       "WebFetch(domain:www.npmjs.com)",
       "Bash(npm view:*)",
+      "Bash(git diff:*)",
       "WebFetch(domain:vite.dev)",
       "WebFetch(domain:pinia.vuejs.org)",
       "WebFetch(domain:router.vuejs.org)",

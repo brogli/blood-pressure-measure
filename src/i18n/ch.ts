@@ -87,6 +87,14 @@ export const ch = {
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
     chartsTitle: "Diagramm",
+    dailyAverageTitle: "Tagesdurchschnitt",
+    timeRangeLabel: "Zitruum",
+    timeRange1Month: "Letschte Monet",
+    timeRange3Months: "Letschti 3 Mönet",
+    timeRange6Months: "Letschti 6 Mönet",
+    timeRange1Year: "Letschts Johr",
+    timeRangeAll: "Ganzi Zit",
+    weeklyAverageTitle: "Wuchedurchschnitt",
   },
   toasts: {
     errorWhileDeletingMeasurement: "Bim Lösche vo dinnere Mässig isch was schiefgange",
