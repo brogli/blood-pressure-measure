@@ -10,7 +10,7 @@ Production URL: https://bluetdruck.nebeprojekt.li
 
 ## Prerequisites
 
-Node 20 (pinned in `.nvmrc`).
+Node 24 (pinned in `.nvmrc`).
 
 ## Commands
 
@@ -18,7 +18,7 @@ Node 20 (pinned in `.nvmrc`).
 - `npm run build` — type-check + production build (runs in parallel via npm-run-all2)
 - `npm run build-only` — Vite production build without type-checking
 - `npm run type-check` — run vue-tsc for TypeScript validation
-- `npm run lint` — ESLint with auto-fix on .vue/.js/.ts files
+- `npm run lint` — oxlint + ESLint with auto-fix (runs sequentially via run-s)
 - `npm run format` — Prettier format src/ directory
 - `npm run test:unit` — run Vitest tests (jsdom environment)
 - `npm run preview` — preview production build locally
@@ -53,5 +53,5 @@ Renovate auto-merges minor/patch dependency updates and all dev dependency updat
 ## Code Style
 
 - Prettier: 120 char print width, semicolons enabled
-- ESLint extends vue3-essential + TypeScript recommended + Prettier
+- Linting: oxlint runs first, then ESLint (flat config in `eslint.config.ts`) with vue/essential + TypeScript recommended + Prettier
 - PRs target the `staging` branch, not `main`
