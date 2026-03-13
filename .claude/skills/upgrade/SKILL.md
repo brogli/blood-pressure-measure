@@ -87,6 +87,17 @@ Also check this skill file itself — if any commands or file references changed
 
 Check open Renovate PRs on GitHub (`https://github.com/brogli/blood-pressure-measure/pulls`) and identify which ones are now superseded by our changes. List them so the user can close them.
 
+## Non-scaffold dependencies
+
+The scaffold only covers base tooling (Vue, Vite, TypeScript, ESLint, etc.). Project-specific dependencies like PrimeVue, chart.js, vue-i18n, etc. must be upgraded separately. When upgrading these:
+
+- **Check for package renames.** Ecosystems reorganise namespaces over time (e.g. `@primevue/themes` → `@primeuix/themes`). If a reference scaffold is provided with the newer packages, compare its `package.json` against ours to detect renames — don't just bump versions.
+- **Trace all imports.** After a package rename, grep the entire `src/` directory for the old package name and update every import path.
+- **Update `vite.config.ts` chunk splitting.** When the package namespace changes (e.g. `@primevue` → `@primeuix`), the `manualChunks` function must be updated too. Key rules:
+  - Shared infrastructure packages (themes, styled, utils) should go straight to the core chunk — their internal paths contain per-component names (e.g. `themes/aura/datatable`) that would cause false matches and circular chunk dependencies if sub-split.
+  - Use path-segment matches (`"/datatable"`, `"/chart/"`) instead of bare substrings (`"datatable"`, `"chart"`) to avoid false positives like `organizationchart` matching `chart`.
+- **Build and verify.** After changes, run `npm run build` and check for circular chunk warnings — these indicate the chunk splitting logic needs adjustment.
+
 ## Guidelines
 
 - Always enter plan mode before starting work. Present the plan, get approval, then execute.

@@ -19,7 +19,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
-    "@primevue/themes": "^4.0.1",
+    "@primeuix/themes": "^2.0.3",
     "@vueuse/core": "^14.2.1",
     "chart.js": "^4.4.3",
     "chartjs-adapter-dayjs-4": "^1.0.4",
@@ -27,7 +27,7 @@
     "papaparse": "^5.4.1",
     "pinia": "^3.0.4",
     "primeicons": "^7.0.0",
-    "primevue": "^4.0.1",
+    "primevue": "^4.5.4",
     "uuid": "^13.0.0",
     "vue": "^3.5.30",
     "vue-i18n": "^11.0.0",

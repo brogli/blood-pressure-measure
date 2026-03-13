@@ -60,13 +60,12 @@ export default defineConfig({
               return "i18n-vendor";
             }
 
-            if (id.includes("@primevue") || id.includes("primevue")) {
-              if (id.includes("datatable") || id.includes("column")) {
-                return "primevue-table";
-              }
-              if (id.includes("chart")) {
-                return "primevue-chart";
-              }
+            if (id.includes("@primeuix")) {
+              return "primevue-core";
+            }
+            if (id.includes("primevue")) {
+              if (id.includes("/datatable") || id.includes("/column")) return "primevue-table";
+              if (id.includes("/chart/")) return "primevue-chart";
               return "primevue-core";
             }
             if (id.includes("primeicons")) {
