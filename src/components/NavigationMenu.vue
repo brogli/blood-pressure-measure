@@ -26,7 +26,7 @@ const items = computed(() => [
   },
 ]);
 
-let isDarkBrightMode: Ref<boolean> = ref<boolean>(false);
+const isDarkBrightMode: Ref<boolean> = ref<boolean>(false);
 
 const localeOptions = ref<string[]>(["ch", "de", "en"]);
 </script>

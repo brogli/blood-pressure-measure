@@ -7,7 +7,7 @@ import { useMeasurementsStore } from "@/stores/measurements";
 import { storeToRefs } from "pinia";
 import { useToastStore } from "@/stores/toastStore";
 
-export function useImportfile(t: any) {
+export function useImportfile(t: (key: string) => string) {
   const measurementsStore = useMeasurementsStore();
   const { currentToast } = storeToRefs(useToastStore());
 
@@ -40,7 +40,7 @@ export function useImportfile(t: any) {
     Papa.parse(text, { complete: deserializeToMeasurements, header: true });
   }
 
-  function deserializeToMeasurements(results: any) {
+  function deserializeToMeasurements(results: Papa.ParseResult<MeasurementDto>) {
     results.data.forEach((item: MeasurementDto) => {
       const measurement = new Measurement(
         dayjs(item.timestampIso8601).toDate(),
