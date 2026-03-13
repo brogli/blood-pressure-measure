@@ -1,14 +1,14 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
-import Aura from "@primevue/themes/aura";
+import Aura from "@primeuix/themes/aura";
 import "./assets/main.css";
 
 import App from "./App.vue";
 import router from "./router";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import { definePreset } from "@primevue/themes";
+import { definePreset } from "@primeuix/themes";
 import FocusTrap from "primevue/focustrap";
 import Tooltip from "primevue/tooltip";
 import { createI18n } from "vue-i18n";
@@ -104,6 +104,5 @@ app.use(PrimeVue, {
 app.component("DataTable", DataTable);
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Column", Column);
-// eslint-disable-next-line vue/multi-word-component-names
 
 app.mount("#app");

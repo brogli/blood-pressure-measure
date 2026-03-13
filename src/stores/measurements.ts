@@ -25,7 +25,7 @@ export const useMeasurementsStore = defineStore("measurements", () => {
         localStorage.removeItem(localStorageKeyName);
         Array.from(state.value.values()).forEach((m) => saveMeasurement(m));
         return true;
-      } catch (e) {
+      } catch {
         return false;
       }
     } else {
@@ -58,7 +58,7 @@ export const useMeasurementsStore = defineStore("measurements", () => {
   function getMeasurementsAsCsv(): string {
     const measurementDtos = Array.from(state.value.values()).map((m) => new MeasurementDto(m));
     const measurementsAsCsv = Papa.unparse({
-      fields: Object.keys(measurementDtos[0]),
+      fields: Object.keys(measurementDtos[0]!),
       data: measurementDtos.map((m) => Object.values(m)),
     });
 

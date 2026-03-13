@@ -7,7 +7,7 @@ import { useMeasurementsStore } from "@/stores/measurements";
 import { storeToRefs } from "pinia";
 import { useToastStore } from "@/stores/toastStore";
 
-export function useImportfile(t: any) {
+export function useImportfile(t: (key: string) => string) {
   const measurementsStore = useMeasurementsStore();
   const { currentToast } = storeToRefs(useToastStore());
 
@@ -36,17 +36,23 @@ export function useImportfile(t: any) {
     }
   });
 
+  function toNumber(value: unknown): number | undefined {
+    if (value == null || value === "") return undefined;
+    const num = Number(value);
+    return Number.isNaN(num) ? undefined : num;
+  }
+
   function parseCsv(text: string) {
     Papa.parse(text, { complete: deserializeToMeasurements, header: true });
   }
 
-  function deserializeToMeasurements(results: any) {
+  function deserializeToMeasurements(results: Papa.ParseResult<MeasurementDto>) {
     results.data.forEach((item: MeasurementDto) => {
       const measurement = new Measurement(
         dayjs(item.timestampIso8601).toDate(),
-        item.systolic,
-        item.diastolic,
-        item.heartRate,
+        toNumber(item.systolic),
+        toNumber(item.diastolic),
+        toNumber(item.heartRate),
         item.whichArm as ArmOption,
         item.id,
       );

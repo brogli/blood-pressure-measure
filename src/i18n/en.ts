@@ -86,6 +86,14 @@ export const en = {
   chart: {
     amountOfDataPoints: "Weviel Datepünkt?",
     chartsTitle: "Diagram",
+    dailyAverageTitle: "Daily Averages",
+    timeRangeLabel: "Time range",
+    timeRange1Month: "Last month",
+    timeRange3Months: "Last 3 months",
+    timeRange6Months: "Last 6 months",
+    timeRange1Year: "Last year",
+    timeRangeAll: "All time",
+    weeklyAverageTitle: "Weekly Averages",
   },
   toasts: {
     errorWhileDeletingMeasurement: "Deleting  measurement failed",

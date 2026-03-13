@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import AboutView from "@/views/AboutView.vue";
-import NewMeasurementView from "@/views/AddMeasurementView.vue";
-import EditMeasurementView from "@/views/EditMeasurementView.vue";
-import ChartView from "@/views/ChartView.vue";
+const HomeView = () => import("../views/HomeView.vue");
+const AboutView = () => import("@/views/AboutView.vue");
+const NewMeasurementView = () => import("@/views/AddMeasurementView.vue");
+const EditMeasurementView = () => import("@/views/EditMeasurementView.vue");
+const ChartView = () => import("@/views/ChartView.vue");
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
