@@ -94,6 +94,7 @@ export const de = {
     timeRange6Months: "Letzte 6 Monate",
     timeRange1Year: "Letztes Jahr",
     timeRangeAll: "Gesamter Zeitraum",
+    weeklyAverageTitle: "Wochendurchschnitte",
   },
   toasts: {
     errorWhileDeletingMeasurement: "Das Löschen der Messung schlug fehl",

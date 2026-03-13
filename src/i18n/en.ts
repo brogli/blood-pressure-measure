@@ -93,6 +93,7 @@ export const en = {
     timeRange6Months: "Last 6 months",
     timeRange1Year: "Last year",
     timeRangeAll: "All time",
+    weeklyAverageTitle: "Weekly Averages",
   },
   toasts: {
     errorWhileDeletingMeasurement: "Deleting  measurement failed",

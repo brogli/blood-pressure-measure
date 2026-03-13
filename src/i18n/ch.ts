@@ -94,6 +94,7 @@ export const ch = {
     timeRange6Months: "Letschti 6 Mönet",
     timeRange1Year: "Letschts Johr",
     timeRangeAll: "Ganzi Zit",
+    weeklyAverageTitle: "Wuchedurchschnitt",
   },
   toasts: {
     errorWhileDeletingMeasurement: "Bim Lösche vo dinnere Mässig isch was schiefgange",
