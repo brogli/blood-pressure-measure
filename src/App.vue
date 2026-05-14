@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
-import NavigationMenu from "@/components/NavigationMenu.vue";
-import Divider from "primevue/divider";
-import FooterSection from "@/components/FooterSection.vue";
-import { useColorScheme } from "@/composables/colorScheme";
-import { useToastStore } from "@/stores/toastStore";
-import { useToast } from "primevue/usetoast";
-import Toast, { type ToastMessageOptions } from "primevue/toast";
-import { watch } from "vue";
-import { storeToRefs } from "pinia";
-import ConsentModal from "@/components/ConsentModal.vue";
+import { RouterView } from 'vue-router'
+import NavigationMenu from '@/components/NavigationMenu.vue'
+import Divider from 'primevue/divider'
+import FooterSection from '@/components/FooterSection.vue'
+import { useColorScheme } from '@/composables/colorScheme'
+import { useToastStore } from '@/stores/toastStore'
+import { useToast } from 'primevue/usetoast'
+import Toast, { type ToastMessageOptions } from 'primevue/toast'
+import { watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import ConsentModal from '@/components/ConsentModal.vue'
 
-const colorScheme = useColorScheme();
-colorScheme.initColorScheme();
+const colorScheme = useColorScheme()
+colorScheme.initColorScheme()
 
-const toastStore = useToastStore();
-const { currentToast } = storeToRefs(toastStore);
-const toast = useToast();
+const toastStore = useToastStore()
+const { currentToast } = storeToRefs(toastStore)
+const toast = useToast()
 
 function showToast(message: ToastMessageOptions) {
-  toast.add(message);
+  toast.add(message)
 }
 
 watch(currentToast, (newValue) => {
   if (newValue) {
-    showToast(newValue);
+    showToast(newValue)
   }
-});
+})
 </script>
 
 <template>

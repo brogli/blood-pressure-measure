@@ -1,74 +1,74 @@
 <script setup lang="ts">
-import DataTable, { type DataTableRowSelectEvent } from "primevue/datatable";
-import Column from "primevue/column";
-import Button from "primevue/button";
-import { useMeasurementsStore } from "@/stores/measurements";
-import Panel from "primevue/panel";
-import { ref } from "vue";
-import { Measurement } from "@/models/Measurement";
-import { useRouter } from "vue-router";
-import dayjs from "dayjs";
-import { useExportFile } from "@/composables/exportFile";
-import { useImportfile } from "@/composables/importFile";
-import { useShare } from "@vueuse/core";
-import { useI18n } from "vue-i18n";
-import { useConfirm } from "primevue/useconfirm";
-import ConfirmDialog from "primevue/confirmdialog";
-const confirm = useConfirm();
+import DataTable, { type DataTableRowSelectEvent } from 'primevue/datatable'
+import Column from 'primevue/column'
+import Button from 'primevue/button'
+import { useMeasurementsStore } from '@/stores/measurements'
+import Panel from 'primevue/panel'
+import { ref } from 'vue'
+import { Measurement } from '@/models/Measurement'
+import { useRouter } from 'vue-router'
+import dayjs from 'dayjs'
+import { useExportFile } from '@/composables/exportFile'
+import { useImportfile } from '@/composables/importFile'
+import { useShare } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+import { useConfirm } from 'primevue/useconfirm'
+import ConfirmDialog from 'primevue/confirmdialog'
+const confirm = useConfirm()
 
-const measurementsStore = useMeasurementsStore();
-const { t } = useI18n();
-const router = useRouter();
-const { share, isSupported } = useShare();
+const measurementsStore = useMeasurementsStore()
+const { t } = useI18n()
+const router = useRouter()
+const { share, isSupported } = useShare()
 
-const currentSelection = ref();
+const currentSelection = ref()
 
 function deleteAllMeasurements() {
   confirm.require({
-    message: t("measurementList.confirmDeleteText"),
-    header: "Danger Zone",
-    icon: "pi pi-info-circle",
-    rejectLabel: "Cancel",
+    message: t('measurementList.confirmDeleteText'),
+    header: 'Danger Zone',
+    icon: 'pi pi-info-circle',
+    rejectLabel: 'Cancel',
     rejectProps: {
-      label: t("measurementForm.cancelButton"),
-      severity: "secondary",
+      label: t('measurementForm.cancelButton'),
+      severity: 'secondary',
       outlined: true,
     },
     acceptProps: {
-      label: t("measurementForm.deleteButton"),
-      severity: "danger",
+      label: t('measurementForm.deleteButton'),
+      severity: 'danger',
     },
     accept: () => {
-      continueDeletingAllMeasurements();
+      continueDeletingAllMeasurements()
     },
     reject: () => {},
-  });
+  })
 }
 
 function continueDeletingAllMeasurements() {
-  measurementsStore.clearMeasurements();
+  measurementsStore.clearMeasurements()
 }
 
 function onRowSelect(event: DataTableRowSelectEvent) {
-  const selectedMeasurement = event.data as Measurement;
-  router.push({ name: "edit", params: { id: selectedMeasurement.id } });
+  const selectedMeasurement = event.data as Measurement
+  router.push({ name: 'edit', params: { id: selectedMeasurement.id } })
 }
 
 function getExportFileName(): string {
-  return `${dayjs().format("YYYY-MM-DD_HH-mm-ss")}_blood-pressure-measurements.csv`;
+  return `${dayjs().format('YYYY-MM-DD_HH-mm-ss')}_blood-pressure-measurements.csv`
 }
 
 function openFile(): void {
-  useImportfile(t).open();
+  useImportfile(t).open()
 }
 
 function saveFile() {
-  useExportFile(getExportFileName());
+  useExportFile(getExportFileName())
 }
 
 function shareAsCsv() {
-  const blob = new Blob([measurementsStore.getMeasurementsAsCsv()], { type: "text/csv" });
-  share({ title: "world", files: [new File([blob], getExportFileName(), { type: "text/csv" })] });
+  const blob = new Blob([measurementsStore.getMeasurementsAsCsv()], { type: 'text/csv' })
+  share({ title: 'world', files: [new File([blob], getExportFileName(), { type: 'text/csv' })] })
 }
 </script>
 

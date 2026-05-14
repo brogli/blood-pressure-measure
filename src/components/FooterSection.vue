@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useAppSettingsStore } from "@/stores/appSettings";
+import { useAppSettingsStore } from '@/stores/appSettings'
 
-const store = useAppSettingsStore();
-const currentBuildVersion = import.meta.env.VITE_APP_VERSION;
+const store = useAppSettingsStore()
+const currentBuildVersion = import.meta.env.VITE_APP_VERSION
 </script>
 
 <template>
@@ -11,8 +11,17 @@ const currentBuildVersion = import.meta.env.VITE_APP_VERSION;
     <a href="https://www.linkedin.com/in/alexbrogli/" rel="noopener noreferrer" target="_blank"
       ><img src="@/assets/icons8-linkedin.svg" alt="LinkedIn Icon"
     /></a>
-    <a href="https://github.com/brogli/blood-pressure-measure" rel="noopener noreferrer" target="_blank">
-      <img class="linkedin-logo" v-if="!store.isDarkModeActive" src="@/assets/github-mark.svg" alt="Github Icon" />
+    <a
+      href="https://github.com/brogli/blood-pressure-measure"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        class="linkedin-logo"
+        v-if="!store.isDarkModeActive"
+        src="@/assets/github-mark.svg"
+        alt="Github Icon"
+      />
       <img class="linkedin-logo" v-else src="@/assets/github-mark-white.svg" alt="Github Icon" />
     </a>
     <p>Version {{ currentBuildVersion }}</p>
