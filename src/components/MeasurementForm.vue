@@ -1,118 +1,120 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import InputNumber from "primevue/inputnumber";
-import SelectButton from "primevue/selectbutton";
-import { type ArmOption, Measurement } from "@/models/Measurement";
-import Button from "primevue/button";
-import { useMeasurementsStore } from "@/stores/measurements";
-import { useRouter } from "vue-router";
-import Panel from "primevue/panel";
-import DatePicker from "primevue/datepicker";
-import Divider from "primevue/divider";
-import { useI18n } from "vue-i18n";
-import { storeToRefs } from "pinia";
-import { useToastStore } from "@/stores/toastStore";
-import ConfirmDialog from "primevue/confirmdialog";
-import { useConfirm } from "primevue/useconfirm";
+import { computed, ref } from 'vue'
+import InputNumber from 'primevue/inputnumber'
+import SelectButton from 'primevue/selectbutton'
+import { type ArmOption, Measurement } from '@/models/Measurement'
+import Button from 'primevue/button'
+import { useMeasurementsStore } from '@/stores/measurements'
+import { useRouter } from 'vue-router'
+import Panel from 'primevue/panel'
+import DatePicker from 'primevue/datepicker'
+import Divider from 'primevue/divider'
+import { useI18n } from 'vue-i18n'
+import { storeToRefs } from 'pinia'
+import { useToastStore } from '@/stores/toastStore'
+import ConfirmDialog from 'primevue/confirmdialog'
+import { useConfirm } from 'primevue/useconfirm'
 
-const measurementStore = useMeasurementsStore();
-const router = useRouter();
-const { t } = useI18n();
-const { currentToast } = storeToRefs(useToastStore());
-const confirm = useConfirm();
+const measurementStore = useMeasurementsStore()
+const router = useRouter()
+const { t } = useI18n()
+const { currentToast } = storeToRefs(useToastStore())
+const confirm = useConfirm()
 
-const currentMeasurement = ref<Measurement>(new Measurement(new Date(), undefined, undefined, undefined, "Left"));
+const currentMeasurement = ref<Measurement>(
+  new Measurement(new Date(), undefined, undefined, undefined, 'Left'),
+)
 
-const armSelectionOptions = ref<ArmOption[]>(["Left", "Right"]);
+const armSelectionOptions = ref<ArmOption[]>(['Left', 'Right'])
 
 const props = defineProps<{
-  id?: string;
-}>();
+  id?: string
+}>()
 
 function handleSaveClick() {
-  saveMeasurement();
+  saveMeasurement()
 }
 
 function confirmDelete() {
   confirm.require({
-    message: t("measurementForm.confirmDeleteText"),
-    header: "Danger Zone",
-    icon: "pi pi-info-circle",
-    rejectLabel: "Cancel",
+    message: t('measurementForm.confirmDeleteText'),
+    header: 'Danger Zone',
+    icon: 'pi pi-info-circle',
+    rejectLabel: 'Cancel',
     rejectProps: {
-      label: t("measurementForm.cancelButton"),
-      severity: "secondary",
+      label: t('measurementForm.cancelButton'),
+      severity: 'secondary',
       outlined: true,
     },
     acceptProps: {
-      label: t("measurementForm.deleteButton"),
-      severity: "danger",
+      label: t('measurementForm.deleteButton'),
+      severity: 'danger',
     },
     accept: () => {
-      continueDelete();
+      continueDelete()
     },
     reject: () => {},
-  });
+  })
 }
 
 function handleDeleteClick() {
-  confirmDelete();
+  confirmDelete()
 }
 
 function continueDelete() {
-  const isSuccessful = measurementStore.deleteMeasurement(props.id);
+  const isSuccessful = measurementStore.deleteMeasurement(props.id)
   if (isSuccessful) {
     currentToast.value = {
-      severity: "success",
-      summary: t("common.success"),
-      detail: t("toasts.successfullyDeletedMeasurement"),
+      severity: 'success',
+      summary: t('common.success'),
+      detail: t('toasts.successfullyDeletedMeasurement'),
       life: 3000,
-    };
-    router.push({ name: "home" });
+    }
+    router.push({ name: 'home' })
   } else {
     currentToast.value = {
-      severity: "error",
-      summary: t("common.error"),
-      detail: t("toasts.errorWhileDeletingMeasurement"),
+      severity: 'error',
+      summary: t('common.error'),
+      detail: t('toasts.errorWhileDeletingMeasurement'),
       life: 3000,
-    };
+    }
   }
 }
 
 function saveMeasurement() {
-  measurementStore.saveMeasurement(currentMeasurement.value);
-  router.push({ name: "home" });
+  measurementStore.saveMeasurement(currentMeasurement.value)
+  router.push({ name: 'home' })
 }
 
 function loadMeasurement(id: string) {
-  const clone: Measurement | undefined = measurementStore.getMeasurement(id)?.getClone();
+  const clone: Measurement | undefined = measurementStore.getMeasurement(id)?.getClone()
   if (clone) {
-    currentMeasurement.value = clone;
+    currentMeasurement.value = clone
   } else {
     currentToast.value = {
-      severity: "error",
-      summary: "Error",
-      detail: t("toasts.errorWhileLoadingMeasurement"),
+      severity: 'error',
+      summary: 'Error',
+      detail: t('toasts.errorWhileLoadingMeasurement'),
       life: 3000,
-    };
+    }
   }
 }
 
 function getLeftRightLabel(arm: ArmOption): string {
-  if (arm === "Left") {
-    return t("measurement.left");
+  if (arm === 'Left') {
+    return t('measurement.left')
   } else {
-    return t("measurement.right");
+    return t('measurement.right')
   }
 }
 
-const isInEditmode = props.id != undefined;
+const isInEditmode = props.id != undefined
 const header = computed(() =>
-  isInEditmode ? t("measurementForm.editMeasurement") : t("measurementForm.addMeasurement"),
-);
+  isInEditmode ? t('measurementForm.editMeasurement') : t('measurementForm.addMeasurement'),
+)
 
 if (isInEditmode) {
-  loadMeasurement(props.id);
+  loadMeasurement(props.id)
 }
 </script>
 
@@ -122,7 +124,7 @@ if (isInEditmode) {
     <div class="bp-form">
       <div class="bp-form--text-inputs-container">
         <div class="bp-form-inputs-item-text">
-          <label for="timestamp" class="font-bold">{{ t("measurement.createdAt") }}</label>
+          <label for="timestamp" class="font-bold">{{ t('measurement.createdAt') }}</label>
           <DatePicker
             showIcon
             id="datepicker-24h"
@@ -134,19 +136,35 @@ if (isInEditmode) {
           />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="systolic">{{ t("measurement.systolic") }}</label>
-          <InputNumber placeholder="120" v-model="currentMeasurement.systolic" v-focustrap inputId="systolic" fluid />
+          <label for="systolic">{{ t('measurement.systolic') }}</label>
+          <InputNumber
+            placeholder="120"
+            v-model="currentMeasurement.systolic"
+            v-focustrap
+            inputId="systolic"
+            fluid
+          />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="diastolic">{{ t("measurement.diastolic") }}</label>
-          <InputNumber placeholder="80" v-model="currentMeasurement.diastolic" inputId="diastolic" fluid />
+          <label for="diastolic">{{ t('measurement.diastolic') }}</label>
+          <InputNumber
+            placeholder="80"
+            v-model="currentMeasurement.diastolic"
+            inputId="diastolic"
+            fluid
+          />
         </div>
         <div class="bp-form-inputs-item-text">
-          <label for="heartrate">{{ t("measurement.heartRate") }}</label>
-          <InputNumber placeholder="80" v-model="currentMeasurement.heartRate" inputId="heartrate" fluid />
+          <label for="heartrate">{{ t('measurement.heartRate') }}</label>
+          <InputNumber
+            placeholder="80"
+            v-model="currentMeasurement.heartRate"
+            inputId="heartrate"
+            fluid
+          />
         </div>
         <div class="">
-          <label for="armSelection">{{ t("measurement.whichArm") }}</label>
+          <label for="armSelection">{{ t('measurement.whichArm') }}</label>
           <SelectButton
             inputId="armSelection"
             v-model="currentMeasurement.whichArm"
@@ -163,7 +181,12 @@ if (isInEditmode) {
     <div class="bp-form-buttons">
       <div class="bp-form-buttons-save-cancel">
         <Button :label="t('measurementForm.saveButton')" @click="handleSaveClick" />
-        <Button :label="t('measurementForm.cancelButton')" severity="secondary" as="router-link" to="/" />
+        <Button
+          :label="t('measurementForm.cancelButton')"
+          severity="secondary"
+          as="router-link"
+          to="/"
+        />
       </div>
       <div>
         <Button

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MeasurementForm from "@/components/MeasurementForm.vue";
+import MeasurementForm from '@/components/MeasurementForm.vue'
 
 defineProps<{
-  id: string;
-}>();
+  id: string
+}>()
 </script>
 
 <template>
