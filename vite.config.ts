@@ -52,30 +52,39 @@ export default defineConfig({
 
   build: {
     chunkSizeWarningLimit: 600,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('@intlify') || id.includes('vue-i18n')) {
-              return 'i18n-vendor'
-            }
+          if (!id.includes('node_modules')) return
 
-            if (id.includes('@primeuix')) {
-              return 'primevue-core'
-            }
-            if (id.includes('primevue')) {
-              if (id.includes('/datatable') || id.includes('/column')) return 'primevue-table'
-              if (id.includes('/chart/')) return 'primevue-chart'
-              return 'primevue-core'
-            }
-            if (id.includes('primeicons')) {
-              return 'primeicons'
-            }
-            if (id.includes('vue') || id.includes('pinia')) {
-              return 'vue-vendor'
-            }
-            return 'vendor'
+          if (id.includes('@intlify') || id.includes('vue-i18n')) {
+            return 'i18n-vendor'
           }
+          if (id.includes('@primeuix')) {
+            return 'primevue-themes'
+          }
+          if (id.includes('chart.js') || id.includes('chartjs-adapter')) {
+            return 'chart-vendor'
+          }
+          if (id.includes('primeicons')) {
+            return 'primeicons'
+          }
+          if (id.includes('primevue')) {
+            if (id.includes('/datatable') || id.includes('/column')) return 'primevue-table'
+            if (id.includes('/chart/')) return 'primevue-chart'
+            if (
+              id.includes('/datepicker') ||
+              id.includes('/inputnumber') ||
+              id.includes('/selectbutton')
+            ) {
+              return 'primevue-form'
+            }
+            return 'primevue-core'
+          }
+          if (id.includes('vue') || id.includes('pinia')) {
+            return 'vue-vendor'
+          }
+          return 'vendor'
         },
       },
     },
