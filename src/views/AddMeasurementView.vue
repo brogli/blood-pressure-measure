@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MeasurementForm from "@/components/MeasurementForm.vue";
+import MeasurementForm from '@/components/MeasurementForm.vue'
 </script>
 
 <template>

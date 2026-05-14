@@ -1,5 +1,5 @@
-@import "./base.css";
-@import "primeicons/primeicons.css";
+@import './base.css';
+@import 'primeicons/primeicons.css';
 
 .bp-form {
   display: flex;

@@ -1,10 +1,10 @@
-import { fileURLToPath, URL } from "node:url";
+import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import vueDevTools from "vite-plugin-vue-devtools";
-import { VitePWA } from "vite-plugin-pwa";
-import { visualizer } from "rollup-plugin-visualizer";
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import { VitePWA } from 'vite-plugin-pwa'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,24 +12,24 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     VitePWA({
-      registerType: "autoUpdate",
+      registerType: 'autoUpdate',
       devOptions: {
         enabled: true,
       },
       manifest: {
-        theme_color: "#ffffff", // Light mode default (white background)
-        background_color: "#ffffff", // Should match light mode background
+        theme_color: '#ffffff', // Light mode default (white background)
+        background_color: '#ffffff', // Should match light mode background
         icons: [
           {
-            src: "/heart-emoji.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any",
+            src: '/heart-emoji.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
           },
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       },
     }),
     // Only add visualizer if not in CI
@@ -38,7 +38,7 @@ export default defineConfig({
       : [
           visualizer({
             open: true,
-            filename: "dist/stats.html",
+            filename: 'dist/stats.html',
             gzipSize: true,
             brotliSize: true,
           }),
@@ -46,7 +46,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 
@@ -55,29 +55,29 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes("node_modules")) {
-            if (id.includes("@intlify") || id.includes("vue-i18n")) {
-              return "i18n-vendor";
+          if (id.includes('node_modules')) {
+            if (id.includes('@intlify') || id.includes('vue-i18n')) {
+              return 'i18n-vendor'
             }
 
-            if (id.includes("@primeuix")) {
-              return "primevue-core";
+            if (id.includes('@primeuix')) {
+              return 'primevue-core'
             }
-            if (id.includes("primevue")) {
-              if (id.includes("/datatable") || id.includes("/column")) return "primevue-table";
-              if (id.includes("/chart/")) return "primevue-chart";
-              return "primevue-core";
+            if (id.includes('primevue')) {
+              if (id.includes('/datatable') || id.includes('/column')) return 'primevue-table'
+              if (id.includes('/chart/')) return 'primevue-chart'
+              return 'primevue-core'
             }
-            if (id.includes("primeicons")) {
-              return "primeicons";
+            if (id.includes('primeicons')) {
+              return 'primeicons'
             }
-            if (id.includes("vue") || id.includes("pinia")) {
-              return "vue-vendor";
+            if (id.includes('vue') || id.includes('pinia')) {
+              return 'vue-vendor'
             }
-            return "vendor";
+            return 'vendor'
           }
         },
       },
     },
   },
-});
+})
