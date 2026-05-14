@@ -1,49 +1,49 @@
-import { useFileDialog } from "@vueuse/core";
-import Papa from "papaparse";
-import { MeasurementDto } from "@/models/MeasurementDto";
-import { type ArmOption, Measurement } from "@/models/Measurement";
-import dayjs from "dayjs";
-import { useMeasurementsStore } from "@/stores/measurements";
-import { storeToRefs } from "pinia";
-import { useToastStore } from "@/stores/toastStore";
+import { useFileDialog } from '@vueuse/core'
+import Papa from 'papaparse'
+import { MeasurementDto } from '@/models/MeasurementDto'
+import { type ArmOption, Measurement } from '@/models/Measurement'
+import dayjs from 'dayjs'
+import { useMeasurementsStore } from '@/stores/measurements'
+import { storeToRefs } from 'pinia'
+import { useToastStore } from '@/stores/toastStore'
 
 export function useImportfile(t: (key: string) => string) {
-  const measurementsStore = useMeasurementsStore();
-  const { currentToast } = storeToRefs(useToastStore());
+  const measurementsStore = useMeasurementsStore()
+  const { currentToast } = storeToRefs(useToastStore())
 
-  let fileContent: string;
+  let fileContent: string
 
   const { open, onChange } = useFileDialog({
-    accept: "text/csv",
-  });
+    accept: 'text/csv',
+  })
 
   onChange((files) => {
-    const myFile = files?.item(0);
-    const fileReader = new FileReader();
+    const myFile = files?.item(0)
+    const fileReader = new FileReader()
     fileReader.onload = () => {
-      fileContent = fileReader.result as string;
-      parseCsv(fileContent);
-    };
+      fileContent = fileReader.result as string
+      parseCsv(fileContent)
+    }
     if (myFile) {
-      fileReader.readAsText(myFile);
+      fileReader.readAsText(myFile)
     } else {
       currentToast.value = {
-        severity: "error",
-        summary: "Error",
-        detail: t("toasts.errorWhileImportingCsv"),
+        severity: 'error',
+        summary: 'Error',
+        detail: t('toasts.errorWhileImportingCsv'),
         life: 3000,
-      };
+      }
     }
-  });
+  })
 
   function toNumber(value: unknown): number | undefined {
-    if (value == null || value === "") return undefined;
-    const num = Number(value);
-    return Number.isNaN(num) ? undefined : num;
+    if (value == null || value === '') return undefined
+    const num = Number(value)
+    return Number.isNaN(num) ? undefined : num
   }
 
   function parseCsv(text: string) {
-    Papa.parse(text, { complete: deserializeToMeasurements, header: true });
+    Papa.parse(text, { complete: deserializeToMeasurements, header: true })
   }
 
   function deserializeToMeasurements(results: Papa.ParseResult<MeasurementDto>) {
@@ -55,10 +55,10 @@ export function useImportfile(t: (key: string) => string) {
         toNumber(item.heartRate),
         item.whichArm as ArmOption,
         item.id,
-      );
-      measurementsStore.saveMeasurement(measurement);
-    });
+      )
+      measurementsStore.saveMeasurement(measurement)
+    })
   }
 
-  return { open };
+  return { open }
 }

@@ -21,7 +21,7 @@ coverage
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+# .idea/: selective ignores live in .idea/.gitignore (per JetBrains canonical guidance)
 *.suo
 *.ntvs*
 *.njsproj
@@ -29,6 +29,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+.eslintcache
 
 # claude
 .claude/*.local.*

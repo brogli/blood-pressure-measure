@@ -9,6 +9,11 @@
       "WebFetch(domain:router.vuejs.org)",
       "WebSearch",
       "WebFetch(domain:github.com)"
+    ],
+    "ask": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
