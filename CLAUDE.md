@@ -48,7 +48,7 @@ Node 24 (pinned in `.nvmrc`). pnpm via Corepack (version pinned in `packageManag
 
 GitHub Actions (`.github/workflows/build.yaml`) runs `pnpm install --frozen-lockfile` + `pnpm build` on pushes and PRs to `main`/`staging`. Deployment to Cloudflare Pages is handled separately.
 
-Renovate auto-merges minor/patch dependency updates and all dev dependency updates.
+Renovate auto-merges minor/patch dependency updates and all dev dependency updates. `platformAutomerge` is intentionally `true` here in combination with `automergeType: "branch"`; if you ever flip `automergeType` back to `"pr"`, set `platformAutomerge: false` — GitHub's native auto-merge cannot satisfy the "1 review required" branch protection rule (the Renovate bot can't approve its own PR), so Renovate must handle the merge itself.
 
 ## Code Style
 
