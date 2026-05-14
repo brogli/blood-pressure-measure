@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import Menubar from "primevue/menubar";
-import { computed, type Ref, ref } from "vue";
-import Button from "primevue/button";
-import Select, { type SelectChangeEvent } from "primevue/select";
-import { useI18n } from "vue-i18n";
-import { useColorScheme } from "@/composables/colorScheme";
-import { useAppSettingsStore } from "@/stores/appSettings";
+import Menubar from 'primevue/menubar'
+import { computed, type Ref, ref } from 'vue'
+import Button from 'primevue/button'
+import Select, { type SelectChangeEvent } from 'primevue/select'
+import { useI18n } from 'vue-i18n'
+import { useColorScheme } from '@/composables/colorScheme'
+import { useAppSettingsStore } from '@/stores/appSettings'
 
-const { t, locale } = useI18n({ useScope: "global" });
-const colorScheme = useColorScheme();
-const appSettingsStore = useAppSettingsStore();
+const { t, locale } = useI18n({ useScope: 'global' })
+const colorScheme = useColorScheme()
+const appSettingsStore = useAppSettingsStore()
 
 const items = computed(() => [
   {
-    label: t("menu.home"),
-    route: "/",
+    label: t('menu.home'),
+    route: '/',
   },
   {
-    label: t("menu.aboutAndHelp"),
-    route: "/about",
+    label: t('menu.aboutAndHelp'),
+    route: '/about',
   },
   {
-    label: t("menu.chart"),
-    route: "/chart",
+    label: t('menu.chart'),
+    route: '/chart',
   },
-]);
+])
 
-const isDarkBrightMode: Ref<boolean> = ref<boolean>(false);
+const isDarkBrightMode: Ref<boolean> = ref<boolean>(false)
 
-const localeOptions = ref<string[]>(["ch", "de", "en"]);
+const localeOptions = ref<string[]>(['ch', 'de', 'en'])
 </script>
 
 <template>
