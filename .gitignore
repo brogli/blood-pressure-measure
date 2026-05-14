@@ -30,5 +30,7 @@ coverage
 
 *.tsbuildinfo
 
+.eslintcache
+
 # claude
 .claude/*.local.*

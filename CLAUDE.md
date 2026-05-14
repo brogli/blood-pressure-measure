@@ -10,18 +10,18 @@ Production URL: https://bluetdruck.nebeprojekt.li
 
 ## Prerequisites
 
-Node 24 (pinned in `.nvmrc`).
+Node 24 (pinned in `.nvmrc`). pnpm via Corepack (version pinned in `packageManager` field of `package.json`).
 
 ## Commands
 
-- `npm run dev` — start Vite dev server with HMR
-- `npm run build` — type-check + production build (runs in parallel via npm-run-all2)
-- `npm run build-only` — Vite production build without type-checking
-- `npm run type-check` — run vue-tsc for TypeScript validation
-- `npm run lint` — oxlint + ESLint with auto-fix (runs sequentially via run-s)
-- `npm run format` — Prettier format src/ directory
-- `npm run test:unit` — run Vitest tests (jsdom environment)
-- `npm run preview` — preview production build locally
+- `pnpm dev` — start Vite dev server with HMR
+- `pnpm build` — type-check + production build (runs in parallel via npm-run-all2)
+- `pnpm build-only` — Vite production build without type-checking
+- `pnpm type-check` — run vue-tsc for TypeScript validation
+- `pnpm lint` — oxlint + ESLint with auto-fix (runs sequentially via run-s)
+- `pnpm format` — oxfmt format src/ directory
+- `pnpm test:unit` — run Vitest tests (jsdom environment)
+- `pnpm preview` — preview production build locally
 
 ## Architecture
 
@@ -46,12 +46,12 @@ Node 24 (pinned in `.nvmrc`).
 
 ## CI/CD
 
-GitHub Actions (`.github/workflows/build.yaml`) runs `npm install` + `npm run build` on pushes and PRs to `main`/`staging`. Deployment to Cloudflare Pages is handled separately.
+GitHub Actions (`.github/workflows/build.yaml`) runs `pnpm install --frozen-lockfile` + `pnpm build` on pushes and PRs to `main`/`staging`. Deployment to Cloudflare Pages is handled separately.
 
 Renovate auto-merges minor/patch dependency updates and all dev dependency updates.
 
 ## Code Style
 
-- Prettier: 120 char print width, semicolons enabled
-- Linting: oxlint runs first, then ESLint (flat config in `eslint.config.ts`) with vue/essential + TypeScript recommended + Prettier
+- Formatter: oxfmt (config in `.oxfmtrc.json`) — single quotes, no semicolons
+- Linting: oxlint runs first, then ESLint (flat config in `eslint.config.ts`) with vue/essential + TypeScript recommended
 - PRs target the `staging` branch, not `main`
