@@ -1,6 +1,6 @@
 {
   "name": "blood-pressure-measure",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "type": "module",
   "scripts": {
@@ -27,7 +27,7 @@
     "primevue": "4.5.5",
     "uuid": "13.0.0",
     "vue": "3.5.32",
-    "vue-i18n": "11.0.0",
+    "vue-i18n": "11.4.2",
     "vue-router": "5.0.4"
   },
   "devDependencies": {
