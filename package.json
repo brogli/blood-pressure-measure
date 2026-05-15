@@ -20,7 +20,7 @@
     "@vueuse/core": "14.2.1",
     "chart.js": "4.4.3",
     "chartjs-adapter-dayjs-4": "1.0.4",
-    "dayjs": "1.11.12",
+    "dayjs": "1.11.20",
     "papaparse": "5.4.1",
     "pinia": "3.0.4",
     "primeicons": "7.0.0",
