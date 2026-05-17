@@ -34,7 +34,7 @@
   "devDependencies": {
     "@tsconfig/node24": "24.0.4",
     "@types/jsdom": "28.0.3",
-    "@types/node": "24.12.3",
+    "@types/node": "24.12.4",
     "@types/papaparse": "5.3.14",
     "@vitejs/plugin-vue": "6.0.6",
     "@vitest/eslint-plugin": "1.6.17",
