@@ -37,7 +37,7 @@
     "@types/node": "24.13.1",
     "@types/papaparse": "5.3.14",
     "@vitejs/plugin-vue": "6.0.7",
-    "@vitest/eslint-plugin": "1.6.19",
+    "@vitest/eslint-plugin": "1.6.20",
     "@vue/eslint-config-typescript": "14.8.0",
     "@vue/test-utils": "2.4.11",
     "@vue/tsconfig": "0.9.1",
