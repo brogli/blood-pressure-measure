@@ -15,11 +15,11 @@ importers:
         specifier: 14.3.0
         version: 14.3.0(vue@3.5.38(typescript@6.0.3))
       chart.js:
-        specifier: 4.4.3
-        version: 4.4.3
+        specifier: 4.5.1
+        version: 4.5.1
       chartjs-adapter-dayjs-4:
         specifier: 1.0.4
-        version: 1.0.4(chart.js@4.4.3)(dayjs@1.11.21)
+        version: 1.0.4(chart.js@4.5.1)(dayjs@1.11.21)
       dayjs:
         specifier: 1.11.21
         version: 1.11.21
@@ -1904,8 +1904,8 @@ packages:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
-  chart.js@4.4.3:
-    resolution: {integrity: sha512-qK1gkGSRYcJzqrrzdR6a+I0vQ4/R+SoODXyAjscQ/4mzuNzySaMCd+hyVxitSY1+L2fjPD1Gbn+ibNqRmwQeLw==}
+  chart.js@4.5.1:
+    resolution: {integrity: sha512-GIjfiT9dbmHRiYi6Nl2yFCq7kkwdkp1W/lp2J99rX0yo9tgJGn3lKQATztIjb5tVtevcBtIdICNWqlq5+E8/Pw==}
     engines: {pnpm: '>=8'}
 
   chartjs-adapter-dayjs-4@1.0.4:
@@ -5566,13 +5566,13 @@ snapshots:
 
   chai@6.2.2: {}
 
-  chart.js@4.4.3:
+  chart.js@4.5.1:
     dependencies:
       '@kurkle/color': 0.3.4
 
-  chartjs-adapter-dayjs-4@1.0.4(chart.js@4.4.3)(dayjs@1.11.21):
+  chartjs-adapter-dayjs-4@1.0.4(chart.js@4.5.1)(dayjs@1.11.21):
     dependencies:
-      chart.js: 4.4.3
+      chart.js: 4.5.1
       dayjs: 1.11.21
 
   chokidar@5.0.0:
