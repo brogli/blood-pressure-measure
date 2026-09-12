@@ -36,8 +36,8 @@ importers:
         specifier: 4.5.5
         version: 4.5.5(vue@3.5.41(typescript@6.0.3))
       uuid:
-        specifier: 13.0.2
-        version: 13.0.2
+        specifier: 14.0.2
+        version: 14.0.2
       vue:
         specifier: 3.5.41
         version: 3.5.41(typescript@6.0.3)
@@ -3480,8 +3480,8 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  uuid@13.0.2:
-    resolution: {integrity: sha512-vzi9uRZ926x4XV73S/4qQaTwPXM2JBj6/6lI/byHH1jOpCzb0zDbfytgA9LcN/hzb2l7WQSQnxITOVx5un/wGw==}
+  uuid@14.0.2:
+    resolution: {integrity: sha512-xZe/16rV4aa+HGSOCiY2YeLT1OybRLrrkL/Rqaq7p7GMVXjFh+6wN4oMYgjFmnSnhY8t6Xpdl2l9qmnHYuMHwQ==}
     hasBin: true
 
   vite-dev-rpc@2.0.0:
@@ -7277,7 +7277,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  uuid@13.0.2: {}
+  uuid@14.0.2: {}
 
   vite-dev-rpc@2.0.0(vite@8.2.1(@types/node@24.13.3)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)):
     dependencies:
