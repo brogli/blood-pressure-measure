@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@tsconfig/node24": "24.0.4",
-    "@types/jsdom": "28.0.3",
+    "@types/jsdom": "30.0.0",
     "@types/node": "24.13.3",
     "@types/papaparse": "5.5.2",
     "@vitejs/plugin-vue": "6.0.8",
@@ -46,7 +46,7 @@
     "eslint-plugin-oxlint": "1.78.0",
     "eslint-plugin-vue": "10.10.0",
     "jiti": "2.7.0",
-    "jsdom": "29.1.1",
+    "jsdom": "30.0.1",
     "npm-run-all2": "8.0.4",
     "oxfmt": "0.63.0",
     "oxlint": "1.78.0",
