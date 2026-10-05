@@ -1,15 +1,14 @@
 import { computed, type ComputedRef, ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-import { type ArmOption, Measurement } from '@/models/Measurement'
-import { MeasurementDto } from '@/models/MeasurementDto'
-import dayjs from 'dayjs'
+import type { Measurement } from '@/models/Measurement'
+import { MeasurementDto, toMeasurement } from '@/models/MeasurementDto'
 import Papa from 'papaparse'
 
 export const useMeasurementsStore = defineStore('measurements', () => {
   const localStorageKeyName = 'localMeasurements'
   const state: Ref<Map<string, Measurement>> = ref(new Map<string, Measurement>())
 
-  function saveMeasurement(measurement: Measurement) {
+  function saveMeasurement(measurement: Measurement): void {
     state.value.set(measurement.id, measurement)
 
     localStorage.setItem(
@@ -33,36 +32,24 @@ export const useMeasurementsStore = defineStore('measurements', () => {
     }
   }
 
-  function clearMeasurements() {
+  function clearMeasurements(): void {
     state.value.clear()
 
     localStorage.removeItem(localStorageKeyName)
   }
 
-  function loadFromLocalStorage(localStorageContent: string) {
-    const dtos: MeasurementDto[] = JSON.parse(localStorageContent)
-    dtos.forEach((measurementDto) => {
-      const timestamp = dayjs(measurementDto.timestampIso8601).toDate()
-      const measurement = new Measurement(
-        timestamp,
-        measurementDto.systolic,
-        measurementDto.diastolic,
-        measurementDto.heartRate,
-        measurementDto.whichArm as ArmOption,
-        measurementDto.id,
-      )
-      saveMeasurement(measurement)
-    })
+  function loadFromLocalStorage(localStorageContent: string): void {
+    const dtos: unknown = JSON.parse(localStorageContent)
+    if (!Array.isArray(dtos)) return
+
+    dtos
+      .map(toMeasurement)
+      .filter((m) => m !== undefined)
+      .forEach((m) => saveMeasurement(m))
   }
 
   function getMeasurementsAsCsv(): string {
-    const measurementDtos = Array.from(state.value.values()).map((m) => new MeasurementDto(m))
-    const measurementsAsCsv = Papa.unparse({
-      fields: Object.keys(measurementDtos[0]!),
-      data: measurementDtos.map((m) => Object.values(m)),
-    })
-
-    return measurementsAsCsv
+    return Papa.unparse(Array.from(state.value.values()).map((m) => new MeasurementDto(m)))
   }
 
   const getAllMeasurements: ComputedRef<Measurement[]> = computed(() =>

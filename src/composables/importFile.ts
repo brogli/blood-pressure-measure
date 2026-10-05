@@ -1,8 +1,6 @@
 import { useFileDialog } from '@vueuse/core'
 import Papa from 'papaparse'
-import { MeasurementDto } from '@/models/MeasurementDto'
-import { type ArmOption, Measurement } from '@/models/Measurement'
-import dayjs from 'dayjs'
+import { toMeasurement } from '@/models/MeasurementDto'
 import { useMeasurementsStore } from '@/stores/measurements'
 import { storeToRefs } from 'pinia'
 import { useToastStore } from '@/stores/toastStore'
@@ -11,53 +9,36 @@ export function useImportfile(t: (key: string) => string) {
   const measurementsStore = useMeasurementsStore()
   const { currentToast } = storeToRefs(useToastStore())
 
-  let fileContent: string
-
   const { open, onChange } = useFileDialog({
     accept: 'text/csv',
   })
 
-  onChange((files) => {
-    const myFile = files?.item(0)
-    const fileReader = new FileReader()
-    fileReader.onload = () => {
-      fileContent = fileReader.result as string
-      parseCsv(fileContent)
-    }
-    if (myFile) {
-      fileReader.readAsText(myFile)
+  onChange(async (files) => {
+    const file = files?.item(0)
+    if (file) {
+      importCsv(await file.text())
     } else {
-      currentToast.value = {
-        severity: 'error',
-        summary: 'Error',
-        detail: t('toasts.errorWhileImportingCsv'),
-        life: 3000,
-      }
+      showImportError()
     }
   })
 
-  function toNumber(value: unknown): number | undefined {
-    if (value == null || value === '') return undefined
-    const num = Number(value)
-    return Number.isNaN(num) ? undefined : num
+  function importCsv(text: string): void {
+    const rows = Papa.parse<unknown>(text, { header: true, skipEmptyLines: true }).data
+    const measurements = rows.map(toMeasurement).filter((m) => m !== undefined)
+    measurements.forEach((m) => measurementsStore.saveMeasurement(m))
+
+    if (measurements.length < rows.length) {
+      showImportError()
+    }
   }
 
-  function parseCsv(text: string) {
-    Papa.parse(text, { complete: deserializeToMeasurements, header: true })
-  }
-
-  function deserializeToMeasurements(results: Papa.ParseResult<MeasurementDto>) {
-    results.data.forEach((item: MeasurementDto) => {
-      const measurement = new Measurement(
-        dayjs(item.timestampIso8601).toDate(),
-        toNumber(item.systolic),
-        toNumber(item.diastolic),
-        toNumber(item.heartRate),
-        item.whichArm as ArmOption,
-        item.id,
-      )
-      measurementsStore.saveMeasurement(measurement)
-    })
+  function showImportError(): void {
+    currentToast.value = {
+      severity: 'error',
+      summary: t('common.error'),
+      detail: t('toasts.errorWhileImportingCsv'),
+      life: 3000,
+    }
   }
 
   return { open }

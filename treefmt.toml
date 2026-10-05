@@ -1,0 +1,30 @@
+# Tools run via `pnpm exec`, so their versions come from pnpm-lock.yaml.
+# Lower priority runs first: lint fixes before formatting.
+
+[formatter.oxlint]
+command = "pnpm"
+options = ["exec", "oxlint", "--fix"]
+includes = ["*.vue", "*.ts", "*.mts", "*.tsx"]
+priority = 1
+
+[formatter.eslint]
+command = "pnpm"
+options = ["exec", "eslint", "--fix", "--cache", "--no-warn-ignored"]
+includes = ["*.vue", "*.ts", "*.mts", "*.tsx"]
+priority = 2
+
+[formatter.stylelint]
+command = "pnpm"
+options = ["exec", "stylelint", "--fix", "--cache"]
+includes = ["*.css", "*.vue"]
+priority = 2
+
+[formatter.oxfmt]
+command = "pnpm"
+options = ["exec", "oxfmt"]
+includes = ["*.vue", "*.ts", "*.mts", "*.tsx", "*.css", "*.md"]
+priority = 3
+
+[formatter.nixfmt]
+command = "nixfmt"
+includes = ["*.nix"]
