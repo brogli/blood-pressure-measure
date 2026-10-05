@@ -18,7 +18,7 @@ const weeklyConfig: AverageChartConfig = {
 </script>
 
 <template>
-  <div class="chart-view">
+  <div class="flex flex-col gap-8">
     <AverageChartComponent
       :title="t('chart.dailyAverageTitle')"
       input-id="dailyTimeRange"
@@ -31,11 +31,3 @@ const weeklyConfig: AverageChartConfig = {
     />
   </div>
 </template>
-
-<style scoped>
-.chart-view {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-</style>

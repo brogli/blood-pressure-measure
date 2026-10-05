@@ -2,6 +2,10 @@ import { v4 as uuidv4 } from 'uuid'
 
 export type ArmOption = 'Left' | 'Right'
 
+export function isArmOption(value: unknown): value is ArmOption {
+  return value === 'Left' || value === 'Right'
+}
+
 export class Measurement {
   id: string
   timestamp: Date
