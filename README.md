@@ -14,26 +14,20 @@ Feel free to create an issue [here](https://github.com/brogli/blood-pressure-mea
 
 ### Prerequisites
 
-- **Node.js** — version pinned in `.nvmrc` (and enforced via `engines` in `package.json`). Use a version manager (`nvm`
-  or `fnm`) so it picks up automatically:
-  ```sh
-  nvm install && nvm use   # reads .nvmrc
-  # or
-  fnm use                  # reads .nvmrc (fnm auto-switches on cd if configured)
-  ```
-- **pnpm** — version pinned via `packageManager` in `package.json`. Easiest path
-  is [Corepack](https://nodejs.org/api/corepack.html), which ships with Node and will use the exact pinned version
-  automatically:
-  ```sh
-  corepack enable
-  ```
-  Alternatively: `npm install -g pnpm` or follow the [pnpm install docs](https://pnpm.io/installation).
+- [Nix package manager](https://nixos.org/download/) with flakes enabled
+- [direnv](https://direnv.net/) hooked into your shell
+
+Node.js and pnpm come from the dev shell in `flake.nix`, pinned via `flake.lock`. On first `cd` into the repo run
+`direnv allow`; afterwards the shell loads automatically. Without direnv: `nix develop`.
+
+`.nvmrc` only tells Cloudflare Pages which Node version to build with.
 
 ### Getting started
 
 ```sh
 git clone <this-repo>
 cd blood-pressure-measure
+direnv allow
 pnpm install
 pnpm dev          # http://localhost:5173
 ```
@@ -43,17 +37,19 @@ Or run the IntelliJ run config.
 ### Scripts
 
 | Command           | What it does                                         |
-|-------------------|------------------------------------------------------|
+| ----------------- | ---------------------------------------------------- |
 | `pnpm dev`        | Vite dev server with HMR (`http://localhost:5173`)   |
 | `pnpm build`      | Type-check + production build (runs in parallel)     |
 | `pnpm preview`    | Serve the production build (`http://localhost:4173`) |
 | `pnpm type-check` | `vue-tsc --build` only                               |
 | `pnpm test:unit`  | Unit tests with Vitest (jsdom)                       |
-| `pnpm lint`       | Runs oxlint then ESLint (both with `--fix`)          |
+| `pnpm lint`       | oxlint, ESLint, Stylelint in sequence (`--fix`)      |
 | `pnpm format`     | Formats `src/` with oxfmt                            |
+| `treefmt`         | Repo-wide: lint fixes + oxfmt (incl. `.md`), nixfmt  |
 
 ## Tech Stack
-Vue3 using Composition API, Pinia, Typescript and PrimeVue. It's hosted on Cloudflare Pages.
+
+Vue3 using Composition API, Pinia, Typescript, OpenVue and Tailwind CSS. It's hosted on Cloudflare Pages.
 
 ## Testing PWA
 

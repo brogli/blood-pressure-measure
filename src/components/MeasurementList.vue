@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import DataTable, { type DataTableRowSelectEvent } from 'primevue/datatable'
-import Column from 'primevue/column'
-import Button from 'primevue/button'
+import DataTable, { type DataTableRowSelectEvent } from 'openvue/datatable'
+import Column from 'openvue/column'
+import Button from 'openvue/button'
 import { useMeasurementsStore } from '@/stores/measurements'
-import Panel from 'primevue/panel'
+import Panel from 'openvue/panel'
 import { ref } from 'vue'
 import { Measurement } from '@/models/Measurement'
 import { useRouter } from 'vue-router'
@@ -12,8 +12,9 @@ import { useExportFile } from '@/composables/exportFile'
 import { useImportfile } from '@/composables/importFile'
 import { useShare } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { useConfirm } from 'primevue/useconfirm'
-import ConfirmDialog from 'primevue/confirmdialog'
+import { useConfirm } from 'openvue/useconfirm'
+import ConfirmDialog from 'openvue/confirmdialog'
+import vTooltip from 'openvue/tooltip'
 const confirm = useConfirm()
 
 const measurementsStore = useMeasurementsStore()
@@ -27,7 +28,7 @@ function deleteAllMeasurements() {
   confirm.require({
     message: t('measurementList.confirmDeleteText'),
     header: 'Danger Zone',
-    icon: 'pi pi-info-circle',
+    icon: 'oi oi-info-circle',
     rejectLabel: 'Cancel',
     rejectProps: {
       label: t('measurementForm.cancelButton'),
@@ -49,9 +50,8 @@ function continueDeletingAllMeasurements() {
   measurementsStore.clearMeasurements()
 }
 
-function onRowSelect(event: DataTableRowSelectEvent) {
-  const selectedMeasurement = event.data as Measurement
-  router.push({ name: 'edit', params: { id: selectedMeasurement.id } })
+function onRowSelect(event: DataTableRowSelectEvent<Measurement>) {
+  router.push({ name: 'edit', params: { id: event.data.id } })
 }
 
 function getExportFileName(): string {
@@ -73,10 +73,10 @@ function shareAsCsv() {
 </script>
 
 <template>
-  <section class="measurement-list-root">
+  <section class="flex flex-col gap-y-4">
     <Panel :header="t('measurementList.title')">
       <ConfirmDialog></ConfirmDialog>
-      <div class="measurement-buttons-parent">
+      <div class="flex flex-wrap gap-4">
         <Button :label="t('measurementList.actions.createNew')" as="router-link" to="/new" />
         <Button
           :label="t('measurementList.actions.export')"
@@ -128,17 +128,3 @@ function shareAsCsv() {
     </Panel>
   </section>
 </template>
-
-<style scoped>
-.measurement-buttons-parent {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 1rem;
-}
-
-.measurement-list-root {
-  display: flex;
-  flex-direction: column;
-  row-gap: 1rem;
-}
-</style>

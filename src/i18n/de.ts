@@ -68,7 +68,7 @@ export const de = {
     openSauce2: 'Gerne kannst du lesen, Feedback geben, contributen, forken, oder was auch immer.',
     techInfosTitle: 'Tech Infos',
     techInfos:
-      'Diese App ist in Vue3 geschrieben, nutzt die Composition API, Pinia, Typescript und Primevue. Deployed ist sie auf Cloudflare Pages.',
+      'Diese App ist in Vue3 geschrieben, nutzt die Composition API, Pinia, Typescript und OpenVue. Deployed ist sie auf Cloudflare Pages.',
   },
   consent: {
     title: 'Datenschutz',

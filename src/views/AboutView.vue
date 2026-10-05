@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Panel from 'primevue/panel'
+import Panel from 'openvue/panel'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 </script>
 
 <template>
-  <section class="about-parent">
+  <section class="flex flex-col gap-2 [&_p]:mb-3">
     <Panel :header="t('menu.aboutAndHelp')">
       <p>
         {{ t('aboutAndHelp.intro') }}
@@ -14,7 +14,7 @@ const { t } = useI18n()
       <p>
         {{ t('aboutAndHelp.featuresIntro') }}
       </p>
-      <ul>
+      <ul class="list-disc pl-10">
         <li>{{ t('aboutAndHelp.feature0') }}</li>
         <li>{{ t('aboutAndHelp.feature1') }}</li>
         <li>{{ t('aboutAndHelp.feature2') }}</li>
@@ -31,6 +31,7 @@ const { t } = useI18n()
           href="https://github.com/brogli/blood-pressure-measure"
           rel="noopener noreferrer"
           target="_blank"
+          class="underline"
           >Github.</a
         >
       </p>
@@ -63,6 +64,7 @@ const { t } = useI18n()
           href="https://github.com/brogli/blood-pressure-measure/issues"
           rel="noopener noreferrer"
           target="_blank"
+          class="underline"
           >Github Issue.</a
         >
       </p>
@@ -74,6 +76,7 @@ const { t } = useI18n()
           href="https://github.com/brogli/blood-pressure-measure"
           rel="noopener noreferrer"
           target="_blank"
+          class="underline"
           >Github.</a
         >
         {{ t('aboutAndHelp.openSauce2') }}
@@ -86,15 +89,3 @@ const { t } = useI18n()
     </Panel>
   </section>
 </template>
-
-<style scoped>
-.about-parent {
-  display: flex;
-  gap: 0.5rem;
-  flex-direction: column;
-}
-
-p {
-  margin-bottom: 0.7rem;
-}
-</style>
