@@ -20,7 +20,8 @@ Node and pnpm come from the Nix dev shell in `flake.nix` (`nodejs_24`, `pnpm_11`
 - `pnpm type-check` — run vue-tsc for TypeScript validation
 - `pnpm lint` — oxlint, ESLint, Stylelint sequentially (all with `--fix`)
 - `pnpm format` — oxfmt format src/ directory
-- `pnpm test:unit` — run Vitest tests (jsdom environment)
+- `pnpm test:unit` — run Vitest tests (jsdom environment); specs live next to the code as `*.spec.ts`
+- `pnpm test:e2e` — run Playwright tests in `e2e/` against a production build (`pnpm preview`, so the service worker is real); first run `pnpm exec playwright install chromium`
 - `pnpm preview` — preview production build locally
 - `treefmt` — repo-wide lint fixes + formatting; `treefmt --ci` is the CI check
 
@@ -42,7 +43,7 @@ Node and pnpm come from the Nix dev shell in `flake.nix` (`nodejs_24`, `pnpm_11`
 
 **Data model** (`src/models/`): `Measurement` class with UUID auto-generation and a `MeasurementDto` for CSV/storage serialization. `toMeasurement` narrows untrusted input (localStorage, CSV rows) back into a `Measurement`.
 
-**CSV backwards compatibility**: the CSV export is the users' only backup, so files they already exported must stay importable. The format is the `MeasurementDto` field list `id,timestampIso8601,systolic,diastolic,heartRate,whichArm`. Do not rename, reorder or remove columns; new columns must be optional on import. Import must keep tolerating legacy data (empty `whichArm`, missing `id`, `0` for missing numbers).
+**CSV backwards compatibility**: the CSV export is the users' only backup, so files they already exported must stay importable. The format is the `MeasurementDto` field list `id,timestampIso8601,systolic,diastolic,heartRate,whichArm`. Do not rename, reorder or remove columns; new columns must be optional on import. Import must keep tolerating legacy data (empty `whichArm`, missing `id`, `0` for missing numbers); `fixtures/legacy-export.csv` pins this in unit and e2e tests. Rows without an `id` get one derived from their content, so re-importing a file does not duplicate them.
 
 **Composables** (`src/composables/`): `colorScheme` (dark/light toggle), `exportFile` (CSV download), `importFile` (CSV upload via papaparse), `averageChart` (chart data).
 
@@ -76,7 +77,7 @@ oxc toolchain (oxlint + oxfmt), not Prettier; `eslint-config-prettier` only disa
 
 ## CI/CD
 
-GitHub Actions (`.github/workflows/build.yaml`) runs inside `nix develop`: `pnpm install --frozen-lockfile`, `treefmt --ci`, `pnpm test:unit --run`, `pnpm build` on pushes and PRs to `main`/`staging`. Deployment to Cloudflare Pages is handled separately.
+GitHub Actions (`.github/workflows/build.yaml`) runs inside `nix develop`: `pnpm install --frozen-lockfile`, `treefmt --ci`, `pnpm test:unit --run`, `pnpm build`, `pnpm test:e2e` on pushes and PRs to `main`/`staging`. Deployment to Cloudflare Pages is handled separately.
 
 PRs target the `staging` branch, not `main`.
 

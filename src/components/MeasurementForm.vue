@@ -32,8 +32,17 @@ const props = defineProps<{
   id?: string
 }>()
 
+// validated on click, not via a disabled Save: InputNumber only updates its model on blur
+const isMissingValueShown = ref(false)
+
 function handleSaveClick() {
-  saveMeasurement()
+  const { systolic, diastolic } = currentMeasurement.value
+  // a cleared InputNumber holds null
+  if (systolic == null || diastolic == null) {
+    isMissingValueShown.value = true
+  } else {
+    saveMeasurement()
+  }
 }
 
 function confirmDelete() {
@@ -94,10 +103,11 @@ function loadMeasurement(id: string) {
   } else {
     currentToast.value = {
       severity: 'error',
-      summary: 'Error',
+      summary: t('common.error'),
       detail: t('toasts.errorWhileLoadingMeasurement'),
       life: 3000,
     }
+    router.replace({ name: 'home' })
   }
 }
 
@@ -141,6 +151,7 @@ if (isInEditmode) {
           <InputNumber
             placeholder="120"
             v-model="currentMeasurement.systolic"
+            :invalid="isMissingValueShown && currentMeasurement.systolic == null"
             v-focustrap
             inputId="systolic"
             fluid
@@ -151,6 +162,7 @@ if (isInEditmode) {
           <InputNumber
             placeholder="80"
             v-model="currentMeasurement.diastolic"
+            :invalid="isMissingValueShown && currentMeasurement.diastolic == null"
             inputId="diastolic"
             fluid
           />

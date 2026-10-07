@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Menubar from 'openvue/menubar'
-import { computed, type Ref, ref } from 'vue'
+import { computed, ref } from 'vue'
 import Button from 'openvue/button'
 import Select from 'openvue/select'
 import { useI18n } from 'vue-i18n'
@@ -26,8 +26,6 @@ const items = computed(() => [
   },
 ])
 
-const isDarkBrightMode: Ref<boolean> = ref<boolean>(false)
-
 const localeOptions = ref<string[]>(['ch', 'de', 'en'])
 </script>
 
@@ -49,10 +47,11 @@ const localeOptions = ref<string[]>(['ch', 'de', 'en'])
           <Select
             v-model="locale"
             :options="localeOptions"
+            ariaLabel="Language"
             @change="appSettingsStore.locale = $event.value"
           />
           <Button label="Toggle Color Scheme" @click="colorScheme.toggleColorScheme()">
-            <i v-if="isDarkBrightMode" class="oi oi-sun"></i>
+            <i v-if="appSettingsStore.isDarkModeActive" class="oi oi-sun"></i>
             <i v-else class="oi oi-moon"></i>
           </Button>
         </div>

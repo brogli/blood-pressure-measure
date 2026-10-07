@@ -12,6 +12,50 @@ export interface AverageChartConfig {
   timeUnit: 'day' | 'week' | 'month' | 'year'
 }
 
+export interface GroupAverage {
+  date: string
+  systolic: number | null
+  diastolic: number | null
+  heartRate: number | null
+}
+
+/** Averages per group key, oldest first; skips readings before `cutoff` and missing (0) values. */
+export function averagesByGroup(
+  measurements: Measurement[],
+  groupKeyFn: (timestamp: Date) => string,
+  cutoff: Date | null,
+): GroupAverage[] {
+  const grouped = new Map<string, Measurement[]>()
+  for (const m of measurements) {
+    if (cutoff && m.timestamp < cutoff) continue
+    const key = groupKeyFn(m.timestamp)
+    const group = grouped.get(key)
+    if (group) {
+      group.push(m)
+    } else {
+      grouped.set(key, [m])
+    }
+  }
+
+  return Array.from(grouped, ([date, group]) => ({
+    date,
+    systolic: averageField(group, 'systolic'),
+    diastolic: averageField(group, 'diastolic'),
+    heartRate: averageField(group, 'heartRate'),
+  })).sort((a, b) => a.date.localeCompare(b.date))
+}
+
+function averageField(
+  measurements: Measurement[],
+  field: 'systolic' | 'diastolic' | 'heartRate',
+): number | null {
+  const values = measurements
+    .map((m) => Number(m[field]))
+    .filter((v) => !Number.isNaN(v) && v !== 0)
+  if (values.length === 0) return null
+  return Math.round(values.reduce((sum, v) => sum + v, 0) / values.length)
+}
+
 export function useAverageChart(config: AverageChartConfig) {
   const { t } = useI18n()
   const measurementStore = useMeasurementsStore()
@@ -27,60 +71,13 @@ export function useAverageChart(config: AverageChartConfig) {
     { label: t('chart.timeRangeAll'), value: null },
   ])
 
-  function computeAverages() {
-    const allMeasurements = measurementStore.getAllMeasurements
-
+  const averages = computed(() => {
     const cutoff =
       selectedTimeRange.value !== null
         ? dayjs().subtract(selectedTimeRange.value, 'month').toDate()
         : null
-
-    const filtered = cutoff
-      ? allMeasurements.filter((m: Measurement) => m.timestamp >= cutoff)
-      : allMeasurements
-
-    const grouped = new Map<string, Measurement[]>()
-    for (const m of filtered) {
-      const key = config.groupKeyFn(m.timestamp)
-      const group = grouped.get(key)
-      if (group) {
-        group.push(m)
-      } else {
-        grouped.set(key, [m])
-      }
-    }
-
-    const averages: {
-      date: string
-      systolic: number | null
-      diastolic: number | null
-      heartRate: number | null
-    }[] = []
-    for (const [date, measurements] of grouped) {
-      averages.push({
-        date,
-        systolic: averageField(measurements, 'systolic'),
-        diastolic: averageField(measurements, 'diastolic'),
-        heartRate: averageField(measurements, 'heartRate'),
-      })
-    }
-
-    averages.sort((a, b) => a.date.localeCompare(b.date))
-    return averages
-  }
-
-  function averageField(
-    measurements: Measurement[],
-    field: 'systolic' | 'diastolic' | 'heartRate',
-  ): number | null {
-    const values = measurements
-      .map((m) => Number(m[field]))
-      .filter((v) => !Number.isNaN(v) && v !== 0)
-    if (values.length === 0) return null
-    return Math.round(values.reduce((sum, v) => sum + v, 0) / values.length)
-  }
-
-  const averages = computed(() => computeAverages())
+    return averagesByGroup(measurementStore.getAllMeasurements, config.groupKeyFn, cutoff)
+  })
 
   const chartData = computed<ChartData<'line'>>(() => ({
     labels: averages.value.map((a) => a.date),
