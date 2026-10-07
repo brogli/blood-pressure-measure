@@ -1,8 +1,11 @@
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useMeasurementsStore } from '@/stores/measurements'
 import type { Measurement } from '@/models/Measurement'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
+import type { ChartData, ChartOptions } from 'chart.js'
+import { merge } from 'chart.js/helpers'
+import { baseChartOptions, lineDataset, useChartTheme } from '@/composables/chartTheme'
 
 export interface AverageChartConfig {
   groupKeyFn: (timestamp: Date) => string
@@ -12,6 +15,7 @@ export interface AverageChartConfig {
 export function useAverageChart(config: AverageChartConfig) {
   const { t } = useI18n()
   const measurementStore = useMeasurementsStore()
+  const theme = useChartTheme()
 
   const selectedTimeRange = ref<number | null>(6)
 
@@ -76,93 +80,40 @@ export function useAverageChart(config: AverageChartConfig) {
     return Math.round(values.reduce((sum, v) => sum + v, 0) / values.length)
   }
 
-  const chartData = ref()
-  const chartOptions = ref()
+  const averages = computed(() => computeAverages())
 
-  function updateChart() {
-    const averages = computeAverages()
-    const documentStyle = getComputedStyle(document.documentElement)
+  const chartData = computed<ChartData<'line'>>(() => ({
+    labels: averages.value.map((a) => a.date),
+    datasets: [
+      lineDataset(theme.value.token('cyan-500'), {
+        label: t('measurement.systolic'),
+        data: averages.value.map((a) => a.systolic),
+      }),
+      lineDataset(theme.value.token('gray-500'), {
+        label: t('measurement.diastolic'),
+        data: averages.value.map((a) => a.diastolic),
+      }),
+      lineDataset(theme.value.token('purple-500'), {
+        label: t('measurement.heartRate'),
+        data: averages.value.map((a) => a.heartRate),
+      }),
+    ],
+  }))
 
-    chartData.value = {
-      labels: averages.map((a) => a.date),
-      datasets: [
-        {
-          label: t('measurement.systolic'),
-          data: averages.map((a) => ({ x: a.date, y: a.systolic })),
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--p-cyan-500'),
-          tension: 0.2,
-          spanGaps: true,
-        },
-        {
-          label: t('measurement.diastolic'),
-          data: averages.map((a) => ({ x: a.date, y: a.diastolic })),
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--p-gray-500'),
-          tension: 0.2,
-          spanGaps: true,
-        },
-        {
-          label: t('measurement.heartRate'),
-          data: averages.map((a) => ({ x: a.date, y: a.heartRate })),
-          fill: false,
-          borderColor: documentStyle.getPropertyValue('--p-purple-500'),
-          tension: 0.2,
-          spanGaps: true,
-        },
-      ],
-    }
-
-    const textColor = documentStyle.getPropertyValue('--p-text-color')
-    const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color')
-    const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color')
-
-    chartOptions.value = {
-      maintainAspectRatio: true,
-      aspectRatio: 2,
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
-      },
+  const chartOptions = computed<ChartOptions<'line'>>(() =>
+    merge(baseChartOptions(theme.value, t), {
       scales: {
         x: {
           type: 'time',
           time: {
             unit: config.timeUnit,
-            displayFormats: {
-              [config.timeUnit]: 'YYYY-MM-DD',
-            },
+            displayFormats: { [config.timeUnit]: 'YYYY-MM-DD' },
             tooltipFormat: 'YYYY-MM-DD',
-          },
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-          },
-        },
-        y: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
           },
         },
       },
-    }
-  }
+    } satisfies ChartOptions<'line'>),
+  )
 
-  watch(selectedTimeRange, () => updateChart())
-
-  return {
-    selectedTimeRange,
-    timeRangeOptions,
-    chartData,
-    chartOptions,
-    updateChart,
-  }
+  return { selectedTimeRange, timeRangeOptions, chartData, chartOptions }
 }
