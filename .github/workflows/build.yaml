@@ -65,6 +65,18 @@ jobs:
       - name: Build (includes type-check)
         run: pnpm build
 
+      - name: Get Playwright version
+        id: playwright
+        run: echo "version=$(pnpm exec playwright --version | cut -d" " -f2)" >> "$GITHUB_OUTPUT"
+
+      # The browser build is tied to the Playwright version; on a hit, install skips the download.
+      - name: Cache Playwright browser
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      # --with-deps installs the browser's system libraries via apt; those aren't cached.
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
 
