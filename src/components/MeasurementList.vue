@@ -99,7 +99,8 @@ function shareAsCsv() {
       </div>
     </Panel>
 
-    <Panel v-if="measurementsStore.size > 0">
+    <!-- min-w-0: Panel's content wrapper is a grid item and would otherwise grow to the table's width -->
+    <Panel v-if="measurementsStore.size > 0" :pt="{ contentWrapper: { class: 'min-w-0' } }">
       <div>
         <DataTable
           sortField="timestamp"
