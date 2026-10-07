@@ -4,7 +4,7 @@ const currentBuildVersion = import.meta.env.VITE_APP_VERSION
 
 <template>
   <section class="flex items-center justify-center gap-2">
-    <p>© Alexander Brogli {{ new Date().getFullYear() }}</p>
+    <p>© Alexander Brogli-Urech {{ new Date().getFullYear() }}</p>
     <a href="https://www.linkedin.com/in/alexbrogli/" rel="noopener noreferrer" target="_blank"
       ><img class="h-8" src="@/assets/icons8-linkedin.svg" alt="LinkedIn Icon"
     /></a>
