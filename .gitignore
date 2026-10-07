@@ -36,5 +36,9 @@ coverage
 # claude
 .claude/*.local.*
 
+# playwright
+/test-results/
+/playwright-report/
+
 # playwright mcp
 .playwright-mcp/

@@ -115,6 +115,7 @@ function shareAsCsv() {
           :rows="5"
           :rowsPerPageOptions="[5, 10, 20, 50]"
         >
+          <!-- why `as Measurement`: DataTable types slot data as any -->
           <Column field="timestamp" sortable :header="t('measurement.createdAt')">
             <template #body="slotProps">
               {{ formatTimestamp((slotProps.data as Measurement).timestamp, locale) }}
@@ -123,7 +124,15 @@ function shareAsCsv() {
           <Column field="systolic" sortable :header="t('measurement.systolic')"></Column>
           <Column field="diastolic" sortable :header="t('measurement.diastolic')"></Column>
           <Column field="heartRate" sortable :header="t('measurement.heartRate')"></Column>
-          <Column field="whichArm" sortable :header="t('measurement.whichArm')"></Column>
+          <Column field="whichArm" sortable :header="t('measurement.whichArm')">
+            <template #body="slotProps">
+              {{
+                (slotProps.data as Measurement).whichArm === 'Left'
+                  ? t('measurement.left')
+                  : t('measurement.right')
+              }}
+            </template>
+          </Column>
         </DataTable>
       </div>
     </Panel>

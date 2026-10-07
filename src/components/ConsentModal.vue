@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Button from 'openvue/button'
 import Dialog from 'openvue/dialog'
-import { useRouter } from 'vue-router'
 import { useAppSettingsStore } from '@/stores/appSettings'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
@@ -14,7 +13,6 @@ const { hasUserAcceptedConsentModal } = storeToRefs(appSettingsStore)
 
 function handleConsentDenied() {
   window.location.href = 'https://duckduckgo.com/'
-  useRouter().push({ name: 'home' })
 }
 
 function handleConsentGiven() {
@@ -27,7 +25,7 @@ function updateConsentState() {
   const currentBuildVersion = import.meta.env.VITE_APP_VERSION
   const versionHasChanged = currentBuildVersion !== appSettingsStore.versionNumberWhenConsented
 
-  if (hasUserAcceptedConsentModal && versionHasChanged) {
+  if (versionHasChanged) {
     hasUserAcceptedConsentModal.value = false
   }
 }
