@@ -47,6 +47,16 @@ Or run the IntelliJ run config.
 | `pnpm format`     | Formats `src/` with oxfmt                            |
 | `treefmt`         | Repo-wide: lint fixes + oxfmt (incl. `.md`), nixfmt  |
 
+## Release process
+
+There are no tags or GitHub releases; a release is a version bump merged into `main`.
+
+1. Day-to-day work (feature branches, Renovate) lands in `staging` via PRs.
+2. Branch off `staging`, bump `version` in `package.json`,
+   PR it into `staging` as `chore: bump version to x.y.z`.
+3. Open a PR `staging` → `main` titled with the version, merge it once CI is green.
+4. Cloudflare Pages builds `main` and deploys to production.
+
 ## Tech Stack
 
 Vue3 using Composition API, Pinia, Typescript, OpenVue and Tailwind CSS. It's hosted on Cloudflare Pages.
