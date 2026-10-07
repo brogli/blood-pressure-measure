@@ -23,6 +23,9 @@ importers:
       chartjs-adapter-dayjs-4:
         specifier: 1.0.4
         version: 1.0.4(chart.js@4.5.1)(dayjs@1.11.21)
+      chartjs-plugin-annotation:
+        specifier: 3.1.0
+        version: 3.1.0(chart.js@4.5.1)
       dayjs:
         specifier: 1.11.21
         version: 1.11.21
@@ -2093,6 +2096,11 @@ packages:
     peerDependencies:
       chart.js: '>=4.0.1'
       dayjs: ^1.9.7
+
+  chartjs-plugin-annotation@3.1.0:
+    resolution: {integrity: sha512-EkAed6/ycXD/7n0ShrlT1T2Hm3acnbFhgkIEJLa0X+M6S16x0zwj1Fv4suv/2bwayCT3jGPdAtI9uLcAMToaQQ==}
+    peerDependencies:
+      chart.js: '>=4.0.0'
 
   chokidar@5.0.0:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
@@ -6220,6 +6228,10 @@ snapshots:
     dependencies:
       chart.js: 4.5.1
       dayjs: 1.11.21
+
+  chartjs-plugin-annotation@3.1.0(chart.js@4.5.1):
+    dependencies:
+      chart.js: 4.5.1
 
   chokidar@5.0.0:
     dependencies:

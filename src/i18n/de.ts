@@ -88,6 +88,12 @@ export const de = {
     deny: 'Ablehnen',
   },
   chart: {
+    previousWindow: 'Frühere Tage',
+    nextWindow: 'Spätere Tage',
+    armLabel: 'Arm',
+    timeOfDayTitle: 'Tagesverlauf der letzten Tage',
+    dayCountLabel: 'Tage',
+    lastNDays: 'Letzte {n} Tage',
     amountOfDataPoints: 'Weviel Datepünkt?',
     chartsTitle: 'Diagramm',
     dailyAverageTitle: 'Tagesdurchschnitte',

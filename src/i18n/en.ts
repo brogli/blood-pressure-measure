@@ -87,6 +87,12 @@ export const en = {
     deny: 'Deny',
   },
   chart: {
+    previousWindow: 'Previous days',
+    nextWindow: 'Next days',
+    armLabel: 'Arm',
+    timeOfDayTitle: 'Time of day, last days',
+    dayCountLabel: 'Days',
+    lastNDays: 'Last {n} days',
     amountOfDataPoints: 'Weviel Datepünkt?',
     chartsTitle: 'Diagram',
     dailyAverageTitle: 'Daily Averages',
