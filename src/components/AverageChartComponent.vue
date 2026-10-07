@@ -3,7 +3,6 @@ import Chart from 'openvue/chart'
 import Select from 'openvue/select'
 import Panel from 'openvue/panel'
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm'
-import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAverageChart, type AverageChartConfig } from '@/composables/averageChart'
 
@@ -15,10 +14,9 @@ const props = defineProps<{
 
 const { t } = useI18n()
 
-const { selectedTimeRange, timeRangeOptions, chartData, chartOptions, updateChart } =
-  useAverageChart(props.config)
-
-onMounted(() => updateChart())
+const { selectedTimeRange, timeRangeOptions, chartData, chartOptions } = useAverageChart(
+  props.config,
+)
 </script>
 
 <template>

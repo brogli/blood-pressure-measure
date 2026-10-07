@@ -88,6 +88,12 @@ export const ch = {
     deny: 'Ablehnä',
   },
   chart: {
+    previousWindow: 'Früeneri Täg',
+    nextWindow: 'Spöteri Täg',
+    armLabel: 'Arm',
+    timeOfDayTitle: 'Tagesverlauf vo de letschte Täg',
+    dayCountLabel: 'Täg',
+    lastNDays: 'Letschti {n} Täg',
     amountOfDataPoints: 'Weviel Datepünkt?',
     chartsTitle: 'Diagramm',
     dailyAverageTitle: 'Tagesdurchschnitt',
