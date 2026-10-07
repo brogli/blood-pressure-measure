@@ -5,5 +5,3 @@ import MeasurementForm from '@/components/MeasurementForm.vue'
 <template>
   <MeasurementForm />
 </template>
-
-<style scoped></style>

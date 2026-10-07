@@ -15,9 +15,6 @@ dev-dist
 coverage
 *.local
 
-/cypress/videos/
-/cypress/screenshots/
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -31,6 +28,17 @@ coverage
 *.tsbuildinfo
 
 .eslintcache
+.stylelintcache
+
+# direnv
+.direnv/
 
 # claude
 .claude/*.local.*
+
+# playwright
+/test-results/
+/playwright-report/
+
+# playwright mcp
+.playwright-mcp/

@@ -1,0 +1,5 @@
+# Resolver-level supply-chain gate: pnpm only resolves versions published at least
+# 7 days ago (in minutes; mirrors Renovate's minimumReleaseAge). Because it also
+# covers transitive deps, Renovate's lock-file maintenance can't pull in younger
+# releases, so its stability check passes and automerge keeps working.
+minimumReleaseAge: 10080

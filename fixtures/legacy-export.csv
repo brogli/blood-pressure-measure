@@ -1,0 +1,5 @@
+id,timestampIso8601,systolic,diastolic,heartRate,whichArm
+6f0f5b8e-4c1a-4d8e-9a57-1c2b3d4e5f60,2024-03-01T07:15:00.000Z,128,84,66,Left
+0b9e2c3d-5f4a-4e6b-8c7d-2e3f4a5b6c71,2024-03-01T19:40:00.000Z,135,88,,
+,2024-03-02T07:05:00.000Z,0,0,0,Left
+,2024-03-03T07:10:00.000Z,119,79,61,Right

@@ -68,7 +68,7 @@ export const en = {
     openSauce2: "You're welcome to read, give feedback, contribute, fork, whatever.",
     techInfosTitle: 'Tech Infos',
     techInfos:
-      "This app is written in Vue3, uses the Composition API, Pinia, Typescript and Primevue. It's deployed to Cloudflare Pages.",
+      "This app is written in Vue3, uses the Composition API, Pinia, Typescript and OpenVue. It's deployed to Cloudflare Pages.",
   },
   consent: {
     title: 'Data Privacy',
@@ -87,6 +87,12 @@ export const en = {
     deny: 'Deny',
   },
   chart: {
+    previousWindow: 'Previous days',
+    nextWindow: 'Next days',
+    armLabel: 'Arm',
+    timeOfDayTitle: 'Time of day, last days',
+    dayCountLabel: 'Days',
+    lastNDays: 'Last {n} days',
     amountOfDataPoints: 'Weviel Datepünkt?',
     chartsTitle: 'Diagram',
     dailyAverageTitle: 'Daily Averages',

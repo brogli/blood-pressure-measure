@@ -1,32 +1,25 @@
+import './assets/main.css'
+import '@openvue/openicons/openicons.css'
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import PrimeVue from 'primevue/config'
-import Aura from '@primeuix/themes/aura'
+import OpenVue from 'openvue/config'
+import ToastService from 'openvue/toastservice'
+import ConfirmationService from 'openvue/confirmationservice'
+import { createI18n } from 'vue-i18n'
 import { registerSW } from 'virtual:pwa-register'
-import './assets/main.css'
-
-registerSW({ immediate: true })
 
 import App from './App.vue'
 import router from './router'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-import { definePreset } from '@primeuix/themes'
-import FocusTrap from 'primevue/focustrap'
-import Tooltip from 'primevue/tooltip'
-import { createI18n } from 'vue-i18n'
+import { AppPreset } from './theme/preset'
 import { en } from '@/i18n/en'
 import { de } from '@/i18n/de'
 import { ch } from '@/i18n/ch'
-import { getInitLocale } from '@/functions/internationalization'
-import ToastService from 'primevue/toastservice'
-import ConfirmationService from 'primevue/confirmationservice'
 import { useAppSettingsStore } from '@/stores/appSettings'
 
-const app = createApp(App)
+registerSW({ immediate: true })
 
-app.directive('focustrap', FocusTrap)
-app.directive('tooltip', Tooltip)
+const app = createApp(App)
 
 app.use(createPinia())
 
@@ -35,7 +28,7 @@ const appSettingsStore = useAppSettingsStore()
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
   fallbackLocale: 'en',
-  locale: appSettingsStore.locale || getInitLocale(),
+  locale: appSettingsStore.locale,
   messages: {
     en: en,
     de: de,
@@ -46,66 +39,19 @@ app.use(i18n)
 app.use(router)
 app.use(ToastService)
 app.use(ConfirmationService)
-
-const CustomNoir = definePreset(Aura, {
-  semantic: {
-    primary: {
-      50: '{zinc.50}',
-      100: '{zinc.100}',
-      200: '{zinc.200}',
-      300: '{zinc.300}',
-      400: '{zinc.400}',
-      500: '{zinc.500}',
-      600: '{zinc.600}',
-      700: '{zinc.700}',
-      800: '{zinc.800}',
-      900: '{zinc.900}',
-      950: '{zinc.950}',
-    },
-    colorScheme: {
-      light: {
-        primary: {
-          color: '{zinc.950}',
-          inverseColor: '#ffffff',
-          hoverColor: '{zinc.900}',
-          activeColor: '{zinc.800}',
-        },
-        highlight: {
-          background: '{zinc.950}',
-          focusBackground: '{zinc.700}',
-          color: '#ffffff',
-          focusColor: '#ffffff',
-        },
-      },
-      dark: {
-        primary: {
-          color: '{zinc.50}',
-          inverseColor: '{zinc.950}',
-          hoverColor: '{zinc.100}',
-          activeColor: '{zinc.200}',
-        },
-        highlight: {
-          background: 'rgba(250, 250, 250, .16)',
-          focusBackground: 'rgba(250, 250, 250, .24)',
-          color: 'rgba(255,255,255,.87)',
-          focusColor: 'rgba(255,255,255,.87)',
-        },
-      },
-    },
-  },
-})
-
-app.use(PrimeVue, {
+app.use(OpenVue, {
+  // a Panel's content wrapper is a grid item and would otherwise grow to its content's width
+  pt: { panel: { contentWrapper: { class: 'min-w-0' } } },
   theme: {
-    preset: CustomNoir,
+    preset: AppPreset,
     options: {
       darkModeSelector: '.my-app-dark',
+      cssLayer: {
+        name: 'openvue',
+        order: 'theme, base, openvue, components, utilities',
+      },
     },
   },
 })
-
-app.component('DataTable', DataTable)
-// eslint-disable-next-line vue/multi-word-component-names
-app.component('Column', Column)
 
 app.mount('#app')

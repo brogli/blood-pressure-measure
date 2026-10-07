@@ -11,8 +11,6 @@
       "WebFetch(domain:github.com)"
     ],
     "ask": [
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
       "Bash(git push:*)"
     ]
   }

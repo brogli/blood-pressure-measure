@@ -11,26 +11,74 @@ on:
       - main
       - staging
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        # Node and pnpm come from the flake's dev shell, same as locally via direnv.
+        shell: nix develop --command bash -eo pipefail {0}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Install Nix
+        uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31.11.1
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      # Exact key only: a prefix fallback would pile up old closures and then need GC roots.
+      - name: Cache Nix store
+        uses: nix-community/cache-nix-action@7df957e333c1e5da7721f60227dbba6d06080569 # v7.0.2
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('flake.nix', 'flake.lock') }}
+
+      - name: Get pnpm store and cache paths
+        id: pnpm-paths
+        run: |
+          echo "store=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+          echo "cache=$(pnpm cache path)" >> "$GITHUB_OUTPUT"
+
+      # The metadata cache holds the lockfile verification log, which spares the registry
+      # a minimumReleaseAge lookup per package while the lockfile is unchanged.
+      - name: Cache pnpm store and metadata
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ${{ steps.pnpm-paths.outputs.store }}
+            ${{ steps.pnpm-paths.outputs.cache }}
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build project
+      - name: Lint and format check
+        run: treefmt --ci
+
+      - name: Unit tests
+        run: pnpm test:unit --run
+
+      - name: Build (includes type-check)
         run: pnpm build
+
+      - name: Get Playwright version
+        id: playwright
+        run: echo "version=$(pnpm exec playwright --version | cut -d" " -f2)" >> "$GITHUB_OUTPUT"
+
+      # The browser build is tied to the Playwright version; on a hit, install skips the download.
+      - name: Cache Playwright browser
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      # --with-deps installs the browser's system libraries via apt; those aren't cached.
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: E2E tests
+        run: pnpm test:e2e
