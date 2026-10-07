@@ -9,5 +9,3 @@ defineProps<{
 <template>
   <MeasurementForm :id="id" />
 </template>
-
-<style scoped></style>

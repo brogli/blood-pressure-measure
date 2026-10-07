@@ -4,9 +4,9 @@
     "vite.config.*",
     "vitest.config.*",
     "cypress.config.*",
-    "nightwatch.conf.*",
     "playwright.config.*",
-    "eslint.config.*"
+    "eslint.config.*",
+    "e2e/**/*"
   ],
   "compilerOptions": {
     "noEmit": true,
@@ -14,6 +14,7 @@
 
     "module": "preserve",
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "types": ["node"]
   }
 }

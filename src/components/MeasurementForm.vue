@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import InputNumber from 'primevue/inputnumber'
-import SelectButton from 'primevue/selectbutton'
+import InputNumber from 'openvue/inputnumber'
+import SelectButton from 'openvue/selectbutton'
 import { type ArmOption, Measurement } from '@/models/Measurement'
-import Button from 'primevue/button'
+import Button from 'openvue/button'
 import { useMeasurementsStore } from '@/stores/measurements'
 import { useRouter } from 'vue-router'
-import Panel from 'primevue/panel'
-import DatePicker from 'primevue/datepicker'
-import Divider from 'primevue/divider'
+import Panel from 'openvue/panel'
+import DatePicker from 'openvue/datepicker'
+import Divider from 'openvue/divider'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useToastStore } from '@/stores/toastStore'
-import ConfirmDialog from 'primevue/confirmdialog'
-import { useConfirm } from 'primevue/useconfirm'
+import ConfirmDialog from 'openvue/confirmdialog'
+import { useConfirm } from 'openvue/useconfirm'
+import vFocustrap from 'openvue/focustrap'
 
 const measurementStore = useMeasurementsStore()
 const router = useRouter()
@@ -31,15 +32,24 @@ const props = defineProps<{
   id?: string
 }>()
 
+// validated on click, not via a disabled Save: InputNumber only updates its model on blur
+const isMissingValueShown = ref(false)
+
 function handleSaveClick() {
-  saveMeasurement()
+  const { systolic, diastolic } = currentMeasurement.value
+  // a cleared InputNumber holds null
+  if (systolic == null || diastolic == null) {
+    isMissingValueShown.value = true
+  } else {
+    saveMeasurement()
+  }
 }
 
 function confirmDelete() {
   confirm.require({
     message: t('measurementForm.confirmDeleteText'),
     header: 'Danger Zone',
-    icon: 'pi pi-info-circle',
+    icon: 'oi oi-info-circle',
     rejectLabel: 'Cancel',
     rejectProps: {
       label: t('measurementForm.cancelButton'),
@@ -93,10 +103,11 @@ function loadMeasurement(id: string) {
   } else {
     currentToast.value = {
       severity: 'error',
-      summary: 'Error',
+      summary: t('common.error'),
       detail: t('toasts.errorWhileLoadingMeasurement'),
       life: 3000,
     }
+    router.replace({ name: 'home' })
   }
 }
 
@@ -121,10 +132,10 @@ if (isInEditmode) {
 <template>
   <Panel :header="header">
     <ConfirmDialog></ConfirmDialog>
-    <div class="bp-form">
-      <div class="bp-form--text-inputs-container">
-        <div class="bp-form-inputs-item-text">
-          <label for="timestamp" class="font-bold">{{ t('measurement.createdAt') }}</label>
+    <div class="flex flex-col gap-y-4">
+      <div class="flex flex-wrap gap-4">
+        <div class="grow shrink-3 basis-48">
+          <label for="timestamp">{{ t('measurement.createdAt') }}</label>
           <DatePicker
             showIcon
             id="datepicker-24h"
@@ -135,26 +146,28 @@ if (isInEditmode) {
             updateModelType="date"
           />
         </div>
-        <div class="bp-form-inputs-item-text">
+        <div class="grow shrink-3 basis-48">
           <label for="systolic">{{ t('measurement.systolic') }}</label>
           <InputNumber
             placeholder="120"
             v-model="currentMeasurement.systolic"
+            :invalid="isMissingValueShown && currentMeasurement.systolic == null"
             v-focustrap
             inputId="systolic"
             fluid
           />
         </div>
-        <div class="bp-form-inputs-item-text">
+        <div class="grow shrink-3 basis-48">
           <label for="diastolic">{{ t('measurement.diastolic') }}</label>
           <InputNumber
             placeholder="80"
             v-model="currentMeasurement.diastolic"
+            :invalid="isMissingValueShown && currentMeasurement.diastolic == null"
             inputId="diastolic"
             fluid
           />
         </div>
-        <div class="bp-form-inputs-item-text">
+        <div class="grow shrink-3 basis-48">
           <label for="heartrate">{{ t('measurement.heartRate') }}</label>
           <InputNumber
             placeholder="80"
@@ -163,23 +176,24 @@ if (isInEditmode) {
             fluid
           />
         </div>
-        <div class="">
+        <div>
           <label for="armSelection">{{ t('measurement.whichArm') }}</label>
           <SelectButton
             inputId="armSelection"
             v-model="currentMeasurement.whichArm"
             :options="armSelectionOptions"
+            :allowEmpty="false"
             :option-label="getLeftRightLabel"
             aria-labelledby="basic"
-            id="armSelectButton"
+            class="flex"
           />
         </div>
       </div>
     </div>
 
     <Divider />
-    <div class="bp-form-buttons">
-      <div class="bp-form-buttons-save-cancel">
+    <div class="flex flex-row-reverse justify-between">
+      <div class="flex gap-4">
         <Button :label="t('measurementForm.saveButton')" @click="handleSaveClick" />
         <Button
           :label="t('measurementForm.cancelButton')"
@@ -199,9 +213,3 @@ if (isInEditmode) {
     </div>
   </Panel>
 </template>
-
-<style scoped>
-#armSelectButton {
-  display: flex;
-}
-</style>

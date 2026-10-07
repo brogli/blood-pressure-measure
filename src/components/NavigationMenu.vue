@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Menubar from 'primevue/menubar'
-import { computed, type Ref, ref } from 'vue'
-import Button from 'primevue/button'
-import Select, { type SelectChangeEvent } from 'primevue/select'
+import Menubar from 'openvue/menubar'
+import { computed, ref } from 'vue'
+import Button from 'openvue/button'
+import Select from 'openvue/select'
 import { useI18n } from 'vue-i18n'
 import { useColorScheme } from '@/composables/colorScheme'
 import { useAppSettingsStore } from '@/stores/appSettings'
@@ -26,57 +26,36 @@ const items = computed(() => [
   },
 ])
 
-const isDarkBrightMode: Ref<boolean> = ref<boolean>(false)
-
 const localeOptions = ref<string[]>(['ch', 'de', 'en'])
 </script>
 
 <template>
-  <div class="card">
+  <div>
     <Menubar :model="items">
       <template #item="{ item, props }">
         <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
           <a :href="href" v-bind="props.action" @click="navigate">
-            <span class="">{{ item.label }}</span>
+            <span>{{ item.label }}</span>
           </a>
         </router-link>
       </template>
       <template #end>
-        <div class="menubar-end">
-          <span class="title">Pressure Tracker</span>
+        <div class="flex justify-between gap-4 text-center">
+          <span class="flex items-center text-[1.7rem] max-[500px]:text-[5vw]"
+            >Pressure Tracker</span
+          >
           <Select
             v-model="locale"
             :options="localeOptions"
-            @change="appSettingsStore.locale = ($event as SelectChangeEvent).value"
+            ariaLabel="Language"
+            @change="appSettingsStore.locale = $event.value"
           />
           <Button label="Toggle Color Scheme" @click="colorScheme.toggleColorScheme()">
-            <i v-if="isDarkBrightMode" class="pi pi-sun"></i>
-            <i v-else class="pi pi-moon"></i>
+            <i v-if="appSettingsStore.isDarkModeActive" class="oi oi-sun"></i>
+            <i v-else class="oi oi-moon"></i>
           </Button>
         </div>
       </template>
     </Menubar>
   </div>
 </template>
-
-<style scoped>
-.menubar-end {
-  display: flex;
-  justify-content: space-between;
-
-  text-align: center;
-  gap: 1rem;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  font-size: 1.7rem;
-}
-
-@media only screen and (max-width: 500px) {
-  .title {
-    font-size: 5vw;
-  }
-}
-</style>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import { useRouter } from 'vue-router'
+import Button from 'openvue/button'
+import Dialog from 'openvue/dialog'
 import { useAppSettingsStore } from '@/stores/appSettings'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
@@ -14,7 +13,6 @@ const { hasUserAcceptedConsentModal } = storeToRefs(appSettingsStore)
 
 function handleConsentDenied() {
   window.location.href = 'https://duckduckgo.com/'
-  useRouter().push({ name: 'home' })
 }
 
 function handleConsentGiven() {
@@ -27,7 +25,7 @@ function updateConsentState() {
   const currentBuildVersion = import.meta.env.VITE_APP_VERSION
   const versionHasChanged = currentBuildVersion !== appSettingsStore.versionNumberWhenConsented
 
-  if (hasUserAcceptedConsentModal && versionHasChanged) {
+  if (versionHasChanged) {
     hasUserAcceptedConsentModal.value = false
   }
 }
@@ -46,10 +44,10 @@ const shouldShowConsentModal = ref(!hasUserAcceptedConsentModal.value)
     :header="t('consent.title')"
     :style="{ width: '40rem' }"
   >
-    <div class="bp-form--text-inputs-container">
-      <div class="">
+    <div class="flex flex-wrap gap-4">
+      <div>
         {{ t('consent.intro') }}
-        <ul>
+        <ul class="list-disc pl-10">
           <li>{{ t('consent.appLivesInBrowser') }}</li>
           <li>{{ t('consent.doesntTransmitData') }}</li>
           <li>{{ t('consent.localStorageConsent') }}</li>
@@ -58,7 +56,7 @@ const shouldShowConsentModal = ref(!hasUserAcceptedConsentModal.value)
           <li>{{ t('consent.noGuarantees') }}</li>
         </ul>
       </div>
-      <div class="bp-form-buttons-save-cancel">
+      <div class="flex gap-4">
         <Button type="button" :label="t('consent.accept')" @click="handleConsentGiven()"></Button>
         <Button
           type="button"
@@ -70,5 +68,3 @@ const shouldShowConsentModal = ref(!hasUserAcceptedConsentModal.value)
     </div>
   </Dialog>
 </template>
-
-<style scoped></style>
