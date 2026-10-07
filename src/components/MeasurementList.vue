@@ -15,10 +15,11 @@ import { useI18n } from 'vue-i18n'
 import { useConfirm } from 'openvue/useconfirm'
 import ConfirmDialog from 'openvue/confirmdialog'
 import vTooltip from 'openvue/tooltip'
+import { formatTimestamp } from '@/functions/internationalization'
 const confirm = useConfirm()
 
 const measurementsStore = useMeasurementsStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const router = useRouter()
 const { share, isSupported } = useShare()
 
@@ -99,8 +100,7 @@ function shareAsCsv() {
       </div>
     </Panel>
 
-    <!-- min-w-0: Panel's content wrapper is a grid item and would otherwise grow to the table's width -->
-    <Panel v-if="measurementsStore.size > 0" :pt="{ contentWrapper: { class: 'min-w-0' } }">
+    <Panel v-if="measurementsStore.size > 0">
       <div>
         <DataTable
           sortField="timestamp"
@@ -117,7 +117,7 @@ function shareAsCsv() {
         >
           <Column field="timestamp" sortable :header="t('measurement.createdAt')">
             <template #body="slotProps">
-              {{ (slotProps.data as Measurement).timestamp.toLocaleString() }}
+              {{ formatTimestamp((slotProps.data as Measurement).timestamp, locale) }}
             </template>
           </Column>
           <Column field="systolic" sortable :header="t('measurement.systolic')"></Column>
