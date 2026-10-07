@@ -1,5 +1,8 @@
 import dayjs from 'dayjs'
+import { v5 as uuidv5 } from 'uuid'
 import { isArmOption, Measurement } from '@/models/Measurement'
+
+const contentIdNamespace = 'd3bffa7d-3e74-47dc-8645-4e1c499faa82'
 
 export class MeasurementDto {
   id: string
@@ -32,15 +35,22 @@ export function toMeasurement(dto: unknown): Measurement | undefined {
   const timestamp = dayjs(timestampIso8601)
   if (!timestamp.isValid()) return undefined
 
-  return new Measurement(
+  const measurement = new Measurement(
     timestamp.toDate(),
     toNumber(systolic),
     toNumber(diastolic),
     toNumber(heartRate),
     // older data can hold an empty arm (the form allowed deselecting it); 'Left' is the form default
     isArmOption(whichArm) ? whichArm : 'Left',
-    typeof id === 'string' && id ? id : undefined,
   )
+  measurement.id = typeof id === 'string' && id ? id : contentId(measurement)
+  return measurement
+}
+
+/** Same reading, same id: re-importing a CSV row without an id must not duplicate it. */
+function contentId(m: Measurement): string {
+  const content = [m.timestamp.toISOString(), m.systolic, m.diastolic, m.heartRate, m.whichArm]
+  return uuidv5(content.join(','), contentIdNamespace)
 }
 
 function toNumber(value: unknown): number | undefined {

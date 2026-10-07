@@ -3,9 +3,13 @@ import AverageChartComponent from '@/components/AverageChartComponent.vue'
 import TimeOfDayChartComponent from '@/components/TimeOfDayChartComponent.vue'
 import type { AverageChartConfig } from '@/composables/averageChart'
 import dayjs from 'dayjs'
+import isoWeek from 'dayjs/plugin/isoWeek'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+
+// weeks start on Monday
+dayjs.extend(isoWeek)
 
 const dailyConfig: AverageChartConfig = {
   groupKeyFn: (timestamp) => dayjs(timestamp).format('YYYY-MM-DD'),
@@ -13,7 +17,7 @@ const dailyConfig: AverageChartConfig = {
 }
 
 const weeklyConfig: AverageChartConfig = {
-  groupKeyFn: (timestamp) => dayjs(timestamp).startOf('week').add(1, 'day').format('YYYY-MM-DD'),
+  groupKeyFn: (timestamp) => dayjs(timestamp).startOf('isoWeek').format('YYYY-MM-DD'),
   timeUnit: 'week',
 }
 </script>
