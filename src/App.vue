@@ -30,7 +30,7 @@ watch(currentToast, (newValue) => {
 </script>
 
 <template>
-  <div class="mx-auto flex min-h-screen max-w-280 flex-col gap-y-4 pt-4 text-color md:w-7/10">
+  <div class="mx-auto flex min-h-screen max-w-280 flex-col gap-y-4 pt-4 text-color lg:w-7/10">
     <ConsentModal />
     <Toast />
     <header>

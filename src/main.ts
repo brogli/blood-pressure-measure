@@ -15,7 +15,6 @@ import { AppPreset } from './theme/preset'
 import { en } from '@/i18n/en'
 import { de } from '@/i18n/de'
 import { ch } from '@/i18n/ch'
-import { getInitLocale } from '@/functions/internationalization'
 import { useAppSettingsStore } from '@/stores/appSettings'
 
 registerSW({ immediate: true })
@@ -29,7 +28,7 @@ const appSettingsStore = useAppSettingsStore()
 const i18n = createI18n({
   legacy: false, // you must set `false`, to use Composition API
   fallbackLocale: 'en',
-  locale: appSettingsStore.locale || getInitLocale(),
+  locale: appSettingsStore.locale,
   messages: {
     en: en,
     de: de,
@@ -41,6 +40,8 @@ app.use(router)
 app.use(ToastService)
 app.use(ConfirmationService)
 app.use(OpenVue, {
+  // a Panel's content wrapper is a grid item and would otherwise grow to its content's width
+  pt: { panel: { contentWrapper: { class: 'min-w-0' } } },
   theme: {
     preset: AppPreset,
     options: {

@@ -35,3 +35,6 @@ coverage
 
 # claude
 .claude/*.local.*
+
+# playwright mcp
+.playwright-mcp/
