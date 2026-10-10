@@ -24,7 +24,7 @@
     "chart.js": "4.5.1",
     "chartjs-adapter-dayjs-4": "1.0.4",
     "chartjs-plugin-annotation": "3.1.0",
-    "dayjs": "1.11.21",
+    "dayjs": "1.11.23",
     "openvue": "1.0.0",
     "papaparse": "5.5.4",
     "pinia": "4.0.3",
