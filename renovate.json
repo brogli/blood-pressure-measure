@@ -30,6 +30,17 @@
       "matchUpdateTypes": ["minor", "patch"],
       "matchCurrentVersion": "/^0\\./",
       "automerge": false
+    },
+    {
+      "description": "One lock file maintenance branch per manager, so the nix one can run on its own schedule.",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "additionalBranchPrefix": "{{manager}}-"
+    },
+    {
+      "description": "flake.lock follows nixos-unstable on the next Renovate run instead of weekly, so nixpkgs security fixes land as soon as the channel has them.",
+      "matchManagers": ["nix"],
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "schedule": ["at any time"]
     }
   ],
   "nix": {
