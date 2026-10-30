@@ -21,7 +21,7 @@
     "@openuxkit/themes": "1.1.0",
     "@openvue/openicons": "1.0.0",
     "@vueuse/core": "14.4.0",
-    "chart.js": "4.5.1",
+    "chart.js": "4.6.1",
     "chartjs-adapter-dayjs-4": "1.0.4",
     "chartjs-plugin-annotation": "3.1.0",
     "dayjs": "1.11.23",

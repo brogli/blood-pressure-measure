@@ -18,20 +18,20 @@ importers:
         specifier: 14.4.0
         version: 14.4.0(vue@3.5.44(typescript@6.0.3))
       chart.js:
-        specifier: 4.5.1
-        version: 4.5.1
+        specifier: 4.6.1
+        version: 4.6.1
       chartjs-adapter-dayjs-4:
         specifier: 1.0.4
-        version: 1.0.4(chart.js@4.5.1)(dayjs@1.11.23)
+        version: 1.0.4(chart.js@4.6.1)(dayjs@1.11.23)
       chartjs-plugin-annotation:
         specifier: 3.1.0
-        version: 3.1.0(chart.js@4.5.1)
+        version: 3.1.0(chart.js@4.6.1)
       dayjs:
         specifier: 1.11.23
         version: 1.11.23
       openvue:
         specifier: 1.0.0
-        version: 1.0.0(chart.js@4.5.1)(vue@3.5.44(typescript@6.0.3))
+        version: 1.0.0(chart.js@4.6.1)(vue@3.5.44(typescript@6.0.3))
       papaparse:
         specifier: 5.5.4
         version: 5.5.4
@@ -2086,8 +2086,8 @@ packages:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
-  chart.js@4.5.1:
-    resolution: {integrity: sha512-GIjfiT9dbmHRiYi6Nl2yFCq7kkwdkp1W/lp2J99rX0yo9tgJGn3lKQATztIjb5tVtevcBtIdICNWqlq5+E8/Pw==}
+  chart.js@4.6.1:
+    resolution: {integrity: sha512-hJyniucsFmq//EvXYvJ6c6mahPoI3kaxdjVH8awTaJ/fDNWeSqqqArixMJWkWNN6fcYvPU3HneSANFNYtRi61g==}
     engines: {pnpm: '>=8'}
 
   chartjs-adapter-dayjs-4@1.0.4:
@@ -6184,18 +6184,18 @@ snapshots:
 
   chai@6.2.2: {}
 
-  chart.js@4.5.1:
+  chart.js@4.6.1:
     dependencies:
       '@kurkle/color': 0.3.4
 
-  chartjs-adapter-dayjs-4@1.0.4(chart.js@4.5.1)(dayjs@1.11.23):
+  chartjs-adapter-dayjs-4@1.0.4(chart.js@4.6.1)(dayjs@1.11.23):
     dependencies:
-      chart.js: 4.5.1
+      chart.js: 4.6.1
       dayjs: 1.11.23
 
-  chartjs-plugin-annotation@3.1.0(chart.js@4.5.1):
+  chartjs-plugin-annotation@3.1.0(chart.js@4.6.1):
     dependencies:
-      chart.js: 4.5.1
+      chart.js: 4.6.1
 
   chokidar@5.0.0:
     dependencies:
@@ -7291,7 +7291,7 @@ snapshots:
       powershell-utils: 0.2.1
       wsl-utils: 1.0.0
 
-  openvue@1.0.0(chart.js@4.5.1)(vue@3.5.44(typescript@6.0.3)):
+  openvue@1.0.0(chart.js@4.6.1)(vue@3.5.44(typescript@6.0.3)):
     dependencies:
       '@openuxkit/styled': 1.0.0
       '@openuxkit/styles': 1.1.0
@@ -7299,7 +7299,7 @@ snapshots:
       '@openvue/core': 1.0.0(vue@3.5.44(typescript@6.0.3))
       '@openvue/icons': 1.0.0(vue@3.5.44(typescript@6.0.3))
     optionalDependencies:
-      chart.js: 4.5.1
+      chart.js: 4.6.1
     transitivePeerDependencies:
       - vue
 
