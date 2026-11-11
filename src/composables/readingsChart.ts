@@ -9,7 +9,7 @@ import {
   type Point,
   type Scale,
 } from 'chart.js'
-import { merge, toFont } from 'chart.js/helpers'
+import { merge } from 'chart.js/helpers'
 import { useMeasurementsStore } from '@/stores/measurements'
 import { formatDayMonth, formatTimestamp } from '@/functions/internationalization'
 import { presentValue, type ArmOption, type Measurement } from '@/models/Measurement'
@@ -33,10 +33,8 @@ const MARGIN_MS = HOUR_MS
 
 const lengthHours = (s: Segment): number => (s.end - s.start) / HOUR_MS
 const WINDOW_DAY_OPTIONS = [2, 3, 7]
-/** Room for one time label on the x axis, and between two date labels. */
-const TIME_LABEL_PX = 44
-const DATE_GAP_PX = 6
-const DATE_ROW_PX = 16
+/** Room for one time or date label on the x axes. */
+const LABEL_PX = 44
 
 /** Windows of ±1h around each timestamp (epoch ms), overlapping ones merged, laid out back to back. */
 export function toSegments(timestamps: number[]): Segment[] {
@@ -208,23 +206,6 @@ export function useReadingsChart(): ReadingsChart {
     }
   }
 
-  /** Each day's date below its line; a day too narrow for it after a dated day gets none. */
-  function drawDates({ ctx }: Chart, axis: Scale): void {
-    ctx.font = toFont({ family: theme.value.fontFamily }).string // the page font, like OpenVue's tick labels
-    const widest = formatDayMonth(new Date(2000, 11, 28), locale.value)
-    const width = ctx.measureText(widest).width + DATE_GAP_PX
-    ctx.fillStyle = theme.value.muted
-    ctx.textBaseline = 'top'
-    for (const start of thin(days.value, toHours(axis, width))) {
-      if (start < axis.min || start > axis.max) continue
-      ctx.fillText(
-        formatDayMonth(toDate(start), locale.value),
-        axis.getPixelForValue(start),
-        axis.bottom,
-      )
-    }
-  }
-
   // drawn directly instead of as annotations: the annotation plugin re-resolves every line's options on each scroll frame
   const dayLinesPlugin: Plugin<'line'> = {
     id: 'dayLines',
@@ -233,14 +214,25 @@ export function useReadingsChart(): ReadingsChart {
       if (!axis) return
       chart.ctx.save()
       drawDayLines(chart, axis)
-      drawDates(chart, axis)
       chart.ctx.restore()
     },
   }
 
+  /** Both x axes show exactly the scrolled range. */
+  function showScrolledRange(axis: Scale): void {
+    if (!windowHours.value) return // no readings: keep chart.js' default range
+    axis.max = total.value - view.hoursBeforeEnd
+    axis.min = axis.max - windowHours.value
+  }
+
+  /** Labels scroll past the edges; padding to fit them would resize the plot on every scroll step. */
+  function withoutEdgePadding(axis: Scale): void {
+    axis.paddingLeft = 0
+    axis.paddingRight = 0
+  }
+
   const chartOptions = computed<ChartOptions<'line'>>(() =>
     merge(baseChartOptions(theme.value, t), {
-      layout: { padding: { bottom: DATE_ROW_PX } },
       plugins: {
         legend: { labels: { usePointStyle: true } },
         tooltip: {
@@ -257,29 +249,47 @@ export function useReadingsChart(): ReadingsChart {
           grid: { display: true },
           // keep exactly the scrolled range instead of widening it to round tick values
           bounds: 'data',
-          afterDataLimits: (axis) => {
-            if (!windowHours.value) return // no readings: keep chart.js' default range
-            axis.max = total.value - view.hoursBeforeEnd
-            axis.min = axis.max - windowHours.value
-          },
+          afterDataLimits: showScrolledRange,
           // a tick (and grid line) per session; only the thinned ones are major and get a time label
           afterBuildTicks: (axis) => {
-            const labelled = new Set(thin(ticks.value, toHours(axis, TIME_LABEL_PX)))
+            const labelled = new Set(thin(ticks.value, toHours(axis, LABEL_PX)))
             axis.ticks = ticks.value
               .filter((value) => value >= axis.min && value <= axis.max)
               .map((value) => ({ value, major: labelled.has(value) }))
           },
-          // labels scroll past the edges; padding to fit them would resize the plot on every scroll step
-          afterFit: (axis) => {
-            axis.paddingLeft = 0
-            axis.paddingRight = 0
-          },
+          afterFit: withoutEdgePadding,
           ticks: {
             maxRotation: 0,
             // chart.js' autoSkip picks labels counting from the first visible tick, so they jump while scrolling
             autoSkip: false,
             callback: (value, index, ticks) =>
               ticks[index]?.major ? dayjs(toDate(Number(value))).format('HH:mm') : '',
+          },
+        },
+        // a second x axis below the first: each day's date, left-aligned at its day line
+        dates: {
+          type: 'linear',
+          position: 'bottom',
+          bounds: 'data',
+          grid: { display: false },
+          border: { display: false },
+          afterDataLimits: showScrolledRange,
+          // a day too narrow for its date, right after a dated day, gets none
+          afterBuildTicks: (axis) => {
+            axis.ticks = thin(days.value, toHours(axis, LABEL_PX))
+              .filter((value) => value >= axis.min && value <= axis.max)
+              .map((value) => ({ value }))
+          },
+          afterFit: withoutEdgePadding,
+          ticks: {
+            align: 'start',
+            padding: 0,
+            maxRotation: 0,
+            autoSkip: false,
+            // OpenVue styles only the x and y axes
+            color: theme.value.muted,
+            font: { family: theme.value.fontFamily, size: 12 },
+            callback: (value) => formatDayMonth(toDate(Number(value)), locale.value),
           },
         },
       },
