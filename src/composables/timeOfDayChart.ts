@@ -68,7 +68,7 @@ function toReading(measurement: Measurement): DayReading {
 
 type Metric = (typeof METRICS)[number]
 
-/** Readings without this metric are left out; `spanGaps` keeps the line continuous. */
+/** Readings without this metric are left out. */
 function points(readings: DayReading[], metric: Metric): Point[] {
   return readings.flatMap((r) => {
     const y = r[metric]
@@ -86,8 +86,8 @@ export function formatHour(hour: number): string {
 const DAY_COUNT_OPTIONS = [3, 5, 7, 14]
 const METRICS = ['systolic', 'diastolic'] as const
 
-// Lightness by day age: the further in the past, the darker the line, in both themes.
-// Dark mode uses a lighter window of the same hue so the oldest line keeps contrast on the dark surface.
+// Lightness by day age: the further in the past, the darker the points, in both themes.
+// Dark mode uses a lighter window of the same hue so the oldest points keep contrast on the dark surface.
 const SHADES = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 const RAMP_LENGTH = 7
 const LIGHT_RAMP = SHADES.slice(-RAMP_LENGTH)
@@ -146,26 +146,24 @@ export function useTimeOfDayChart(): TimeOfDayChart {
     const readings = day.readings.filter((r) => r.arm === selectedArm.value)
     if (readings.length === 0) return []
     const color = dayColor(age)
+    // older days get larger points, so newer points drawn on top leave them visible as rings
+    const pointRadius = 4 + age * 4
     return METRICS.map((metric) =>
       lineDataset(color, {
         label: day.date,
         data: points(readings, metric),
-        borderDash: metric === 'diastolic' ? [6, 4] : [],
-        borderWidth: 2,
-        pointRadius: 5,
-        pointHoverRadius: 7,
+        showLine: false,
+        pointRadius,
+        pointHoverRadius: pointRadius + 2,
       }),
     )
   }
 
   const chartData = computed<ChartData<'line'>>(() => {
-    const series = daySeriesInWindow(measurementStore.getAllMeasurements, window.value)
+    // newest first: chart.js draws the first dataset on top
+    const series = daySeriesInWindow(measurementStore.getAllMeasurements, window.value).reverse()
     const oldest = Math.max(1, series.length - 1)
-    return {
-      datasets: series.flatMap((day, index) =>
-        datasetsForDay(day, (series.length - 1 - index) / oldest),
-      ),
-    }
+    return { datasets: series.flatMap((day, index) => datasetsForDay(day, index / oldest)) }
   })
 
   const chartOptions = computed<ChartOptions<'line'>>(() =>

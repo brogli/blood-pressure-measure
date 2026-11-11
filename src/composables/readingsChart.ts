@@ -1,8 +1,7 @@
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
-import type { ChartData, ChartOptions, Point } from 'chart.js'
-import type { AnnotationOptions } from 'chartjs-plugin-annotation'
+import type { ChartData, ChartOptions, Plugin, Point } from 'chart.js'
 import { merge } from 'chart.js/helpers'
 import { useMeasurementsStore } from '@/stores/measurements'
 import { presentValue, type ArmOption, type Measurement } from '@/models/Measurement'
@@ -113,6 +112,7 @@ export interface ReadingsChart {
   view: { hoursBeforeEnd: number }
   chartData: ComputedRef<ChartData<'line'>>
   chartOptions: ComputedRef<ChartOptions<'line'>>
+  plugins: Plugin<'line'>[]
 }
 
 export function useReadingsChart(): ReadingsChart {
@@ -155,22 +155,35 @@ export function useReadingsChart(): ReadingsChart {
     ),
   }))
   /** Dashed lines where time was left out, solid ones where a calendar day begins. */
-  function dayAnnotations(): Record<string, AnnotationOptions> {
-    const line = (x: number, color: string, dash: number[] = []): AnnotationOptions => ({
-      type: 'line',
-      xMin: x,
-      xMax: x,
-      borderColor: color,
-      borderWidth: 1,
-      borderDash: dash,
-    })
+  const dayLines = computed(() => {
     const days = dayMarks(segments.value)
     const gaps = segments.value.map((s) => s.offset).filter((x) => x > 0 && !days.includes(x))
-    const lines = [
-      ...gaps.map((x) => line(x, theme.value.border, [4, 4])),
-      ...days.map((x) => line(x, theme.value.muted)),
+    return [
+      ...gaps.map((x) => ({ x, color: theme.value.border, dash: [4, 4] })),
+      ...days.map((x) => ({ x, color: theme.value.muted, dash: [] })),
     ]
-    return Object.fromEntries(lines.map((a, i) => [`day${i}`, a]))
+  })
+
+  // drawn directly instead of as annotations: the annotation plugin re-resolves every line's options on each scroll frame
+  const dayLinesPlugin: Plugin<'line'> = {
+    id: 'dayLines',
+    beforeDatasetsDraw: ({ ctx, chartArea, scales }) => {
+      const axis = scales.x
+      if (!axis) return
+      ctx.save()
+      ctx.lineWidth = 1
+      for (const { x, color, dash } of dayLines.value) {
+        if (x < axis.min || x > axis.max) continue
+        const pixel = Math.round(axis.getPixelForValue(x)) + 0.5 // crisp 1px line
+        ctx.strokeStyle = color
+        ctx.setLineDash(dash)
+        ctx.beginPath()
+        ctx.moveTo(pixel, chartArea.top)
+        ctx.lineTo(pixel, chartArea.bottom)
+        ctx.stroke()
+      }
+      ctx.restore()
+    },
   }
 
   const formatAxis = (x: number, format: string): string =>
@@ -179,9 +192,6 @@ export function useReadingsChart(): ReadingsChart {
   const chartOptions = computed<ChartOptions<'line'>>(() =>
     merge(baseChartOptions(theme.value, t), {
       plugins: {
-        annotation: {
-          annotations: dayAnnotations(),
-        },
         legend: { labels: { usePointStyle: true } },
         tooltip: {
           callbacks: {
@@ -204,6 +214,11 @@ export function useReadingsChart(): ReadingsChart {
             axis.ticks = ticks.value
               .filter((value) => value >= axis.min && value <= axis.max)
               .map((value) => ({ value }))
+          },
+          // labels scroll past the edges; padding to fit them would resize the plot on every scroll step
+          afterFit: (axis) => {
+            axis.paddingLeft = 0
+            axis.paddingRight = 0
           },
           ticks: {
             maxRotation: 0,
@@ -230,5 +245,6 @@ export function useReadingsChart(): ReadingsChart {
     view,
     chartData,
     chartOptions,
+    plugins: [dayLinesPlugin],
   }
 }
