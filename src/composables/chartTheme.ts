@@ -14,6 +14,7 @@ export interface ChartTheme {
   muted: string
   border: string
   limit: string
+  fontFamily: string
   /** Resolves an OpenVue palette token such as `cyan-500`. */
   token: (name: string) => string
 }
@@ -33,6 +34,7 @@ function readChartTheme(isDark: boolean): ChartTheme {
     muted: token('text-muted-color'),
     border: token('content-border-color'),
     limit: token('red-400'),
+    fontFamily: style.fontFamily,
     token,
   }
 }

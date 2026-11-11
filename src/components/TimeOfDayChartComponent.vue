@@ -69,7 +69,12 @@ const {
       </div>
     </Panel>
     <Panel>
-      <Chart type="line" :data="chartData" :options="chartOptions" class="aspect-2/1" />
+      <Chart
+        type="line"
+        :data="chartData"
+        :options="chartOptions"
+        class="portrait:h-[60svh] landscape:aspect-2/1"
+      />
     </Panel>
   </section>
 </template>
