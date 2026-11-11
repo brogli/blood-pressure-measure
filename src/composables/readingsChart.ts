@@ -157,7 +157,8 @@ export function useReadingsChart(): ReadingsChart {
   /** Dashed lines where time was left out, solid ones where a calendar day begins. */
   const dayLines = computed(() => {
     const days = dayMarks(segments.value)
-    const gaps = segments.value.map((s) => s.offset).filter((x) => x > 0 && !days.includes(x))
+    const dayStarts = new Set(days)
+    const gaps = segments.value.map((s) => s.offset).filter((x) => x > 0 && !dayStarts.has(x))
     return [
       ...gaps.map((x) => ({ x, color: theme.value.border, dash: [4, 4] })),
       ...days.map((x) => ({ x, color: theme.value.muted, dash: [] })),
