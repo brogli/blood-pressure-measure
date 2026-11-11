@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { Chart, type ChartDataset, type ChartOptions } from 'chart.js'
 import annotationPlugin from 'chartjs-plugin-annotation'
 import { useAppSettingsStore } from '@/stores/appSettings'
-import { limitLineAnnotations } from '@/functions/chartLimits'
+import { LIMITS, limitLineAnnotations } from '@/functions/chartLimits'
 
 // The plugin merges its defaults only when registered on the Chart class, not when passed per chart.
 Chart.register(annotationPlugin)
@@ -37,20 +37,37 @@ function readChartTheme(isDark: boolean): ChartTheme {
   }
 }
 
+export interface SelectOption<T> {
+  label: string
+  value: T
+}
+
 type Translate = (key: string) => string
+
+/** mmHg kept between a limit line and the chart's edge. */
+const LIMIT_MARGIN = 10
 
 /** Options shared by all line charts: size, limit lines, themed legend and axes. */
 export function baseChartOptions(theme: ChartTheme, t: Translate): ChartOptions<'line'> {
   // one object per scale: chart.js' merge writes chart-specific options into them
   const axis = () => ({ ticks: { color: theme.muted }, grid: { color: theme.border } })
   return {
-    maintainAspectRatio: true,
-    aspectRatio: 2,
+    // the container's CSS aspect ratio sizes the chart; chart.js' own ratio caps growth at the old height, so charts don't widen on rotation
+    maintainAspectRatio: false,
     plugins: {
       annotation: { annotations: limitLineAnnotations(t, theme.limit) },
-      legend: { labels: { color: theme.text } },
+      // pointStyle false: the legend shows each dataset's own marker, not OpenVue's theme-wide circle
+      legend: { labels: { color: theme.text, pointStyle: false } },
     },
-    scales: { x: axis(), y: axis() },
+    scales: {
+      x: axis(),
+      // room around the limit lines, so their labels aren't cut off at the chart's edge
+      y: {
+        ...axis(),
+        suggestedMin: LIMITS.diastolic - LIMIT_MARGIN,
+        suggestedMax: LIMITS.systolic + LIMIT_MARGIN,
+      },
+    },
   }
 }
 

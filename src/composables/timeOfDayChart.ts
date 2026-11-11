@@ -4,8 +4,13 @@ import { useI18n } from 'vue-i18n'
 import type { ChartData, ChartOptions, Point } from 'chart.js'
 import { merge } from 'chart.js/helpers'
 import { useMeasurementsStore } from '@/stores/measurements'
-import type { ArmOption, Measurement } from '@/models/Measurement'
-import { baseChartOptions, lineDataset, useChartTheme } from '@/composables/chartTheme'
+import { presentValue, type ArmOption, type Measurement } from '@/models/Measurement'
+import {
+  baseChartOptions,
+  lineDataset,
+  useChartTheme,
+  type SelectOption,
+} from '@/composables/chartTheme'
 
 export interface DayReading {
   hour: number
@@ -61,11 +66,6 @@ function toReading(measurement: Measurement): DayReading {
   }
 }
 
-/** `0` marks a missing value in legacy CSV data; imported fields may still be strings. */
-function presentValue(value: number | undefined): number | undefined {
-  return Number(value) || undefined
-}
-
 type Metric = (typeof METRICS)[number]
 
 /** Readings without this metric are left out; `spanGaps` keeps the line continuous. */
@@ -92,11 +92,6 @@ const SHADES = [100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 const RAMP_LENGTH = 7
 const LIGHT_RAMP = SHADES.slice(-RAMP_LENGTH)
 const DARK_RAMP = SHADES.slice(0, RAMP_LENGTH)
-
-interface SelectOption<T> {
-  label: string
-  value: T
-}
 
 export interface TimeOfDayChart {
   selectedDayCount: Ref<number>

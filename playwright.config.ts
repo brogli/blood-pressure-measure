@@ -7,7 +7,8 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? 'github' : 'list',
+  // html on CI feeds the playwright-report artifact
+  reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: { baseURL, locale: 'en-GB', trace: 'on-first-retry' },
   projects: [
     { name: 'desktop', use: devices['Desktop Chrome'] },

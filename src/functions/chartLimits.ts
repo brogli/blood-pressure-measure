@@ -24,7 +24,8 @@ export function limitLineAnnotations(
       backgroundColor: 'transparent',
       font: { size: 11 },
       padding: 2,
-      yAdjust: -8,
+      // between the two lines, so the label never sticks out of the chart's top or bottom
+      yAdjust: metric === 'systolic' ? 8 : -8,
     },
   })
   return { systolic: line('systolic'), diastolic: line('diastolic') }
