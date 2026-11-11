@@ -26,10 +26,32 @@
       "automergeType": "branch"
     },
     {
-      "description": "Exclude pre-1.0.0 versions from auto-merge (0.x minor bumps can be breaking by semver convention). Must come last so it overrides the rule above.",
+      "description": "The browsers come from nixpkgs' playwright-driver (flake.nix) and must be the same Playwright version, so bump @playwright/test manually together with flake.lock.",
+      "matchPackageNames": ["@playwright/test"],
+      "automerge": false
+    },
+    {
+      "description": "Node majors (.nvmrc) and @types/node majors must match nodejs_* in flake.nix, so they're bumped manually together with it and @tsconfig/node*.",
+      "matchPackageNames": ["node", "@types/node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Exclude pre-1.0.0 versions from auto-merge (0.x minor bumps can be breaking by semver convention). Must come after the automerge rules so it overrides them.",
       "matchUpdateTypes": ["minor", "patch"],
       "matchCurrentVersion": "/^0\\./",
       "automerge": false
+    },
+    {
+      "description": "Re-enable auto-merge for oxfmt despite 0.x: a formatting change fails CI's treefmt --ci, so a breaking bump can't merge silently. Must come after the 0.x exclusion.",
+      "matchPackageNames": ["oxfmt"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "description": "stylelint-config-* majors enable or drop rules of a specific stylelint major, so a lone bump fails with 'Unknown rule'. Update them in one PR.",
+      "matchPackageNames": ["stylelint", "stylelint-config-*"],
+      "groupName": "stylelint"
     },
     {
       "description": "One lock file maintenance branch per manager, so the nix one can run on its own schedule.",
@@ -37,7 +59,7 @@
       "additionalBranchPrefix": "{{manager}}-"
     },
     {
-      "description": "flake.lock follows nixos-unstable on the next Renovate run instead of weekly, so nixpkgs security fixes land as soon as the channel has them.",
+      "description": "flake.lock follows nixpkgs-unstable on the next Renovate run instead of weekly, so nixpkgs security fixes land as soon as the channel has them.",
       "matchManagers": ["nix"],
       "matchUpdateTypes": ["lockFileMaintenance"],
       "schedule": ["at any time"]

@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { useMeasurementsStore } from '@/stores/measurements'
-import type { Measurement } from '@/models/Measurement'
+import { presentValue, type Measurement } from '@/models/Measurement'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
 import type { ChartData, ChartOptions } from 'chart.js'
@@ -49,9 +49,7 @@ function averageField(
   measurements: Measurement[],
   field: 'systolic' | 'diastolic' | 'heartRate',
 ): number | null {
-  const values = measurements
-    .map((m) => Number(m[field]))
-    .filter((v) => !Number.isNaN(v) && v !== 0)
+  const values = measurements.map((m) => presentValue(m[field])).filter((v) => v !== undefined)
   if (values.length === 0) return null
   return Math.round(values.reduce((sum, v) => sum + v, 0) / values.length)
 }

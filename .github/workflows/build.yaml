@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install Nix
-        uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31.11.1
+        uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
 
       # Exact key only: a prefix fallback would pile up old closures and then need GC roots.
       - name: Cache Nix store
@@ -65,20 +65,14 @@ jobs:
       - name: Build (includes type-check)
         run: pnpm build
 
-      - name: Get Playwright version
-        id: playwright
-        run: echo "version=$(pnpm exec playwright --version | cut -d" " -f2)" >> "$GITHUB_OUTPUT"
-
-      # The browser build is tied to the Playwright version; on a hit, install skips the download.
-      - name: Cache Playwright browser
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
-      # --with-deps installs the browser's system libraries via apt; those aren't cached.
-      - name: Install Playwright browser
-        run: pnpm exec playwright install --with-deps chromium
-
+      # Browsers come from the dev shell (PLAYWRIGHT_BROWSERS_PATH in flake.nix).
       - name: E2E tests
         run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

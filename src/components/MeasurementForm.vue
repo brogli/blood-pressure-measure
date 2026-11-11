@@ -177,14 +177,14 @@ if (isInEditmode) {
           />
         </div>
         <div>
-          <label for="armSelection">{{ t('measurement.whichArm') }}</label>
+          <!-- a group of toggle buttons has no single input for a <label for> -->
+          <span id="armSelectionLabel">{{ t('measurement.whichArm') }}</span>
           <SelectButton
-            inputId="armSelection"
             v-model="currentMeasurement.whichArm"
             :options="armSelectionOptions"
             :allowEmpty="false"
             :option-label="getLeftRightLabel"
-            aria-labelledby="basic"
+            aria-labelledby="armSelectionLabel"
             class="flex"
           />
         </div>

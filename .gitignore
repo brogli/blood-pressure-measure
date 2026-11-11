@@ -42,3 +42,9 @@ coverage
 
 # playwright mcp
 .playwright-mcp/
+
+# vitest browser mode
+__screenshots__/
+
+# vite config bundling leftovers
+*.timestamp-*-*.mjs

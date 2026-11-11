@@ -8,5 +8,5 @@ test('the app works offline after the first visit', async ({ page, context }) =>
   await page.reload()
   await expect(page.getByText('Measurements')).toBeVisible()
   await page.goto('/chart')
-  await expect(page.locator('canvas')).toHaveCount(3)
+  await expect(page.locator('canvas')).toHaveCount(4)
 })
