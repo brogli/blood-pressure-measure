@@ -21,6 +21,12 @@ const timestampFormat: Intl.DateTimeFormatOptions = {
   minute: '2-digit',
 }
 
+const dateLocale = (appLocale: string): string => dateLocales[appLocale] ?? 'en-GB'
+
 export function formatTimestamp(timestamp: Date, appLocale: string): string {
-  return timestamp.toLocaleString(dateLocales[appLocale] ?? 'en-GB', timestampFormat)
+  return timestamp.toLocaleString(dateLocale(appLocale), timestampFormat)
+}
+
+export function formatDayMonth(date: Date, appLocale: string): string {
+  return date.toLocaleDateString(dateLocale(appLocale), { day: '2-digit', month: '2-digit' })
 }

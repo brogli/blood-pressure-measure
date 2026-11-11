@@ -11,6 +11,7 @@ import {
 } from 'chart.js'
 import { merge, toFont } from 'chart.js/helpers'
 import { useMeasurementsStore } from '@/stores/measurements'
+import { formatDayMonth, formatTimestamp } from '@/functions/internationalization'
 import { presentValue, type ArmOption, type Measurement } from '@/models/Measurement'
 import {
   baseChartOptions,
@@ -139,7 +140,7 @@ export interface ReadingsChart {
 }
 
 export function useReadingsChart(): ReadingsChart {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const measurementStore = useMeasurementsStore()
   const theme = useChartTheme()
 
@@ -188,8 +189,7 @@ export function useReadingsChart(): ReadingsChart {
     ]
   })
 
-  const formatAxis = (x: number, format: string): string =>
-    dayjs(toTime(segments.value, x)).format(format)
+  const toDate = (x: number): Date => new Date(toTime(segments.value, x))
 
   /** Axis hours a label of the given width needs; constant while scrolling. */
   const toHours = (axis: Scale, pixels: number): number => (pixels * windowHours.value) / axis.width
@@ -211,12 +211,17 @@ export function useReadingsChart(): ReadingsChart {
   /** Each day's date below its line; a day too narrow for it after a dated day gets none. */
   function drawDates({ ctx }: Chart, axis: Scale): void {
     ctx.font = toFont({ family: theme.value.fontFamily }).string // the page font, like OpenVue's tick labels
-    const width = ctx.measureText('00.00.').width + DATE_GAP_PX
+    const widest = formatDayMonth(new Date(2000, 11, 28), locale.value)
+    const width = ctx.measureText(widest).width + DATE_GAP_PX
     ctx.fillStyle = theme.value.muted
     ctx.textBaseline = 'top'
     for (const start of thin(days.value, toHours(axis, width))) {
       if (start < axis.min || start > axis.max) continue
-      ctx.fillText(formatAxis(start, 'DD.MM.'), axis.getPixelForValue(start), axis.bottom)
+      ctx.fillText(
+        formatDayMonth(toDate(start), locale.value),
+        axis.getPixelForValue(start),
+        axis.bottom,
+      )
     }
   }
 
@@ -241,13 +246,15 @@ export function useReadingsChart(): ReadingsChart {
         tooltip: {
           callbacks: {
             title: (items) =>
-              items[0] ? formatAxis(items[0].parsed.x ?? 0, 'YYYY-MM-DD HH:mm') : '',
+              items[0] ? formatTimestamp(toDate(items[0].parsed.x ?? 0), locale.value) : '',
           },
         },
       },
       scales: {
         x: {
           type: 'linear',
+          // OpenVue hides x grid lines; here they mark every session, labelled or not
+          grid: { display: true },
           // keep exactly the scrolled range instead of widening it to round tick values
           bounds: 'data',
           afterDataLimits: (axis) => {
@@ -272,7 +279,7 @@ export function useReadingsChart(): ReadingsChart {
             // chart.js' autoSkip picks labels counting from the first visible tick, so they jump while scrolling
             autoSkip: false,
             callback: (value, index, ticks) =>
-              ticks[index]?.major ? formatAxis(Number(value), 'HH:mm') : '',
+              ticks[index]?.major ? dayjs(toDate(Number(value))).format('HH:mm') : '',
           },
         },
       },
