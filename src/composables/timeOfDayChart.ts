@@ -85,6 +85,8 @@ export function formatHour(hour: number): string {
 
 const DAY_COUNT_OPTIONS = [3, 5, 7, 14]
 const METRICS = ['systolic', 'diastolic'] as const
+/** Same hues as the other charts, so each metric keeps its color. */
+const METRIC_HUE = { systolic: 'cyan', diastolic: 'gray' } as const satisfies Record<Metric, string>
 
 // Lightness by day age: the further in the past, the darker the points, in both themes.
 // Dark mode uses a lighter window of the same hue so the oldest points keep contrast on the dark surface.
@@ -135,21 +137,20 @@ export function useTimeOfDayChart(): TimeOfDayChart {
   ])
 
   /** `age` runs from 0 (newest shown day) to 1 (oldest), so the whole ramp is used however many days are shown. */
-  function dayColor(age: number): string {
+  function dayColor(metric: Metric, age: number): string {
     const ramp = theme.value.isDark ? DARK_RAMP : LIGHT_RAMP
     const shade = ramp[Math.round(age * (ramp.length - 1))]
-    return theme.value.token(`cyan-${shade}`)
+    return theme.value.token(`${METRIC_HUE[metric]}-${shade}`)
   }
 
   /** One dataset per metric; the legend and tooltip rely on this grouping. */
   function datasetsForDay(day: DaySeries, age: number) {
     const readings = day.readings.filter((r) => r.arm === selectedArm.value)
     if (readings.length === 0) return []
-    const color = dayColor(age)
     // older days get larger points, so newer points drawn on top leave them visible as rings
     const pointRadius = 4 + age * 4
     return METRICS.map((metric) =>
-      lineDataset(color, {
+      lineDataset(dayColor(metric, age), {
         label: day.date,
         data: points(readings, metric),
         showLine: false,
