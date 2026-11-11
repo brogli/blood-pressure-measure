@@ -6,6 +6,11 @@ export function isArmOption(value: unknown): value is ArmOption {
   return value === 'Left' || value === 'Right'
 }
 
+/** `0` marks a missing value in legacy CSV data; imported fields may still be strings. */
+export function presentValue(value: number | undefined): number | undefined {
+  return Number(value) || undefined
+}
+
 export class Measurement {
   id: string
   timestamp: Date

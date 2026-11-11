@@ -10,7 +10,7 @@ Production URL: https://bluetdruck.nebeprojekt.li
 
 ## Prerequisites
 
-Node and pnpm come from the Nix dev shell in `flake.nix` (`nodejs_24`, `pnpm_11` from `nixos-unstable`), loaded via direnv (`.envrc`) locally and via `nix develop` in CI. Do not add `engines` or `packageManager` — `flake.lock` is the source of truth. `.nvmrc` exists only for the Cloudflare Pages build; keep it on the same Node major. When bumping the Node major, update `nodejs_*`, `.nvmrc` and `@tsconfig/node*` in one change.
+Node and pnpm come from the Nix dev shell in `flake.nix` (`nodejs_26`, `pnpm_12` from `nixpkgs-unstable`), loaded via direnv (`.envrc`) locally and via `nix develop` in CI. Do not add `engines` or `packageManager` — `flake.lock` is the source of truth. `.nvmrc` exists only for the Cloudflare Pages build; keep it on the same Node major. When bumping the Node major, update `nodejs_*`, `.nvmrc`, `@tsconfig/node*` and `@types/node` in one change (Renovate skips `node` and `@types/node` majors for this reason).
 
 ## Commands
 
@@ -21,7 +21,7 @@ Node and pnpm come from the Nix dev shell in `flake.nix` (`nodejs_24`, `pnpm_11`
 - `pnpm lint` — oxlint, ESLint, Stylelint sequentially (all with `--fix`)
 - `pnpm format` — oxfmt format src/ directory
 - `pnpm test:unit` — run Vitest tests (jsdom environment); specs live next to the code as `*.spec.ts`
-- `pnpm test:e2e` — run Playwright tests in `e2e/` against a production build (`pnpm preview`, so the service worker is real); first run `pnpm exec playwright install chromium`
+- `pnpm test:e2e` — run Playwright tests in `e2e/` against a production build (`pnpm preview`, so the service worker is real). Chromium comes from the Nix dev shell (`playwright-driver.browsers` via `PLAYWRIGHT_BROWSERS_PATH` in `flake.nix`); do not run `playwright install`. Its version must equal `@playwright/test`, so bump both in one change
 - `pnpm preview` — preview production build locally
 - `treefmt` — repo-wide lint fixes + formatting; `treefmt --ci` is the CI check
 
@@ -45,7 +45,7 @@ Node and pnpm come from the Nix dev shell in `flake.nix` (`nodejs_24`, `pnpm_11`
 
 **CSV backwards compatibility**: the CSV export is the users' only backup, so files they already exported must stay importable. The format is the `MeasurementDto` field list `id,timestampIso8601,systolic,diastolic,heartRate,whichArm`. Do not rename, reorder or remove columns; new columns must be optional on import. Import must keep tolerating legacy data (empty `whichArm`, missing `id`, `0` for missing numbers); `fixtures/legacy-export.csv` pins this in unit and e2e tests. Rows without an `id` get one derived from their content, so re-importing a file does not duplicate them.
 
-**Composables** (`src/composables/`): `colorScheme` (dark/light toggle), `exportFile` (CSV download), `importFile` (CSV upload via papaparse), `averageChart` (chart data).
+**Composables** (`src/composables/`): `colorScheme` (dark/light toggle), `exportFile` (CSV download), `importFile` (CSV upload via papaparse), `chartTheme` (options shared by all charts), `averageChart`, `timeOfDayChart`, `readingsChart`. The readings chart collapses time without readings out of its x axis (±1h per reading) and keeps a screen-wide canvas pinned while a wide empty track behind it scrolls; the scroll position sets the visible range.
 
 **i18n** (`src/i18n/`): Three locales — English (`en`), German (`de`), Swiss German (`ch`). Browser language auto-detection in `src/functions/internationalization.ts`.
 
@@ -60,10 +60,15 @@ Node and pnpm come from the Nix dev shell in `flake.nix` (`nodejs_24`, `pnpm_11`
 - **No `any`** — reach for `unknown` and narrow, or model the actual shape. If `any` is unavoidable (third-party typing gap), annotate with a `// why:` comment.
 - **No non-null assertions (`!`) or `as` casts** unless justified by a short comment. Prefer refactoring to make the type flow correct.
 - **Exported APIs** (functions, composables, store actions) must have explicit parameter and return types. Local variables and small internal helpers can rely on inference.
-- **Vue SFCs**: use the type-based forms — `defineProps<Props>()`, `defineEmits<{ change: [value: string] }>()`. Do not use the runtime object form.
+- **Vue SFCs**: use the type-based forms — `defineProps<Props>()`, `defineEmits<{ change: [value: string] }>()`, `withDefaults(defineProps<Props>(), { ... })`. Do not use the runtime object form.
 - **Pinia stores**: explicitly type `ref<T>(...)`, getter return types, and action signatures.
 - **Router**: type `RouteMeta` via module augmentation (`declare module 'vue-router'`) when adding meta fields.
+- **Event handlers and template refs**: type them (`Ref<HTMLInputElement | null>`, `(e: MouseEvent) => void`). No inferred `any` from DOM callbacks.
 - **External data** (`JSON.parse`, `localStorage`, CSV): treat as `unknown` at the boundary and validate/narrow before use.
+
+## TypeScript project references
+
+`tsconfig.json` is a solution file referencing `tsconfig.app.json` (`src/`), `tsconfig.node.json` (tooling configs and `e2e/`) and `tsconfig.vitest.json` (`*.spec.ts` under `src/`). `vue-tsc --build` walks all references; a new top-level TS file must be covered by one of them, or type-check ignores it.
 
 ## Linting & formatting
 
@@ -86,5 +91,8 @@ PRs target the `staging` branch, not `main`.
 `pnpm-workspace.yaml` sets `minimumReleaseAge` (7 days, also for transitive deps); `renovate.json` mirrors it. Renovate policy:
 
 - **Auto-merge**: minor/patch/pin/digest on ≥1.0.0; lockfile maintenance (which also refreshes `flake.lock` via the `nix` manager).
-- **Manual**: majors; any 0.x update. The 0.x exclusion rule must come **last** in `packageRules` to override the general automerge rule.
+- **Manual**: majors; any 0.x update. The 0.x exclusion rule must come **after** the general automerge rule to override it — Renovate applies later rules with higher priority.
+- `@playwright/test` is manual: it must match nixpkgs' `playwright-driver` (see Commands).
+- **Exception**: `oxfmt` 0.x minor/patch auto-merges anyway (a formatting change fails `treefmt --ci`); its rule must come after the 0.x exclusion.
+- `stylelint` and `stylelint-config-*` are grouped: config majors target a specific stylelint major.
 - `platformAutomerge` is intentionally `true` here in combination with `automergeType: "branch"`; if you ever flip `automergeType` back to `"pr"`, set `platformAutomerge: false` — GitHub's native auto-merge cannot satisfy the "1 review required" branch protection rule (the Renovate bot can't approve its own PR), so Renovate must handle the merge itself.

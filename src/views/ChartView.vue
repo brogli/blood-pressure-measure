@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ReadingsChartComponent from '@/components/ReadingsChartComponent.vue'
 import AverageChartComponent from '@/components/AverageChartComponent.vue'
 import TimeOfDayChartComponent from '@/components/TimeOfDayChartComponent.vue'
 import type { AverageChartConfig } from '@/composables/averageChart'
@@ -24,6 +25,7 @@ const weeklyConfig: AverageChartConfig = {
 
 <template>
   <div class="flex flex-col gap-8">
+    <ReadingsChartComponent />
     <TimeOfDayChartComponent />
     <AverageChartComponent
       :title="t('chart.dailyAverageTitle')"
