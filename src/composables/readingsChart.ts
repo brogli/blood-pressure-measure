@@ -245,25 +245,20 @@ export function useReadingsChart(): ReadingsChart {
       scales: {
         x: {
           type: 'linear',
-          // OpenVue hides x grid lines; here they mark every session, labelled or not
-          grid: { display: true },
           // keep exactly the scrolled range instead of widening it to round tick values
           bounds: 'data',
           afterDataLimits: showScrolledRange,
-          // a tick (and grid line) per session; only the thinned ones are major and get a time label
           afterBuildTicks: (axis) => {
-            const labelled = new Set(thin(ticks.value, toHours(axis, LABEL_PX)))
-            axis.ticks = ticks.value
+            axis.ticks = thin(ticks.value, toHours(axis, LABEL_PX))
               .filter((value) => value >= axis.min && value <= axis.max)
-              .map((value) => ({ value, major: labelled.has(value) }))
+              .map((value) => ({ value }))
           },
           afterFit: withoutEdgePadding,
           ticks: {
             maxRotation: 0,
             // chart.js' autoSkip picks labels counting from the first visible tick, so they jump while scrolling
             autoSkip: false,
-            callback: (value, index, ticks) =>
-              ticks[index]?.major ? dayjs(toDate(Number(value))).format('HH:mm') : '',
+            callback: (value) => dayjs(toDate(Number(value))).format('HH:mm'),
           },
         },
         // a second x axis below the first: each day's date, left-aligned at its day line
