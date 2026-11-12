@@ -4,5 +4,12 @@
 
 @plugin 'tailwindcss-primeui';
 
+/* The OS UI font via the generic family: Firefox's fingerprinting protection blocks (and logs) named fonts like Roboto. */
+@theme {
+  --font-sans:
+    system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+}
+
 /* `dark:` follows the app's color scheme toggle (`darkModeSelector` in main.ts), not the OS preference. */
 @custom-variant dark (&:where(.my-app-dark, .my-app-dark *));

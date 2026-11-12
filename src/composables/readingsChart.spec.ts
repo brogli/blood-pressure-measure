@@ -4,6 +4,7 @@ import {
   dayMarks,
   readingPoints,
   segmentTicks,
+  thin,
   toAxis,
   toSegments,
   toTime,
@@ -64,6 +65,12 @@ describe('segmentTicks', () => {
     ])
 
     expect(segmentTicks(segments)).toEqual([1.25, 3.5])
+  })
+})
+
+describe('thin', () => {
+  it('keeps positions at least the gap apart, counted from the first', () => {
+    expect(thin([0, 1, 2, 3, 7, 8], 2)).toEqual([0, 2, 7])
   })
 })
 

@@ -18,6 +18,7 @@ const {
   view,
   chartData,
   chartOptions,
+  plugins,
 } = useReadingsChart()
 
 // The canvas stays screen-wide and pinned; a wide empty track behind it gives native
@@ -69,12 +70,13 @@ watch(
         data-testid="readings-scroller"
         @scroll.passive="showScrolledRange"
       >
-        <div class="h-80" :style="{ width: `${trackWidth}px` }">
+        <div class="h-80 portrait:h-[60svh]" :style="{ width: `${trackWidth}px` }">
           <div dir="ltr" class="sticky right-0 h-full" :style="{ width: `${width}px` }">
             <Chart
               type="line"
               :data="chartData"
               :options="chartOptions"
+              :plugins="plugins"
               class="h-full"
               @loaded="(loaded: ChartJs) => (chart = loaded)"
             />
