@@ -49,6 +49,13 @@ describe('CSV import', () => {
     })
   })
 
+  it('adds to the existing readings instead of replacing them', () => {
+    const store = reloadStore()
+    store.saveMeasurement(morning)
+    store.importCsv(legacyCsv)
+    expect(reloadStore().size).toBe(5)
+  })
+
   it('does not duplicate rows when the same file is imported twice', () => {
     const store = reloadStore()
     store.importCsv(legacyCsv)
