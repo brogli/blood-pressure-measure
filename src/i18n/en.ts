@@ -32,6 +32,7 @@ export const en = {
     },
     confirmImportText:
       "Imported measurements are added to your existing ones and don't replace them.",
+    hideImportNotice: "Don't show again",
     importButton: 'Import',
     confirmDeleteText:
       'This will delete ALL measurements the app saves by itself. Sure you want to do this?',

@@ -32,6 +32,7 @@ export const de = {
     },
     confirmImportText:
       'Die importierten Messungen werden zu deinen bestehenden hinzugefügt und ersetzen sie nicht.',
+    hideImportNotice: 'Nicht mehr anzeigen',
     importButton: 'Importieren',
     confirmDeleteText:
       'Das löscht ALLE Messungen, die die App selbst speichert. Bist du sicher, möchtest du das machen?',

@@ -45,3 +45,19 @@ test('a file with an invalid row imports the valid rows and shows an error', asy
   await expect(page.getByText("your CSV file couldn't be imported")).toBeVisible()
   await expect(readingRows(page)).toHaveCount(4)
 })
+
+test('the import notice can be hidden', async ({ page }) => {
+  await page.goto('/')
+  const firstChooser = page.waitForEvent('filechooser')
+  await page.getByRole('button', { name: 'Import' }).click()
+  await page.getByLabel("Don't show again").check()
+  await confirm(page, 'Import')
+  await (await firstChooser).setFiles(legacyCsvPath)
+  await expect(readingRows(page)).toHaveCount(4)
+
+  await page.reload()
+  const secondChooser = page.waitForEvent('filechooser')
+  await page.getByRole('button', { name: 'Import' }).click()
+  await secondChooser
+  await expect(page.getByRole('alertdialog')).toBeHidden()
+})

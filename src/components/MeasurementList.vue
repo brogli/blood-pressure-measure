@@ -14,11 +14,14 @@ import { useShare } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { useConfirm } from 'openvue/useconfirm'
 import ConfirmDialog from 'openvue/confirmdialog'
+import Checkbox from 'openvue/checkbox'
 import vTooltip from 'openvue/tooltip'
 import { formatTimestamp } from '@/functions/internationalization'
+import { useAppSettingsStore } from '@/stores/appSettings'
 const confirm = useConfirm()
 
 const measurementsStore = useMeasurementsStore()
+const appSettingsStore = useAppSettingsStore()
 const { t, locale } = useI18n()
 const router = useRouter()
 const { share, isSupported } = useShare()
@@ -59,8 +62,16 @@ function getExportFileName(): string {
   return `${dayjs().format('YYYY-MM-DD_HH-mm-ss')}_blood-pressure-measurements.csv`
 }
 
+const dontShowImportNoticeAgain = ref<boolean>(false)
+
 function importMeasurements(): void {
+  if (appSettingsStore.isImportNoticeHidden) {
+    openFile()
+    return
+  }
+  dontShowImportNoticeAgain.value = false
   confirm.require({
+    group: 'import',
     message: t('measurementList.confirmImportText'),
     header: t('measurementList.actions.import'),
     icon: 'oi oi-info-circle',
@@ -71,7 +82,10 @@ function importMeasurements(): void {
     },
     acceptProps: { label: t('measurementList.importButton') },
     // runs within the click on accept: browsers open a file dialog only on a user click
-    accept: openFile,
+    accept: () => {
+      if (dontShowImportNoticeAgain.value) appSettingsStore.hideImportNotice()
+      openFile()
+    },
   })
 }
 
@@ -93,6 +107,23 @@ function shareAsCsv() {
   <section class="flex flex-col gap-y-4">
     <Panel :header="t('measurementList.title')">
       <ConfirmDialog></ConfirmDialog>
+      <ConfirmDialog group="import">
+        <template #message="{ message }">
+          <div class="flex flex-col gap-4">
+            <p>{{ message.message }}</p>
+            <div class="flex items-center gap-2">
+              <Checkbox
+                v-model="dontShowImportNoticeAgain"
+                binary
+                inputId="dontShowImportNoticeAgain"
+              />
+              <label for="dontShowImportNoticeAgain">{{
+                t('measurementList.hideImportNotice')
+              }}</label>
+            </div>
+          </div>
+        </template>
+      </ConfirmDialog>
       <div class="flex flex-wrap gap-4">
         <Button :label="t('measurementList.actions.createNew')" as="router-link" to="/new" />
         <Button :label="t('measurementList.actions.import')" @click="importMeasurements" />

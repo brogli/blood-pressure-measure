@@ -225,6 +225,13 @@ export function useReadingsChart(): ReadingsChart {
     axis.min = axis.max - windowHours.value
   }
 
+  /** Ticks at the visible ones of the thinned positions, one label's width apart. */
+  function setThinnedTicks(axis: Scale, positions: number[]): void {
+    axis.ticks = thin(positions, toHours(axis, LABEL_PX))
+      .filter((value) => value >= axis.min && value <= axis.max)
+      .map((value) => ({ value }))
+  }
+
   /** Labels scroll past the edges; padding to fit them would resize the plot on every scroll step. */
   function withoutEdgePadding(axis: Scale): void {
     axis.paddingLeft = 0
@@ -248,11 +255,7 @@ export function useReadingsChart(): ReadingsChart {
           // keep exactly the scrolled range instead of widening it to round tick values
           bounds: 'data',
           afterDataLimits: showScrolledRange,
-          afterBuildTicks: (axis) => {
-            axis.ticks = thin(ticks.value, toHours(axis, LABEL_PX))
-              .filter((value) => value >= axis.min && value <= axis.max)
-              .map((value) => ({ value }))
-          },
+          afterBuildTicks: (axis) => setThinnedTicks(axis, ticks.value),
           afterFit: withoutEdgePadding,
           ticks: {
             maxRotation: 0,
@@ -270,11 +273,7 @@ export function useReadingsChart(): ReadingsChart {
           border: { display: false },
           afterDataLimits: showScrolledRange,
           // a day too narrow for its date, right after a dated day, gets none
-          afterBuildTicks: (axis) => {
-            axis.ticks = thin(days.value, toHours(axis, LABEL_PX))
-              .filter((value) => value >= axis.min && value <= axis.max)
-              .map((value) => ({ value }))
-          },
+          afterBuildTicks: (axis) => setThinnedTicks(axis, days.value),
           afterFit: withoutEdgePadding,
           ticks: {
             align: 'start',
