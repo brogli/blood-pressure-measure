@@ -10,8 +10,6 @@
       "WebSearch",
       "WebFetch(domain:github.com)"
     ],
-    "ask": [
-      "Bash(git push:*)"
-    ]
+    "ask": []
   }
 }
