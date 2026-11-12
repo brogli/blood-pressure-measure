@@ -49,7 +49,10 @@ export async function importCsv(
 ): Promise<void> {
   const fileChooser = page.waitForEvent('filechooser')
   await page.getByRole('button', { name: 'Import' }).click()
+  await confirm(page, 'Import')
   await (await fileChooser).setFiles(file)
+  // the dialog fades out; a following import must not find its "Import" button
+  await expect(page.getByRole('alertdialog')).toBeHidden()
 }
 
 export async function confirm(page: Page, buttonName: string): Promise<void> {

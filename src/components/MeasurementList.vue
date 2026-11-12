@@ -59,6 +59,22 @@ function getExportFileName(): string {
   return `${dayjs().format('YYYY-MM-DD_HH-mm-ss')}_blood-pressure-measurements.csv`
 }
 
+function importMeasurements(): void {
+  confirm.require({
+    message: t('measurementList.confirmImportText'),
+    header: t('measurementList.actions.import'),
+    icon: 'oi oi-info-circle',
+    rejectProps: {
+      label: t('measurementForm.cancelButton'),
+      severity: 'secondary',
+      outlined: true,
+    },
+    acceptProps: { label: t('measurementList.importButton') },
+    // runs within the click on accept: browsers open a file dialog only on a user click
+    accept: openFile,
+  })
+}
+
 function openFile(): void {
   useImportfile(t).open()
 }
@@ -79,12 +95,12 @@ function shareAsCsv() {
       <ConfirmDialog></ConfirmDialog>
       <div class="flex flex-wrap gap-4">
         <Button :label="t('measurementList.actions.createNew')" as="router-link" to="/new" />
+        <Button :label="t('measurementList.actions.import')" @click="importMeasurements" />
         <Button
           :label="t('measurementList.actions.export')"
           @click="saveFile()"
           :disabled="measurementsStore.size <= 0"
         />
-        <Button :label="t('measurementList.actions.import')" @click="openFile()" />
         <Button
           :label="t('measurementList.actions.share')"
           @click="shareAsCsv()"
