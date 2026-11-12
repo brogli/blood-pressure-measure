@@ -30,6 +30,10 @@ export const ch = {
       share: 'Teilä',
       deleteAll: 'Alli löschä',
     },
+    confirmImportText:
+      'D importierte Mässigä werdet zu dine bisherige dezuegfüegt und ersetzed si nöd.',
+    hideImportNotice: 'Nümme aazeigä',
+    importButton: 'Importierä',
     confirmDeleteText:
       'Das löscht ALLI dini Mässige wo d App selber speicheret. Bisch sicher wotsch das mache?',
   },
